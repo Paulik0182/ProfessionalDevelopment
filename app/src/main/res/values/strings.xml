@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">Professional Development</string>
+
+    <!-- bottom nav menu -->
+    <string name="word_translation">Перевод слов</string>
+    <string name="settings">Настройки</string>
+
+    <!-- О приложении -->
+    <string name="about_app">О приложении</string>
+    <string name="personalization_app">Персонализация</string>
+    <string name="cod_version">Код версии:</string>
+    <string name="version">Версия:</string>
+
+    <string name="error_textview_stub">Ошибка</string>
+    <string name="reload_button">Перезагрузить</string>
+    <string name="undefined_error">Неизвестная ошибка</string>
+    <string name="empty_server_response_on_success">Ответ от сервера пуст</string>
+    <string name="search_hint">Введите слово</string>
+    <string name="delete_description">X</string>
+    <string name="search">Поиск</string>
+    <string name="description">Описание: Зайдите на основной сайт.</string>
+
 </resources>
