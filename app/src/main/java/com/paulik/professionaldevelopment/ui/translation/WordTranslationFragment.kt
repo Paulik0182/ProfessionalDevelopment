@@ -56,9 +56,9 @@ class WordTranslationFragment : ViewBindingWordTranslationFragment<FragmentWordT
                 } else {
                     showViewSuccess()
                     if (adapter == null) {
-                        binding.mainActivityRecyclerview.layoutManager =
+                        binding.mainRecyclerView.layoutManager =
                             LinearLayoutManager(requireContext())
-                        binding.mainActivityRecyclerview.adapter =
+                        binding.mainRecyclerView.adapter =
                             WordTranslationAdapter(onListItemClickListener, dataEntity)
                     } else {
                         adapter!!.setData(dataEntity)
@@ -71,12 +71,12 @@ class WordTranslationFragment : ViewBindingWordTranslationFragment<FragmentWordT
             is AppState.Loading -> {
                 showViewLoading()
                 if (appState.progress != null) {
-                    binding.progressBarHorizontal.visibility = android.view.View.VISIBLE
-                    binding.progressBarRound.visibility = android.view.View.GONE
-                    binding.progressBarHorizontal.progress = appState.progress
+                    binding.horizontalProgressBar.visibility = android.view.View.VISIBLE
+                    binding.roundProgressBar.visibility = android.view.View.GONE
+                    binding.horizontalProgressBar.progress = appState.progress
                 } else {
-                    binding.progressBarHorizontal.visibility = android.view.View.GONE
-                    binding.progressBarRound.visibility = android.view.View.VISIBLE
+                    binding.horizontalProgressBar.visibility = android.view.View.GONE
+                    binding.roundProgressBar.visibility = android.view.View.VISIBLE
                 }
             }
             is AppState.Error -> {
@@ -87,26 +87,26 @@ class WordTranslationFragment : ViewBindingWordTranslationFragment<FragmentWordT
 
     private fun showErrorScreen(error: String?) {
         showViewError()
-        binding.errorTextview.text = error ?: getString(R.string.undefined_error)
+        binding.errorTextView.text = error ?: getString(R.string.undefined_error)
         binding.reloadButton.setOnClickListener {
             presenter.getData("hi", true)
         }
     }
 
     private fun showViewSuccess() {
-        binding.successLinearLayout.visibility = android.view.View.VISIBLE
+        binding.successFrameLayout.visibility = android.view.View.VISIBLE
         binding.loadingFrameLayout.visibility = android.view.View.GONE
         binding.errorLinearLayout.visibility = android.view.View.GONE
     }
 
     private fun showViewLoading() {
-        binding.successLinearLayout.visibility = android.view.View.GONE
+        binding.successFrameLayout.visibility = android.view.View.GONE
         binding.loadingFrameLayout.visibility = android.view.View.VISIBLE
         binding.errorLinearLayout.visibility = android.view.View.GONE
     }
 
     private fun showViewError() {
-        binding.successLinearLayout.visibility = android.view.View.GONE
+        binding.successFrameLayout.visibility = android.view.View.GONE
         binding.loadingFrameLayout.visibility = android.view.View.GONE
         binding.errorLinearLayout.visibility = android.view.View.VISIBLE
     }

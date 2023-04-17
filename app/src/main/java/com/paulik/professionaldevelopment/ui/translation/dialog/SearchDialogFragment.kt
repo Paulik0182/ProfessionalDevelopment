@@ -19,14 +19,14 @@ class SearchDialogFragment : BottomSheetDialogFragment() {
     private val textWatcher = object : TextWatcher {
 
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-            if (binding.searchEditText.text != null && !binding.searchEditText.text.toString()
+            if (binding.searchInputEditText.text != null && !binding.searchInputEditText.text.toString()
                     .isEmpty()
             ) {
-                binding.searchButtonTextview.isEnabled = true
-                binding.clearTextImageview.visibility = View.VISIBLE
+                binding.searchButtonTextView.isEnabled = true
+                binding.clearTextImageView.visibility = View.VISIBLE
             } else {
-                binding.searchButtonTextview.isEnabled = false
-                binding.clearTextImageview.visibility = View.GONE
+                binding.searchButtonTextView.isEnabled = false
+                binding.clearTextImageView.visibility = View.GONE
             }
         }
 
@@ -37,7 +37,7 @@ class SearchDialogFragment : BottomSheetDialogFragment() {
 
     private val onSearchButtonClickListener =
         View.OnClickListener {
-            onSearchClickListener?.onClick(binding.searchEditText.text.toString())
+            onSearchClickListener?.onClick(binding.searchInputEditText.text.toString())
             dismiss()
         }
 
@@ -57,17 +57,17 @@ class SearchDialogFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.searchButtonTextview.setOnClickListener(onSearchButtonClickListener)
+        binding.searchButtonTextView.setOnClickListener(onSearchButtonClickListener)
 
-        binding.searchEditText.addTextChangedListener(textWatcher)
+        binding.searchInputEditText.addTextChangedListener(textWatcher)
 
         addOnClearClickListener()
     }
 
     private fun addOnClearClickListener() {
-        binding.clearTextImageview.setOnClickListener {
-            binding.searchEditText.setText("")
-            binding.searchButtonTextview.isEnabled = false
+        binding.clearTextImageView.setOnClickListener {
+            binding.searchInputEditText.setText("")
+            binding.searchButtonTextView.isEnabled = false
         }
     }
 
