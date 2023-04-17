@@ -43,17 +43,21 @@ class WordTranslationFragment : ViewBindingWordTranslationFragment<FragmentWordT
         }
     }
 
+    /** реализация обстрактного метода из BaseFragment*/
     override fun createPresenter(): Presenter<AppState, ViewApp> {
         return WordTranslationPresenterImpl()
     }
 
+    /** реализация обстрактного метода из BaseFragment (ViewApp) */
     override fun renderData(appState: AppState) {
         when (appState) {
+            /** Если Success, загружаем данные , также можем показать ошибку*/
             is AppState.Success -> {
                 val dataEntity = appState.data
                 if (dataEntity == null || dataEntity.isEmpty()) { // todo бизнес логика, не должна быть здесь (нужно вынести в презентор)
                     showErrorScreen(getString(R.string.empty_server_response_on_success))
                 } else {
+                    /** Либо обновляем данные в адаптере*/
                     showViewSuccess()
                     if (adapter == null) {
                         binding.mainRecyclerView.layoutManager =
@@ -67,6 +71,7 @@ class WordTranslationFragment : ViewBindingWordTranslationFragment<FragmentWordT
             }
             is AppState.Empty -> {
                 // todo пишем новае (другое) состояние (ошибку)
+                showErrorScreen(getString(R.string.no_data_available))
             }
             is AppState.Loading -> {
                 showViewLoading()

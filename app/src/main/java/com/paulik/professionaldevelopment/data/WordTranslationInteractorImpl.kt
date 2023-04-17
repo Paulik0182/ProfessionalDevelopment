@@ -1,18 +1,17 @@
-package com.paulik.professionaldevelopment.ui.translation
+package com.paulik.professionaldevelopment.data
 
 import com.paulik.professionaldevelopment.AppState
 import com.paulik.professionaldevelopment.domain.entity.DataEntity
-import com.paulik.professionaldevelopment.domain.repo.Interactor
 import com.paulik.professionaldevelopment.domain.repo.Repository
+import com.paulik.professionaldevelopment.domain.repo.WordTranslationInteractor
 import io.reactivex.Observable
 
-class WordTranslationInteractor(
+class WordTranslationInteractorImpl(
     private val remoteRepository: Repository<List<DataEntity>>,
     private val localRepository: Repository<List<DataEntity>>
-) : Interactor<AppState> {
+) : WordTranslationInteractor<AppState> {
 
     override fun getData(word: String, fromRemoteSource: Boolean): Observable<AppState> {
-        // todo Добавили немного логики
         if (word.isBlank()) {
             return Observable.just(AppState.Empty)
         }

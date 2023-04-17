@@ -2,6 +2,9 @@ package com.paulik.professionaldevelopment
 
 import com.paulik.professionaldevelopment.domain.entity.DataEntity
 
+/**
+ * Класс описывает четыре состояния экрана
+ */
 
 sealed class AppState {
 
