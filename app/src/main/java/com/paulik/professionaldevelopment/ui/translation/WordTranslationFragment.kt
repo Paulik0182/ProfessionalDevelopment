@@ -2,13 +2,13 @@ package com.paulik.professionaldevelopment.ui.translation
 
 import android.os.Bundle
 import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.paulik.professionaldevelopment.AppState
 import com.paulik.professionaldevelopment.R
 import com.paulik.professionaldevelopment.databinding.FragmentWordTranslationBinding
-import com.paulik.professionaldevelopment.domain.Presenter
 import com.paulik.professionaldevelopment.domain.entity.DataEntity
-import com.paulik.professionaldevelopment.ui.root.ViewApp
 import com.paulik.professionaldevelopment.ui.root.ViewBindingWordTranslationFragment
 import com.paulik.professionaldevelopment.ui.translation.dialog.SearchDialogFragment
 
@@ -17,6 +17,12 @@ private const val BOTTOM_SHEET_FRAGMENT_DIALOG_TAG = "74a54328-5d62-46bf-ab6b-cb
 class WordTranslationFragment : ViewBindingWordTranslationFragment<FragmentWordTranslationBinding>(
     FragmentWordTranslationBinding::inflate
 ) {
+
+    override val model: WordTranslationViewModel by lazy {
+        ViewModelProvider.NewInstanceFactory().create(WordTranslationViewModel::class.java)
+    }
+
+    private val observer = Observer<AppState> { renderData(it) }
 
     private var adapter: WordTranslationAdapter? = null
 
@@ -36,16 +42,17 @@ class WordTranslationFragment : ViewBindingWordTranslationFragment<FragmentWordT
             searchDialogFragment.setOnSearchClickListener(object :
                 SearchDialogFragment.OnSearchClickListener {
                 override fun onClick(searchWord: String) {
-                    presenter.getData(searchWord, true)
+                    // Вариант 2
+                    model.getData(searchWord, true)
+                    // вариант 1 когда каждый раз подписываемся на Livedata чтобы получить события
+//                    model.getData(searchWord, true).observe(requireActivity(), observer)
                 }
             })
             searchDialogFragment.show(childFragmentManager, BOTTOM_SHEET_FRAGMENT_DIALOG_TAG)
         }
-    }
-
-    /** реализация обстрактного метода из BaseFragment*/
-    override fun createPresenter(): Presenter<AppState, ViewApp> {
-        return WordTranslationPresenterImpl()
+        /** Подписались один раз и обновления будут приходить каждый раз как меняются данные (с Вариантом 2)
+         * Livedata содержет данные до тех пор пока ее не уничтожат*/
+        model.viewState.observe(requireActivity(), observer)
     }
 
     /** реализация обстрактного метода из BaseFragment (ViewApp) */
@@ -94,7 +101,7 @@ class WordTranslationFragment : ViewBindingWordTranslationFragment<FragmentWordT
         showViewError()
         binding.errorTextView.text = error ?: getString(R.string.undefined_error)
         binding.reloadButton.setOnClickListener {
-            presenter.getData("hi", true)
+            model.getData("hi", true).observe(this, observer)
         }
     }
 
