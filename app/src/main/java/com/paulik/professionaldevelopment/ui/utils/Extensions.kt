@@ -1,0 +1,8 @@
+package com.paulik.professionaldevelopment.ui.utils
+
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+
+fun <T> LiveData<T>.mutable(): MutableLiveData<T> {
+    return this as MutableLiveData
+}
