@@ -20,5 +20,11 @@
     <string name="delete_description">X</string>
     <string name="search">Поиск</string>
     <string name="description">Описание: Зайдите на основной сайт.</string>
+    <string name="dialog_tittle_sorry">Извините</string>
+    <string name="dialog_title_device_is_offline">Нет подключения к Интернету</string>
+    <string name="dialog_message_device_is_offline">Вы не можете использовать приложение без
+        подключения к Интернету. Пожалуйста, проверьте подключение к Интернету.</string>
+    <string name="dialog_button_cancel">Отменить</string>
+
 
 </resources>

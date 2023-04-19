@@ -2,23 +2,24 @@ package com.paulik.professionaldevelopment.ui.translation
 
 import androidx.lifecycle.LiveData
 import com.paulik.professionaldevelopment.AppState
-import com.paulik.professionaldevelopment.data.RepositoryImpl
 import com.paulik.professionaldevelopment.data.WordTranslationInteractorImpl
-import com.paulik.professionaldevelopment.data.room.DataSourceLocal
-import com.paulik.professionaldevelopment.di.DataSourceRemote
 import com.paulik.professionaldevelopment.ui.root.BaseViewModel
+import com.paulik.professionaldevelopment.ui.utils.parseSearchResults
+import io.reactivex.disposables.Disposable
 import io.reactivex.observers.DisposableObserver
+import javax.inject.Inject
 
-class WordTranslationViewModel(
-    private val interactor: WordTranslationInteractorImpl = WordTranslationInteractorImpl(
-        RepositoryImpl(DataSourceRemote()),
-        RepositoryImpl(DataSourceLocal())
-    )
+class WordTranslationViewModel @Inject constructor(
+    private val interactor: WordTranslationInteractorImpl
 ) : BaseViewModel<AppState>() {
 
     private var appState: AppState? = null
 
-    override fun getData(word: String, isOnline: Boolean): LiveData<AppState> {
+    fun subscribe(): LiveData<AppState> {
+        return liveDataForViewToObserve
+    }
+
+    override fun getData(word: String, isOnline: Boolean) {
         compositeDisposable.add(
             interactor.getData(word, isOnline)
                 .subscribeOn(schedulerProvider.io())
@@ -26,15 +27,17 @@ class WordTranslationViewModel(
                 .doOnSubscribe { liveDataForViewToObserve.value = AppState.Loading(null) }
                 .subscribeWith(getObserver())
         )
-        return super.getData(word, isOnline)
     }
+
+    private fun doOnSubscribe(): (Disposable) -> Unit =
+        { liveDataForViewToObserve.value = AppState.Loading(null) }
 
     private fun getObserver(): DisposableObserver<AppState> {
         return object : DisposableObserver<AppState>() {
 
             override fun onNext(state: AppState) {
-                appState = state
-                liveDataForViewToObserve.value = state
+                appState = parseSearchResults(state)
+                liveDataForViewToObserve.value = appState
             }
 
             override fun onError(e: Throwable) {

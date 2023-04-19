@@ -17,25 +17,6 @@ class SearchDialogFragment : BottomSheetDialogFragment(R.layout.search_dialog_fr
 
     private var onSearchClickListener: OnSearchClickListener? = null
 
-//    private val textWatcher = object : TextWatcher {
-//
-//        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-//            if (binding.searchInputEditText.text != null && !binding.searchInputEditText.text.toString()
-//                    .isEmpty()
-//            ) {
-//                binding.searchButtonTextView.isEnabled = true
-//                binding.clearTextImageView.visibility = View.VISIBLE
-//            } else {
-//                binding.searchButtonTextView.isEnabled = false
-//                binding.clearTextImageView.visibility = View.GONE
-//            }
-//        }
-//
-//        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-//
-//        override fun afterTextChanged(s: Editable) {}
-//    }
-
     private val onSearchButtonClickListener =
         View.OnClickListener {
             onSearchClickListener?.onClick(binding.searchInputEditText.text.toString())
@@ -50,8 +31,6 @@ class SearchDialogFragment : BottomSheetDialogFragment(R.layout.search_dialog_fr
         super.onViewCreated(view, savedInstanceState)
 
         _binding = SearchDialogFragmentBinding.bind(view)
-
-//        binding.searchButtonTextView.setOnClickListener(onSearchButtonClickListener)
 
         initView()
     }
@@ -78,7 +57,6 @@ class SearchDialogFragment : BottomSheetDialogFragment(R.layout.search_dialog_fr
     }
 
     interface OnSearchClickListener {
-
         fun onClick(searchWord: String)
     }
 

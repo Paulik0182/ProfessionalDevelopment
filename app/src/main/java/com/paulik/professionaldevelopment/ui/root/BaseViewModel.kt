@@ -8,7 +8,7 @@ import com.paulik.professionaldevelopment.data.rx.SchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
 
 abstract class BaseViewModel<T : AppState>(
-    // Наблюдает за Активити
+    // Наблюдает за фрагментом
     protected val liveDataForViewToObserve: MutableLiveData<T> = MutableLiveData(),
     // Для завершения всех подписок
     protected val compositeDisposable: CompositeDisposable = CompositeDisposable(),
@@ -19,7 +19,7 @@ abstract class BaseViewModel<T : AppState>(
         liveDataForViewToObserve// для постоянного наблюдения за изменениями
 
     // Возвращает не изменяемую LiveData
-    open fun getData(word: String, isOnline: Boolean): LiveData<T> = liveDataForViewToObserve
+    abstract fun getData(word: String, isOnline: Boolean)
 
     // Вызывается тогда когда ViewModel будет уничтожена
     override fun onCleared() {
