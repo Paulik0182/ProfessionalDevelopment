@@ -1,30 +1,55 @@
 package com.paulik.professionaldevelopment.ui.root
 
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.paulik.professionaldevelopment.AppState
-import com.paulik.professionaldevelopment.domain.Presenter
+import com.paulik.professionaldevelopment.R
+import com.paulik.professionaldevelopment.domain.repo.WordTranslationInteractor
+import com.paulik.professionaldevelopment.ui.translation.dialog.AlertDialogFragment
+import com.paulik.professionaldevelopment.ui.utils.isOnline
 
-abstract class BaseFragment<T : AppState> : Fragment(), ViewApp {
+private const val DIALOG_FRAGMENT_TAG = "74a54328-5d62-46bf-ab6b-cbf5d8c79522"
 
-    protected lateinit var presenter: Presenter<T, ViewApp>
+abstract class BaseFragment<T : AppState, I : WordTranslationInteractor<T>> : Fragment() {
 
-    protected abstract fun createPresenter(): Presenter<T, ViewApp>
+    abstract val model: BaseViewModel<T>
 
-    abstract override fun renderData(appState: AppState)
+    protected var isNetworkAvailable: Boolean = false
 
-    override fun onViewCreated(view: android.view.View, savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        isNetworkAvailable = isOnline(requireActivity().application)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter = createPresenter()
+        isNetworkAvailable = isOnline(requireActivity().application)
     }
 
-    override fun onStart() {
-        super.onStart()
-        presenter.attachView(this)
+    override fun onResume() {
+        super.onResume()
+        isNetworkAvailable = isOnline(requireActivity().application)
+        if (!isNetworkAvailable && isDialogNull()) {
+            showNoInternetConnectionDialog()
+        }
     }
 
-    override fun onStop() {
-        super.onStop()
-        presenter.detachView(this)
+    protected fun showNoInternetConnectionDialog() {
+        showAlertDialog(
+            getString(R.string.dialog_title_device_is_offline),
+            getString(R.string.dialog_message_device_is_offline)
+        )
     }
+
+    protected fun showAlertDialog(title: String?, message: String?) {
+        AlertDialogFragment.newInstance(title, message)
+            .show(childFragmentManager, DIALOG_FRAGMENT_TAG)
+    }
+
+    private fun isDialogNull(): Boolean {
+        return childFragmentManager.findFragmentByTag(DIALOG_FRAGMENT_TAG) == null
+    }
+
+    abstract fun renderData(appState: T)
 }

@@ -10,10 +10,11 @@ import com.paulik.professionaldevelopment.R
 import com.paulik.professionaldevelopment.domain.entity.DataEntity
 
 class WordTranslationAdapter(
-    private var onListItemClickListener: OnListItemClickListener,
-    private var data: List<DataEntity>
+    private var onListItemClickListener: OnListItemClickListener
 ) :
     RecyclerView.Adapter<WordTranslationAdapter.RecyclerItemViewHolder>() {
+
+    private var data: List<DataEntity> = arrayListOf()
 
     @SuppressLint("NotifyDataSetChanged")
     fun setData(data: List<DataEntity>) {
@@ -24,12 +25,12 @@ class WordTranslationAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerItemViewHolder {
         return RecyclerItemViewHolder(
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.activity_main_recyclerview_item, parent, false) as View
+                .inflate(R.layout.word_translation_recyclerview_item, parent, false) as View
         )
     }
 
     override fun onBindViewHolder(holder: RecyclerItemViewHolder, position: Int) {
-        holder.bind(data.get(position))
+        holder.bind(data[position])
     }
 
     override fun getItemCount(): Int {
