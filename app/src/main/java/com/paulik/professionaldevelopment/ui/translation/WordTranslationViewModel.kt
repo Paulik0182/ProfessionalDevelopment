@@ -5,47 +5,52 @@ import com.paulik.professionaldevelopment.AppState
 import com.paulik.professionaldevelopment.data.WordTranslationInteractorImpl
 import com.paulik.professionaldevelopment.ui.root.BaseViewModel
 import com.paulik.professionaldevelopment.ui.utils.parseSearchResults
-import io.reactivex.disposables.Disposable
-import io.reactivex.observers.DisposableObserver
-import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class WordTranslationViewModel @Inject constructor(
+class WordTranslationViewModel(
     private val interactor: WordTranslationInteractorImpl
 ) : BaseViewModel<AppState>() {
 
-    private var appState: AppState? = null
+    private val liveDataForViewToObserve: LiveData<AppState> = _mutableLiveData
 
     fun subscribe(): LiveData<AppState> {
         return liveDataForViewToObserve
     }
 
     override fun getData(word: String, isOnline: Boolean) {
-        compositeDisposable.add(
-            interactor.getData(word, isOnline)
-                .subscribeOn(schedulerProvider.io())
-                .observeOn(schedulerProvider.ui())
-                .doOnSubscribe { liveDataForViewToObserve.value = AppState.Loading(null) }
-                .subscribeWith(getObserver())
-        )
+        _mutableLiveData.value = AppState.Loading(null)
+        /** Загрузка контента */
+        cancelJob()
+        /** Завершаем все работы с карутинами. Для того чтобы небыло некорректного
+        отображения данных. В Случае, например, если запрос по слову будет долго
+        выполнятся, а мы отправим еще один запрос, то в теории может сложится так,
+        что пользователю придет не корректный ответ и отобразится на экране.  */
+
+        /** Новая задача с карутинами. launch вызывается на том потоке на котором указ в скоопе
+         * (viewModelCoroutineScope), то-есть в mainTread */
+        viewModelCoroutineScope.launch {
+            startInteractor(word, isOnline)
+        }
     }
 
-    private fun doOnSubscribe(): (Disposable) -> Unit =
-        { liveDataForViewToObserve.value = AppState.Loading(null) }
-
-    private fun getObserver(): DisposableObserver<AppState> {
-        return object : DisposableObserver<AppState>() {
-
-            override fun onNext(state: AppState) {
-                appState = parseSearchResults(state)
-                liveDataForViewToObserve.value = appState
-            }
-
-            override fun onError(e: Throwable) {
-                liveDataForViewToObserve.value = AppState.Error(e)
-            }
-
-            override fun onComplete() {
-            }
+    /** Запустили карутину. В нутри карутины можем вызывать со спен функции. эта та функция которая
+     * может прерыватся.*/
+    private suspend fun startInteractor(word: String, isOnline: Boolean) =
+        /** IO - это Tread на котором запускается соответствующий контекст */
+        withContext(Dispatchers.IO) {
+            /** postValue используем потому что он может автоматически вернуть результат на mainTread.
+             * То-есть нет необходимости переключатся с IO Tread обратно на mainTread*/
+            _mutableLiveData.postValue(parseSearchResults(interactor.getData(word, isOnline)))
         }
+
+    override fun handleError(error: Throwable) {
+        _mutableLiveData.postValue(AppState.Error(error))
+    }
+
+    override fun onCleared() {
+        _mutableLiveData.value = AppState.Success(null)
+        super.onCleared()
     }
 }

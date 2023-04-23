@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.paulik.professionaldevelopment.R
 import com.paulik.professionaldevelopment.domain.entity.DataEntity
+import com.paulik.professionaldevelopment.ui.utils.convertMeaningsToString
 
 class WordTranslationAdapter(
     private var onListItemClickListener: OnListItemClickListener
@@ -44,7 +45,7 @@ class WordTranslationAdapter(
                 itemView.findViewById<TextView>(R.id.header_recycler_item_text_view).text =
                     data.text
                 itemView.findViewById<TextView>(R.id.description_recycler_item_text_view).text =
-                    data.meanings?.get(0)?.translation?.translation
+                    convertMeaningsToString(data.meanings!!)
                 itemView.setOnClickListener { openInNewWindow(data) }
             }
         }

@@ -13,14 +13,9 @@ private const val DIALOG_FRAGMENT_TAG = "74a54328-5d62-46bf-ab6b-cbf5d8c79522"
 
 abstract class BaseFragment<T : AppState, I : WordTranslationInteractor<T>> : Fragment() {
 
-    abstract val model: BaseViewModel<T>
+    abstract val viewModel: BaseViewModel<T>
 
     protected var isNetworkAvailable: Boolean = false
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        isNetworkAvailable = isOnline(requireActivity().application)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

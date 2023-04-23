@@ -1,28 +1,35 @@
 package com.paulik.professionaldevelopment.ui.root
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.paulik.professionaldevelopment.AppState
-import com.paulik.professionaldevelopment.data.rx.SchedulerProvider
-import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.*
 
 abstract class BaseViewModel<T : AppState>(
-    // Наблюдает за фрагментом
-    protected val liveDataForViewToObserve: MutableLiveData<T> = MutableLiveData(),
-    // Для завершения всех подписок
-    protected val compositeDisposable: CompositeDisposable = CompositeDisposable(),
-    protected val schedulerProvider: SchedulerProvider = SchedulerProvider()
+    protected open val _mutableLiveData: MutableLiveData<T> = MutableLiveData()
 ) : ViewModel() {
 
-    val viewState: LiveData<T> =
-        liveDataForViewToObserve// для постоянного наблюдения за изменениями
+    protected val viewModelCoroutineScope: CoroutineScope = CoroutineScope(
+        Dispatchers.Main
+                /**Указывается на какой поток длжены вернуть результат */
+                /** Для то чтобы. если задача упадет, то это не вызывала проблем у всех других задач*/
+                + SupervisorJob()
+                /** Обработка ошибок*/
+                + CoroutineExceptionHandler { _, throwable ->
+            handleError(throwable)
+        })
 
-    // Возвращает не изменяемую LiveData
+    override fun onCleared() {
+        super.onCleared()
+        cancelJob()
+    }
+
+    /** В данном методе завершаем работу со всеми карутинвми*/
+    protected fun cancelJob() {
+        viewModelCoroutineScope.coroutineContext.cancelChildren()
+    }
+
     abstract fun getData(word: String, isOnline: Boolean)
 
-    // Вызывается тогда когда ViewModel будет уничтожена
-    override fun onCleared() {
-        compositeDisposable.clear()
-    }
+    abstract fun handleError(error: Throwable)
 }
