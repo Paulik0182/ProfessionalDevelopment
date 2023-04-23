@@ -1,6 +1,7 @@
 package com.paulik.professionaldevelopment.ui.root
 
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.paulik.professionaldevelopment.R
@@ -81,9 +82,20 @@ class RootActivity : ViewBindingActivity<ActivityRootBinding>(
         binding.bottomNavBar.visibility = View.GONE
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        binding.bottomNavBar.visibility = View.VISIBLE
-        super.onBackPressed()
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            binding.bottomNavBar.visibility = View.VISIBLE
+
+            // Возвращаемся на предыдущий экран
+            if (supportFragmentManager.backStackEntryCount > 0) {
+                supportFragmentManager.popBackStack()
+            } else {
+                // Если в стеке нет предыдущего экрана, то вызываем действие по умолчанию:
+                // закрытие приложения
+                return super.onKeyDown(keyCode, event)
+            }
+            return true
+        }
+        return super.onKeyDown(keyCode, event)
     }
 }
