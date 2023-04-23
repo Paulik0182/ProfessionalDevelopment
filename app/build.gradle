@@ -43,6 +43,8 @@ dependencies {
 
     // Kotlin
     implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.8.20'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
     // Android X
     implementation 'androidx.core:core-ktx:1.10.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
@@ -74,6 +76,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 //    implementation 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
     implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.2'
+    implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2'
 
     // okhttp
     implementation 'com.squareup.okhttp3:okhttp:4.9.3'
@@ -85,4 +89,13 @@ dependencies {
     implementation 'com.google.dagger:dagger-android-support:2.35.1'
     kapt 'com.google.dagger:dagger-android-processor:2.35.1'
     kapt 'com.google.dagger:dagger-compiler:2.45'
+
+    //KOIN
+    def koin_version = "3.2.0"
+    //Koin core features
+    implementation "io.insert-koin:koin-core:$koin_version"
+    //Koin main features for Android (Scope,ViewModel ...)
+    implementation "io.insert-koin:koin-android:$koin_version"
+    //Koin Java Compatibility
+    implementation "io.insert-koin:koin-android-compat:$koin_version"
 }
