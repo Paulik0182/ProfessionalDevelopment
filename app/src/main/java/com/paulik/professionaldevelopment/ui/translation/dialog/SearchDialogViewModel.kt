@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.ViewModel
 import com.google.android.material.textfield.TextInputEditText
+import com.paulik.professionaldevelopment.ui.utils.getEmptyString
 
 class SearchDialogViewModel : ViewModel() {
 
@@ -38,7 +39,7 @@ class SearchDialogViewModel : ViewModel() {
         searchButtonTextView: TextView
     ) {
         clearTextImageView.setOnClickListener {
-            searchInputEditText.setText("")
+            searchInputEditText.setText(String.getEmptyString())
             searchButtonTextView.isEnabled = false
         }
     }
