@@ -7,6 +7,6 @@ data class MeaningsEntity(
     @field:SerializedName("translation")
     val translation: TranslationEntity?,
 
-    @field:SerializedName("image_url")
+    @field:SerializedName("imageUrl")
     val imageUrl: String?
 )

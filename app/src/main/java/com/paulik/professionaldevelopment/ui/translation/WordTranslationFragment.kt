@@ -1,10 +1,10 @@
 package com.paulik.professionaldevelopment.ui.translation
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.paulik.professionaldevelopment.AppState
 import com.paulik.professionaldevelopment.R
@@ -12,6 +12,7 @@ import com.paulik.professionaldevelopment.databinding.FragmentWordTranslationBin
 import com.paulik.professionaldevelopment.domain.entity.DataEntity
 import com.paulik.professionaldevelopment.ui.root.ViewBindingWordTranslationFragment
 import com.paulik.professionaldevelopment.ui.translation.dialog.SearchDialogFragment
+import com.paulik.professionaldevelopment.ui.utils.convertMeaningsToString
 import com.paulik.professionaldevelopment.ui.utils.isOnline
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -40,7 +41,14 @@ class WordTranslationFragment : ViewBindingWordTranslationFragment<FragmentWordT
         object : WordTranslationAdapter.OnListItemClickListener {
             override fun onItemClick(data: DataEntity) {
 
-                Toast.makeText(requireContext(), data.text, Toast.LENGTH_SHORT).show()
+                // Требуется пояснение почему так. почему meanings[0] ноль?
+                getController().openDescriptionWordTranslation(
+                    requireActivity(),
+                    data.text!!,
+                    convertMeaningsToString(data.meanings!!),
+                    data.meanings[0].imageUrl
+                )
+//                Toast.makeText(requireContext(), data.text, Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -120,6 +128,22 @@ class WordTranslationFragment : ViewBindingWordTranslationFragment<FragmentWordT
 
     private fun showViewLoading() {
         binding.loadingFrameLayout.visibility = VISIBLE
+    }
+
+    interface Controller {
+        fun openDescriptionWordTranslation(
+            context: Context,
+            word: String,
+            description: String,
+            url: String?
+        )
+    }
+
+    private fun getController(): Controller = activity as Controller
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        getController()
     }
 
     companion object {

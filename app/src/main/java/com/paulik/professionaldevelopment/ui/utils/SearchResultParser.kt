@@ -35,6 +35,7 @@ private fun parseResult(dataEntity: DataEntity, newDataModels: ArrayList<DataEnt
     }
 }
 
+// TODO Не понятно для чего.
 fun convertMeaningsToString(meanings: List<MeaningsEntity>): String {
     var meaningsSeparatedByComma = String()
     for ((index, meaning) in meanings.withIndex()) {
