@@ -3,6 +3,7 @@
 
     <!-- bottom nav menu -->
     <string name="word_translation">Перевод слов</string>
+    <string name="history_word_translation">История просмотра</string>
     <string name="settings">Настройки</string>
 
     <!-- О приложении -->
@@ -28,6 +29,8 @@
         подключения к Интернету. Пожалуйста, проверьте подключение к Интернету.</string>
     <string name="dialog_button_cancel">Отменить</string>
     <string name="image_stub">Изображение</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>
