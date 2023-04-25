@@ -37,6 +37,7 @@ class DescriptionWordTranslationFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setHasOptionsMenu(true)
         setActionbarHomeButtonAsUp()
 
         /** Это для свайпа (когда мы потянули вниз пошла реакция по обновлению данных)*/
