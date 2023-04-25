@@ -7,6 +7,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import com.paulik.professionaldevelopment.R
 import com.paulik.professionaldevelopment.databinding.ActivityRootBinding
+import com.paulik.professionaldevelopment.ui.history.HistoryWordTranslationFragment
 import com.paulik.professionaldevelopment.ui.settings.AboutAppFragment
 import com.paulik.professionaldevelopment.ui.settings.SettingsFragment
 import com.paulik.professionaldevelopment.ui.translation.WordTranslationFragment
@@ -24,6 +25,9 @@ class RootActivity : ViewBindingActivity<ActivityRootBinding>(
         WordTranslationFragment.newInstance()
     }
     private val settingsFragment: SettingsFragment by lazy { SettingsFragment.newInstance() }
+    private val historyFragment: HistoryWordTranslationFragment by lazy {
+        HistoryWordTranslationFragment.newInstance()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +46,9 @@ class RootActivity : ViewBindingActivity<ActivityRootBinding>(
             when (it.itemId) {
                 R.id.word_translation_item -> {
                     navigateTo(wordTranslationFragment)
+                }
+                R.id.history_word_translation_item -> {
+                    navigateTo(historyFragment)
                 }
                 R.id.settings_item -> {
                     navigateTo(settingsFragment)
@@ -99,6 +106,11 @@ class RootActivity : ViewBindingActivity<ActivityRootBinding>(
                 url
             )
         )
+        binding.bottomNavBar.visibility = View.GONE
+    }
+
+    override fun openHistoryFragment() {
+        HistoryWordTranslationFragment.newInstance()
         binding.bottomNavBar.visibility = View.GONE
     }
 
