@@ -1,17 +1,26 @@
 package com.paulik.professionaldevelopment.ui.translation.descriptios
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import coil.load
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 import com.paulik.professionaldevelopment.R
 import com.paulik.professionaldevelopment.databinding.FragmentDescriptionWordTranslationBinding
 import com.paulik.professionaldevelopment.ui.root.ViewBindingFragment
 import com.paulik.professionaldevelopment.ui.translation.dialog.AlertDialogFragment
 import com.paulik.professionaldevelopment.ui.utils.isOnline
+import com.squareup.picasso.Callback
+import com.squareup.picasso.Picasso
 
 private const val DIALOG_FRAGMENT_TAG = "8c7dff51-9769-4f6d-bbee-a3896085e76e"
 private const val WORD_EXTRA = "f76a288a-5dcc-43f1-ba89-7fe1d53f63b0"
@@ -30,6 +39,7 @@ class DescriptionWordTranslationFragment :
 
         setActionbarHomeButtonAsUp()
 
+        /** Это для свайпа (когда мы потянули вниз пошла реакция по обновлению данных)*/
         binding.descriptionScreenSwipeRefreshLayout.setOnRefreshListener {
             startLoadingOrShowError()
         }
@@ -66,6 +76,8 @@ class DescriptionWordTranslationFragment :
             stopRefreshAnimationIfNeeded()
         } else {
             useCoilToLoadPhoto(binding.descriptionImageView, imageLink)
+//            useGlideToLoadPhoto(binding.descriptionImageView, imageLink)
+//            usePicassoToLoadPhoto(binding.descriptionImageView, imageLink)
         }
     }
 
@@ -84,6 +96,7 @@ class DescriptionWordTranslationFragment :
         }
     }
 
+    /** Для тул бара который появляется когда мы свайпим*/
     private fun stopRefreshAnimationIfNeeded() {
         if (binding.descriptionScreenSwipeRefreshLayout.isRefreshing) {
             binding.descriptionScreenSwipeRefreshLayout.isRefreshing = false
@@ -128,6 +141,56 @@ class DescriptionWordTranslationFragment :
             error(R.drawable.ic_load_error_vector)
             crossfade(true)
         }
+    }
+
+    private fun usePicassoToLoadPhoto(imageView: ImageView, imageLink: String) {
+        Picasso.get().load("https:$imageLink")
+            .placeholder(R.drawable.uploading_images).fit().centerCrop()
+            .into(imageView, object : Callback {
+                override fun onSuccess() {
+                    stopRefreshAnimationIfNeeded()
+                }
+
+                override fun onError(e: Exception?) {
+                    stopRefreshAnimationIfNeeded()
+                    imageView.setImageResource(R.drawable.ic_load_error_vector)
+                }
+            })
+    }
+
+
+    private fun useGlideToLoadPhoto(imageView: ImageView, imageLink: String) {
+        Glide.with(imageView)
+            .load("https:$imageLink")
+            .listener(object : RequestListener<Drawable> {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    stopRefreshAnimationIfNeeded()
+                    imageView.setImageResource(R.drawable.ic_load_error_vector)
+                    return false
+                }
+
+                override fun onResourceReady(
+                    resource: Drawable?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    dataSource: DataSource?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    stopRefreshAnimationIfNeeded()
+                    return false
+                }
+            })
+            .apply(
+                RequestOptions()
+                    .placeholder(R.drawable.uploading_images)
+                    .centerCrop()
+            )
+            .into(imageView)
     }
 
     companion object {
