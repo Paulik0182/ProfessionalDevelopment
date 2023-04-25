@@ -16,7 +16,7 @@
     <string name="reload_button">Перезагрузить</string>
     <string name="undefined_error">Неизвестная ошибка</string>
     <string name="no_data_available">Нет данных</string>
-    <string name="title_toolbar_description">Нет данных</string>
+    <string name="title_toolbar_description">Назад</string>
     <string name="empty_server_response_on_success">Ответ от сервера пуст</string>
     <string name="search_hint">Введите слово</string>
     <string name="delete_description">X</string>

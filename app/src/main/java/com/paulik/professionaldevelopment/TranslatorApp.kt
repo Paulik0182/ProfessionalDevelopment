@@ -15,7 +15,7 @@ class TranslatorApp : Application() {
         //подключение Koin
         startKoin {
             androidLogger()
-            androidContext(this@TranslatorApp)
+            androidContext(applicationContext)
             modules(listOf(application, mainScreen, historyScreen))
         }
     }
