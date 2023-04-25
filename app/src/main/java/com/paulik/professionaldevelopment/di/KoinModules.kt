@@ -1,13 +1,18 @@
 package com.paulik.professionaldevelopment.di
 
+import androidx.room.Room
+import com.paulik.professionaldevelopment.data.HistoryWordTranslationInteractorImpl
 import com.paulik.professionaldevelopment.data.RepositoryImpl
 import com.paulik.professionaldevelopment.data.WordTranslationInteractorImpl
 import com.paulik.professionaldevelopment.data.retrofit.RetrofitImpl
+import com.paulik.professionaldevelopment.data.room.HistoryDataBase
+import com.paulik.professionaldevelopment.data.room.RepositoryLocalImpl
 import com.paulik.professionaldevelopment.data.room.RoomDataBaseImpl
 import com.paulik.professionaldevelopment.domain.entity.DataEntity
 import com.paulik.professionaldevelopment.domain.repo.Repository
+import com.paulik.professionaldevelopment.domain.repo.RepositoryLocal
+import com.paulik.professionaldevelopment.ui.history.HistoryWordTranslationViewModel
 import com.paulik.professionaldevelopment.ui.translation.WordTranslationViewModel
-import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 /** single - обозначает что это единственный экземпляр на всё приложение. Используется для ленивой
@@ -24,22 +29,33 @@ import org.koin.dsl.module
  * */
 
 val application = module {
-    single<Repository<List<DataEntity>>>(named(NAME_REMOTE)) {
-        RepositoryImpl(RetrofitImpl())
-    }
-    single<Repository<List<DataEntity>>>(named(NAME_LOCAL)) {
-        RepositoryImpl(RoomDataBaseImpl())
+    single { Room.databaseBuilder(get(), HistoryDataBase::class.java, "HistoryDB").build() }
+    single { get<HistoryDataBase>().historyDao() }
+    single<Repository<List<DataEntity>>> { RepositoryImpl(RetrofitImpl()) }
+    single<RepositoryLocal<List<DataEntity>>> {
+        RepositoryLocalImpl(RoomDataBaseImpl(get()))
     }
 }
 
 val mainScreen = module {
     factory {
         WordTranslationInteractorImpl(
-            get(named(NAME_REMOTE)),
-            get(named(NAME_LOCAL))
+            get(),
+            get()
         )
     }
     factory {
         WordTranslationViewModel(get())
+    }
+}
+
+val historyScreen = module {
+    factory {
+        HistoryWordTranslationViewModel(get())
+    }
+    factory {
+        HistoryWordTranslationInteractorImpl(
+            get(), get()
+        )
     }
 }
