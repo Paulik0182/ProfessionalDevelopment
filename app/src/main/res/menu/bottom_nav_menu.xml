@@ -6,6 +6,11 @@
         android:title="@string/word_translation" />
 
     <item
+        android:id="@+id/history_word_translation_item"
+        android:icon="@drawable/ic_history"
+        android:title="@string/history_word_translation" />
+
+    <item
         android:id="@+id/settings_item"
         android:icon="@drawable/ic_settings_24"
         android:title="@string/settings" />
