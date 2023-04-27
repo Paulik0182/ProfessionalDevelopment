@@ -1,4 +1,4 @@
-package com.paulik.professionaldevelopment.domain.rx
+package com.paulik.professionaldevelopment.data.rx
 
 import io.reactivex.Scheduler
 

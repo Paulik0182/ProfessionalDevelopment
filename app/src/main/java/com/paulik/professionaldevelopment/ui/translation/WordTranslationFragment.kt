@@ -1,17 +1,18 @@
 package com.paulik.professionaldevelopment.ui.translation
 
+import android.content.Context
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.paulik.professionaldevelopment.AppState
 import com.paulik.professionaldevelopment.R
 import com.paulik.professionaldevelopment.databinding.FragmentWordTranslationBinding
 import com.paulik.professionaldevelopment.domain.entity.DataEntity
 import com.paulik.professionaldevelopment.ui.root.ViewBindingWordTranslationFragment
 import com.paulik.professionaldevelopment.ui.translation.dialog.SearchDialogFragment
+import com.paulik.professionaldevelopment.ui.utils.convertMeaningsToString
 import com.paulik.professionaldevelopment.ui.utils.isOnline
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -40,7 +41,14 @@ class WordTranslationFragment : ViewBindingWordTranslationFragment<FragmentWordT
         object : WordTranslationAdapter.OnListItemClickListener {
             override fun onItemClick(data: DataEntity) {
 
-                Toast.makeText(requireContext(), data.text, Toast.LENGTH_SHORT).show()
+                // Требуется пояснение почему так. почему meanings[0] ноль?
+                getController().openDescriptionWordTranslation(
+                    requireActivity(),
+                    data.text!!,
+                    convertMeaningsToString(data.meanings!!),
+                    data.meanings[0].imageUrl
+                )
+//                Toast.makeText(requireContext(), data.text, Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -59,45 +67,27 @@ class WordTranslationFragment : ViewBindingWordTranslationFragment<FragmentWordT
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setHasOptionsMenu(true)
         initViewModel()
         initViews()
     }
 
-    /** реализация обстрактного метода из BaseFragment (ViewApp) */
-    override fun renderData(appState: AppState) {
-        when (appState) {
-            /** Если Success, загружаем данные , также можем показать ошибку*/
-            is AppState.Success -> {
-                showViewWorking()
-                val dataEntity = appState.data
-                if (dataEntity.isNullOrEmpty()) {
-                    showAlertDialog(
-                        getString(R.string.dialog_tittle_sorry),
-                        getString(R.string.empty_server_response_on_success)
-                    )
-                } else {
-                    adapter.setData(dataEntity)
-                }
+    override fun setDataToAdapter(data: List<DataEntity>) {
+        adapter.setData(data)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.history_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_history -> {
+                getController().openHistoryFragment()
+                true
             }
-            is AppState.Empty -> {
-                showViewWorking()
-                showAlertDialog(getString(R.string.no_data_available), AppState.Empty.toString())
-            }
-            is AppState.Loading -> {
-                showViewLoading()
-                if (appState.progress != null) {
-                    binding.horizontalProgressBar.visibility = VISIBLE
-                    binding.roundProgressBar.visibility = GONE
-                    binding.horizontalProgressBar.progress = appState.progress
-                } else {
-                    binding.horizontalProgressBar.visibility = GONE
-                    binding.roundProgressBar.visibility = VISIBLE
-                }
-            }
-            is AppState.Error -> {
-                showViewWorking()
-                showAlertDialog(getString(R.string.error_textview_stub), appState.error.message)
-            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
@@ -105,7 +95,9 @@ class WordTranslationFragment : ViewBindingWordTranslationFragment<FragmentWordT
         if (binding.mainRecyclerView.adapter != null) {
             throw IllegalStateException("Сначала должна быть инициализирована ViewModel")
         }
-        viewModel.subscribe().observe(viewLifecycleOwner, { renderData(it) })
+        viewModel.subscribe().observe(viewLifecycleOwner) { appStat ->
+            renderData(appStat)
+        }
     }
 
     private fun initViews() {
@@ -114,12 +106,22 @@ class WordTranslationFragment : ViewBindingWordTranslationFragment<FragmentWordT
         binding.mainRecyclerView.adapter = adapter
     }
 
-    private fun showViewWorking() {
-        binding.loadingFrameLayout.visibility = GONE
+    interface Controller {
+        fun openDescriptionWordTranslation(
+            context: Context,
+            word: String,
+            description: String,
+            url: String?
+        )
+
+        fun openHistoryFragment()
     }
 
-    private fun showViewLoading() {
-        binding.loadingFrameLayout.visibility = VISIBLE
+    private fun getController(): Controller = activity as Controller
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        getController()
     }
 
     companion object {

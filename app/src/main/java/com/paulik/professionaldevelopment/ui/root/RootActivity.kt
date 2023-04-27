@@ -1,26 +1,33 @@
 package com.paulik.professionaldevelopment.ui.root
 
+import android.content.Context
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.paulik.professionaldevelopment.R
 import com.paulik.professionaldevelopment.databinding.ActivityRootBinding
+import com.paulik.professionaldevelopment.ui.history.HistoryWordTranslationFragment
 import com.paulik.professionaldevelopment.ui.settings.AboutAppFragment
 import com.paulik.professionaldevelopment.ui.settings.SettingsFragment
 import com.paulik.professionaldevelopment.ui.translation.WordTranslationFragment
+import com.paulik.professionaldevelopment.ui.translation.descriptios.DescriptionWordTranslationFragment
 
 private const val TAG_ROOT_CONTAINER_LAYOUT_KEY = "TAG_ROOT_CONTAINER_LAYOUT_KEY"
 
 class RootActivity : ViewBindingActivity<ActivityRootBinding>(
     ActivityRootBinding::inflate
 ),
-    SettingsFragment.Controller {
+    SettingsFragment.Controller,
+    WordTranslationFragment.Controller {
 
     private val wordTranslationFragment: WordTranslationFragment by lazy {
         WordTranslationFragment.newInstance()
     }
     private val settingsFragment: SettingsFragment by lazy { SettingsFragment.newInstance() }
+    private val historyFragment: HistoryWordTranslationFragment by lazy {
+        HistoryWordTranslationFragment.newInstance()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +46,9 @@ class RootActivity : ViewBindingActivity<ActivityRootBinding>(
             when (it.itemId) {
                 R.id.word_translation_item -> {
                     navigateTo(wordTranslationFragment)
+                }
+                R.id.history_word_translation_item -> {
+                    navigateTo(historyFragment)
                 }
                 R.id.settings_item -> {
                     navigateTo(settingsFragment)
@@ -79,6 +89,28 @@ class RootActivity : ViewBindingActivity<ActivityRootBinding>(
 
     override fun openAboutApp() {
         navigateWithBackStack(AboutAppFragment.newInstance())
+        binding.bottomNavBar.visibility = View.GONE
+    }
+
+    override fun openDescriptionWordTranslation(
+        context: Context,
+        word: String,
+        description: String,
+        url: String?
+    ) {
+        navigateWithBackStack(
+            DescriptionWordTranslationFragment.newInstance(
+                context,
+                word,
+                description,
+                url
+            )
+        )
+        binding.bottomNavBar.visibility = View.GONE
+    }
+
+    override fun openHistoryFragment() {
+        HistoryWordTranslationFragment.newInstance()
         binding.bottomNavBar.visibility = View.GONE
     }
 

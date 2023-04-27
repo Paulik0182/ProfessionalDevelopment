@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import com.paulik.professionaldevelopment.AppState
 import com.paulik.professionaldevelopment.data.WordTranslationInteractorImpl
 import com.paulik.professionaldevelopment.ui.root.BaseViewModel
-import com.paulik.professionaldevelopment.ui.utils.parseSearchResults
+import com.paulik.professionaldevelopment.ui.utils.parseOnlineSearchResults
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -42,7 +42,7 @@ class WordTranslationViewModel(
         withContext(Dispatchers.IO) {
             /** postValue используем потому что он может автоматически вернуть результат на mainTread.
              * То-есть нет необходимости переключатся с IO Tread обратно на mainTread*/
-            _mutableLiveData.postValue(parseSearchResults(interactor.getData(word, isOnline)))
+            _mutableLiveData.postValue(parseOnlineSearchResults(interactor.getData(word, isOnline)))
         }
 
     override fun handleError(error: Throwable) {

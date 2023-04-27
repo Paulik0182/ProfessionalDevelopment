@@ -2,6 +2,7 @@ package com.paulik.professionaldevelopment
 
 import android.app.Application
 import com.paulik.professionaldevelopment.di.application
+import com.paulik.professionaldevelopment.di.historyScreen
 import com.paulik.professionaldevelopment.di.mainScreen
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -14,8 +15,8 @@ class TranslatorApp : Application() {
         //подключение Koin
         startKoin {
             androidLogger()
-            androidContext(this@TranslatorApp)
-            modules(listOf(application, mainScreen))
+            androidContext(applicationContext)
+            modules(listOf(application, mainScreen, historyScreen))
         }
     }
 }
