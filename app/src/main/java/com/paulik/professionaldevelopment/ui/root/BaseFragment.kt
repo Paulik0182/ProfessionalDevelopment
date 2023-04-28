@@ -15,8 +15,10 @@ private const val DIALOG_FRAGMENT_TAG = "74a54328-5d62-46bf-ab6b-cbf5d8c79522"
 
 abstract class BaseFragment<T : AppState, I : WordTranslationInteractor<T>> : Fragment() {
 
-    private var _binding: LoadingLayoutBinding? = null
-    private val binding get() = _binding!!
+    private var binding: LoadingLayoutBinding? = null
+
+//    private var _binding: LoadingLayoutBinding? = null
+//    private val binding get() = _binding!!
 
     abstract val viewModel: BaseViewModel<T>
 
@@ -25,17 +27,24 @@ abstract class BaseFragment<T : AppState, I : WordTranslationInteractor<T>> : Fr
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        _binding = LoadingLayoutBinding.bind(view)
+//        _binding = LoadingLayoutBinding.bind(view)
 
         isNetworkAvailable = isOnline(requireActivity().application)
     }
 
     override fun onResume() {
         super.onResume()
+        binding = LoadingLayoutBinding.inflate(layoutInflater)
+
         isNetworkAvailable = isOnline(requireActivity().application)
         if (!isNetworkAvailable && isDialogNull()) {
             showNoInternetConnectionDialog()
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding = null
     }
 
     protected fun renderData(appState: T) {
@@ -72,12 +81,12 @@ abstract class BaseFragment<T : AppState, I : WordTranslationInteractor<T>> : Fr
             is AppState.Loading -> {
                 showViewLoading()
                 if (appState.progress != null) {
-                    binding.horizontalProgressBar.visibility = View.VISIBLE
-                    binding.roundProgressBar.visibility = View.GONE
-                    binding.horizontalProgressBar.progress = appState.progress
+                    binding?.horizontalProgressBar?.visibility = View.VISIBLE
+                    binding?.roundProgressBar?.visibility = View.GONE
+                    binding?.horizontalProgressBar?.progress = appState.progress
                 } else {
-                    binding.horizontalProgressBar.visibility = View.GONE
-                    binding.roundProgressBar.visibility = View.VISIBLE
+                    binding?.horizontalProgressBar?.visibility = View.GONE
+                    binding?.roundProgressBar?.visibility = View.VISIBLE
                 }
             }
             is AppState.Error -> {
@@ -100,11 +109,11 @@ abstract class BaseFragment<T : AppState, I : WordTranslationInteractor<T>> : Fr
     }
 
     private fun showViewWorking() {
-        binding.loadingFrameLayout.visibility = View.GONE
+        binding?.loadingFrameLayout?.visibility = View.GONE
     }
 
     private fun showViewLoading() {
-        binding.loadingFrameLayout.visibility = View.VISIBLE
+        binding?.loadingFrameLayout?.visibility = View.VISIBLE
     }
 
     private fun isDialogNull(): Boolean {
@@ -115,6 +124,6 @@ abstract class BaseFragment<T : AppState, I : WordTranslationInteractor<T>> : Fr
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+//        _binding = null
     }
 }
