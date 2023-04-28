@@ -7,6 +7,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.paulik.professionaldevelopment.R
 import com.paulik.professionaldevelopment.databinding.FragmentWordTranslationBinding
 import com.paulik.professionaldevelopment.domain.entity.DataEntity
@@ -21,6 +22,8 @@ private const val BOTTOM_SHEET_FRAGMENT_DIALOG_TAG = "74a54328-5d62-46bf-ab6b-cb
 class WordTranslationFragment : ViewBindingWordTranslationFragment<FragmentWordTranslationBinding>(
     FragmentWordTranslationBinding::inflate
 ) {
+
+    private lateinit var recyclerView: RecyclerView
 
     override val viewModel: WordTranslationViewModel by viewModel()
 
@@ -67,6 +70,7 @@ class WordTranslationFragment : ViewBindingWordTranslationFragment<FragmentWordT
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        recyclerView = view.findViewById(R.id.main_recycler_view)
         setHasOptionsMenu(true)
         initViewModel()
         initViews()
@@ -104,6 +108,13 @@ class WordTranslationFragment : ViewBindingWordTranslationFragment<FragmentWordT
         binding.searchFab.setOnClickListener(fabClickListener)
         binding.mainRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.mainRecyclerView.adapter = adapter
+
+        recyclerView.itemAnimator = NoAnimationItemAnimator()
+//        recyclerView.itemAnimator?.changeDuration = 0
+//        recyclerView.itemAnimator?.addDuration = 0
+//        recyclerView.itemAnimator?.removeDuration = 0
+//        recyclerView.itemAnimator?.moveDuration = 0
+//        recyclerView.itemAnimator = null
     }
 
     interface Controller {
