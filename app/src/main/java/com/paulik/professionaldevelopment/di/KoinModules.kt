@@ -29,11 +29,27 @@ import org.koin.dsl.module
  * */
 
 val application = module {
-    single { Room.databaseBuilder(get(), HistoryDataBase::class.java, "HistoryDB").build() }
-    single { get<HistoryDataBase>().historyDao() }
-    single<Repository<List<DataEntity>>> { RepositoryImpl(RetrofitImpl()) }
+    single {
+        Room.databaseBuilder(
+            get(),
+            HistoryDataBase::class.java, "HistoryDB"
+        )
+            .build()
+    }
+
+    single {
+        get<HistoryDataBase>()
+            .historyDao()
+    }
+
+    single<Repository<List<DataEntity>>> {
+        RepositoryImpl(RetrofitImpl())
+    }
+
     single<RepositoryLocal<List<DataEntity>>> {
-        RepositoryLocalImpl(RoomDataBaseImpl(get()))
+        RepositoryLocalImpl(
+            RoomDataBaseImpl(get())
+        )
     }
 }
 

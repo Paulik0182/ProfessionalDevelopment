@@ -2,13 +2,14 @@ package com.paulik.professionaldevelopment.ui.history
 
 import androidx.lifecycle.LiveData
 import com.paulik.professionaldevelopment.AppState
-import com.paulik.professionaldevelopment.data.WordTranslationInteractorImpl
+import com.paulik.professionaldevelopment.data.HistoryWordTranslationInteractorImpl
 import com.paulik.professionaldevelopment.ui.root.BaseViewModel
 import com.paulik.professionaldevelopment.ui.utils.parseLocalSearchResults
 import kotlinx.coroutines.launch
 
-class HistoryWordTranslationViewModel(private val interactor: WordTranslationInteractorImpl) :
-    BaseViewModel<AppState>() {
+class HistoryWordTranslationViewModel(
+    private val interactor: HistoryWordTranslationInteractorImpl
+) : BaseViewModel<AppState>() {
 
     private val liveDataForViewToObserve: LiveData<AppState> = _mutableLiveData
 

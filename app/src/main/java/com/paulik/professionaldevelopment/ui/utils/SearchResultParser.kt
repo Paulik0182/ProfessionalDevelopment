@@ -6,13 +6,17 @@ import com.paulik.professionaldevelopment.domain.entity.DataEntity
 import com.paulik.professionaldevelopment.domain.entity.MeaningsEntity
 
 fun mapHistoryEntityToSearchResult(list: List<HistoryEntity>): List<DataEntity> {
-    val searchResult = ArrayList<DataEntity>()
-    if (!list.isNullOrEmpty()) {
-        for (entity in list) {
-            searchResult.add(DataEntity(entity.word, null))
-        }
+    return list.map {
+        DataEntity(it.word, null)
     }
-    return searchResult
+
+//    val searchResult = ArrayList<DataEntity>()
+//    if (!list.isNullOrEmpty()) {
+//        for (entity in list) {
+//            searchResult.add(DataEntity(entity.word, null))
+//        }
+//    }
+//    return searchResult
 }
 
 fun convertDataModelSuccessToEntity(appState: AppState): HistoryEntity? {

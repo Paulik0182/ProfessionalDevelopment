@@ -27,6 +27,8 @@ class HistoryWordTranslationFragment :
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+//        _binding = FragmentHistoryWordTranslationBinding.inflate(layoutInflater)
+
         return inflater.inflate(R.layout.fragment_history_word_translation, container, false)
     }
 
@@ -52,12 +54,14 @@ class HistoryWordTranslationFragment :
         if (binding.historyFragmentRecyclerview.adapter != null) {
             throw IllegalStateException("Сначала должна быть инициализирована ViewModel")
         }
-        viewModel.subscribe().observe(viewLifecycleOwner, Observer<AppState> {
+
+        viewModel.subscribe().observe(viewLifecycleOwner, Observer {
             renderData(it)
         })
     }
 
     private fun initViews() {
+//        binding.historyFragmentRecyclerview.layoutManager = LinearLayoutManager(context)
         binding.historyFragmentRecyclerview.adapter = adapter
     }
 

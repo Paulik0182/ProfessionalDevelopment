@@ -48,7 +48,7 @@ class RootActivity : ViewBindingActivity<ActivityRootBinding>(
                     navigateTo(wordTranslationFragment)
                 }
                 R.id.history_word_translation_item -> {
-                    navigateTo(historyFragment)
+                    navigateWithBackStack(historyFragment)
                 }
                 R.id.settings_item -> {
                     navigateTo(settingsFragment)
@@ -110,7 +110,9 @@ class RootActivity : ViewBindingActivity<ActivityRootBinding>(
     }
 
     override fun openHistoryFragment() {
-        HistoryWordTranslationFragment.newInstance()
+        navigateWithBackStack(
+            HistoryWordTranslationFragment.newInstance()
+        )
         binding.bottomNavBar.visibility = View.GONE
     }
 

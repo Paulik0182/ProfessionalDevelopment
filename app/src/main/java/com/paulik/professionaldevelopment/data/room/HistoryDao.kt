@@ -2,13 +2,19 @@ package com.paulik.professionaldevelopment.data.room
 
 import androidx.room.*
 
+/**
+ * suspend - связано с асинхронными функциями, которые могут выполняться на корутинах.
+ * suspend указывает на то что функция может быть приостановлена на время, пока она ждет выполнения
+ * асинхронной операции, например, запроса к базе данных или сетевому запросу.
+ */
+
 @Dao
 interface HistoryDao {
 
-    @Query("SELECT * FROM HistoryEntity")
+    @Query("SELECT * FROM history")
     suspend fun all(): List<HistoryEntity>
 
-    @Query("SELECT * FROM HistoryEntity WHERE word LIKE :word")
+    @Query("SELECT * FROM history WHERE word = :word LIMIT 1") // для поиска по словам
     suspend fun getDataByWord(word: String): HistoryEntity
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)

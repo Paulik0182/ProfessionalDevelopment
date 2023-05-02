@@ -117,4 +117,10 @@ dependencies {
     implementation 'androidx.room:room-runtime:2.5.1'
     kapt 'androidx.room:room-compiler:2.5.1'
     implementation 'androidx.room:room-ktx:2.5.1'
+    // optional - RxJava2 support for Room
+    implementation 'androidx.room:room-rxjava2:2.5.1'
+    // optional - Guava support for Room, including Optional and ListenableFuture
+    implementation 'androidx.room:room-guava:2.5.1'
+    // optional - Test helpers
+    testImplementation 'androidx.room:room-testing:2.5.1'
 }
