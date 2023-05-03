@@ -11,18 +11,35 @@ class WordTranslationInteractorImpl(
     private val localRepository: RepositoryLocal<List<DataEntity>>
 ) : WordTranslationInteractor<AppState> {
 
+    private lateinit var appState: AppState
+
     override suspend fun getData(word: String, fromRemoteSource: Boolean): AppState {
         if (word.isBlank()) {
             return AppState.Empty
         }
 
-        val appState: AppState
-        if (fromRemoteSource) {
-            appState = AppState.Success(remoteRepository.getData(word))
-            localRepository.saveToDB(appState)
-        } else {
-            appState = AppState.Success(localRepository.getData(word))
+        try {
+            if (fromRemoteSource) {
+                remoteRepository.getData(word)?.also { list ->
+                    appState = AppState.Success(list.map {
+                        DataEntity(
+                            it.text,
+                            it.meanings
+                        )
+                    })
+                    localRepository.saveToDB(appState)
+                }
+            } else {
+                localRepository.getData(word)
+            }
+
+            return if (appState != null || appState != emptyList<DataEntity>()) {
+                appState
+            } else {
+                AppState.Error(Exception("Нет Данных"))
+            }
+        } catch (e: Exception) {
+            return AppState.Error(e)
         }
-        return appState
     }
 }

@@ -49,35 +49,37 @@ abstract class BaseFragment<T : AppState, I : WordTranslationInteractor<T>> : Fr
 
     protected fun renderData(appState: T) {
         when (appState) {
-            is AppState.Success -> {
-                showViewWorking()
-                val dataEntity = appState.data
-                if (dataEntity.isNullOrEmpty()) {
-                    showAlertDialog(
-                        getString(R.string.dialog_tittle_sorry),
-                        getString(R.string.empty_server_response_on_success)
-                    )
-                } else {
-                    setDataToAdapter(dataEntity)
-                }
-            }
 //            is AppState.Success -> {
 //                showViewWorking()
-//                appState.data?.let {
-//                    if (it.isEmpty()) {
-//                        showAlertDialog(
-//                            getString(R.string.dialog_tittle_sorry),
-//                            getString(R.string.empty_server_response_on_success)
-//                        )
-//                    } else {
-//                        setDataToAdapter(it)
-//                    }
+//                val dataEntity = appState.data
+//                if (dataEntity.isNullOrEmpty()) {
+//                    showAlertDialog(
+//                        getString(R.string.dialog_tittle_sorry),
+//                        getString(R.string.empty_server_response_on_success)
+//                    )
+//                } else {
+//                    setDataToAdapter(dataEntity)
 //                }
 //            }
+            is AppState.Success -> {
+                showViewWorking()
+                appState.data?.let {
+                    if (it.isEmpty()) {
+                        showAlertDialog(
+                            getString(R.string.dialog_tittle_sorry),
+                            getString(R.string.empty_server_response_on_success)
+                        )
+                    } else {
+                        setDataToAdapter(it)
+                    }
+                }
+            }
+
             is AppState.Empty -> {
                 showViewWorking()
                 showAlertDialog(getString(R.string.no_data_available), AppState.Empty.toString())
             }
+
             is AppState.Loading -> {
                 showViewLoading()
                 if (appState.progress != null) {

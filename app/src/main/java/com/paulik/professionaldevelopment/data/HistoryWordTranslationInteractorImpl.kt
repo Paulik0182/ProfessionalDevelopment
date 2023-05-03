@@ -12,16 +12,12 @@ class HistoryWordTranslationInteractorImpl(
 ) : WordTranslationInteractor<AppState> {
 
     override suspend fun getData(word: String, fromRemoteSource: Boolean): AppState {
-        if (word.isBlank()) {
-            return AppState.Empty
+        val repository = if (fromRemoteSource) repositoryRemote else repositoryLocal
+        val data = repository.getData(word)
+        return if (data.isNullOrEmpty()) {
+            AppState.Error(Exception("Нет данных"))
+        } else {
+            AppState.Success(data)
         }
-
-        return AppState.Success(
-            if (fromRemoteSource) {
-                repositoryRemote
-            } else {
-                repositoryLocal
-            }.getData(word)
-        )
     }
 }
