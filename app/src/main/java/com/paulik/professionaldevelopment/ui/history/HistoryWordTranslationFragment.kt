@@ -1,10 +1,18 @@
 package com.paulik.professionaldevelopment.ui.history
 
+import android.content.res.ColorStateList
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
+import androidx.transition.ChangeBounds
+import androidx.transition.Slide
+import androidx.transition.TransitionManager
+import androidx.transition.TransitionSet
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.paulik.professionaldevelopment.AppState
 import com.paulik.professionaldevelopment.R
 import com.paulik.professionaldevelopment.data.HistoryWordTranslationInteractorImpl
@@ -19,6 +27,8 @@ class HistoryWordTranslationFragment :
     private var _binding: FragmentHistoryWordTranslationBinding? = null
     private val binding get() = _binding!!
 
+    private var flagVisible = true
+
     override val viewModel: HistoryWordTranslationViewModel by viewModel()
     private val adapter: HistoryWordTranslationAdapter by lazy { HistoryWordTranslationAdapter() }
 
@@ -27,8 +37,6 @@ class HistoryWordTranslationFragment :
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-//        _binding = FragmentHistoryWordTranslationBinding.inflate(layoutInflater)
-
         return inflater.inflate(R.layout.fragment_history_word_translation, container, false)
     }
 
@@ -38,7 +46,12 @@ class HistoryWordTranslationFragment :
         _binding = FragmentHistoryWordTranslationBinding.bind(view)
 
         iniViewModel()
+
         initViews()
+
+        onClickIcon()
+
+        changingColorSearchFab(view)
     }
 
     override fun onResume() {
@@ -61,8 +74,76 @@ class HistoryWordTranslationFragment :
     }
 
     private fun initViews() {
+        binding.searchFab.setOnClickListener {
+            actionСlickingOnSearchFab()
+        }
+
 //        binding.historyFragmentRecyclerview.layoutManager = LinearLayoutManager(context)
         binding.historyFragmentRecyclerview.adapter = adapter
+    }
+
+    private fun onClickIcon() {
+        binding.inputLayout.setEndIconOnClickListener {
+
+            val data = binding.inputEditText.text.toString()
+
+            Toast.makeText(requireContext(), data, Toast.LENGTH_SHORT).show()
+
+
+//            startActivity(Intent(Intent.ACTION_VIEW).apply {
+//                data =
+//                    Uri.parse(
+//                        "https://en.wikipedia.org/wiki/" +
+//                                binding.inputEditText.text.toString()
+//                    )
+//            })
+        }
+    }
+
+    private fun actionСlickingOnSearchFab() {
+        flagVisible = !flagVisible
+
+        // Все должно быть из androidX. Проверять если будет ругатся
+        val myAutoTransition =
+            TransitionSet()
+        /** состоит из нескольких параметров, поэтому TransitionSet*/
+
+        /**  все эффекты должны запускаться одновременно */
+        myAutoTransition.ordering = TransitionSet.ORDERING_TOGETHER
+
+        /** Slide(Gravity.BOTTOM) - это анимация, которая выполняет скольжение по определенной
+         * оси. Здесь Gravity.BOTTOM находится внизу, поэтому Slide-эффект будет идти снизу вверх. */
+        val fade = Slide(Gravity.BOTTOM)
+        fade.duration = 1_000L
+
+        /** ChangeBounds() - это анимация изменения границы контента, которая позволяет визуально
+         * изменять границы элемента при изменении размера или позиции. */
+        val changeBounds = ChangeBounds()
+        changeBounds.duration = 1_000L
+
+        /** После того как изменения созданы, добавляем в объект myAutoTransition эффектами
+         * addTransition так, чтобы все эффекты выполнялись одновременно на данном объекте */
+        myAutoTransition.addTransition(changeBounds)
+        myAutoTransition.addTransition(fade)
+
+        /** TransitionManager.beginDelayedTransition(binding.transitionsContainer, myAutoTransition)
+         * - происходит запуск анимации с эффектами, определенными в myAutoTransition,
+         * на контейнер binding.transitionsContainer.*/
+        TransitionManager.beginDelayedTransition(binding.transitionsContainer, myAutoTransition)
+
+        binding.inputLayout.visibility = if (flagVisible) View.GONE else View.VISIBLE
+        binding.line.visibility = if (flagVisible) View.GONE else View.VISIBLE
+
+    }
+
+    private fun changingColorSearchFab(view: View) {
+        val searchFab: FloatingActionButton = view.findViewById(R.id.search_fab)
+
+        searchFab.backgroundTintList =
+            ColorStateList.valueOf(requireActivity().getColor(R.color.color_search_fab))
+
+        searchFab.imageTintList =
+            ColorStateList.valueOf(requireActivity().getColor(R.color.color_element_search_fab))
     }
 
     companion object {

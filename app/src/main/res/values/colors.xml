@@ -23,4 +23,8 @@
     <color name="item_icon_tint">#670A20</color>
     <color name="item_text">#670A20</color>
     <color name="bnv_default">#059EE4</color>
+
+    <color name="color_search_fab">#E8D109</color>
+    <color name="color_element_search_fab">#2D912A</color>
+
 </resources>

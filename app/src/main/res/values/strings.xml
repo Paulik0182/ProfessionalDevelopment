@@ -29,8 +29,10 @@
         подключения к Интернету. Пожалуйста, проверьте подключение к Интернету.</string>
     <string name="dialog_button_cancel">Отменить</string>
     <string name="image_stub">Изображение</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Для экрана истории -->
+    <string name="search_through_the_list">Поиск по списку</string>
+    <string name="word_helper_text">Поищите слово в предложенном списке</string>
 
 
 </resources>
