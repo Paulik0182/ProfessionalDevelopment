@@ -84,20 +84,20 @@ class HistoryWordTranslationFragment :
 
     private fun onClickIcon() {
         binding.inputLayout.setEndIconOnClickListener {
+            val word = binding.inputEditText.text.toString()
 
-            val data = binding.inputEditText.text.toString()
+            Toast.makeText(requireContext(), word, Toast.LENGTH_SHORT).show()
 
-            Toast.makeText(requireContext(), data, Toast.LENGTH_SHORT).show()
+            onWhenSearchingWordList(word)
 
-
-//            startActivity(Intent(Intent.ACTION_VIEW).apply {
-//                data =
-//                    Uri.parse(
-//                        "https://en.wikipedia.org/wiki/" +
-//                                binding.inputEditText.text.toString()
-//                    )
-//            })
         }
+    }
+
+    fun onWhenSearchingWordList(word: String?): Boolean {
+        if (!word.isNullOrEmpty()) {
+            viewModel.searchData(word)
+        }
+        return true
     }
 
     private fun actionСlickingOnSearchFab() {

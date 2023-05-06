@@ -66,12 +66,22 @@ val mainScreen = module {
 }
 
 val historyScreen = module {
+
     factory {
-        HistoryWordTranslationViewModel(get())
+        HistoryWordTranslationViewModel(
+            get<HistoryWordTranslationInteractorImpl>(),
+            get<RepositoryLocalImpl>()
+        )
     }
     factory {
         HistoryWordTranslationInteractorImpl(
             get(), get()
+        )
+    }
+
+    factory {
+        RepositoryLocalImpl(
+            RoomDataBaseImpl(get())
         )
     }
 }

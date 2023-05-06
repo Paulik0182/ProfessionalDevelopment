@@ -16,4 +16,16 @@ class RepositoryLocalImpl(
     override suspend fun saveToDB(appState: AppState) {
         dataSource.saveToDB(appState)
     }
+
+    suspend fun getDataByWord(word: String): List<DataEntity> {
+        return dataSource.getDataByWord(word)
+    }
+
+    suspend fun getLocalData(word: String): List<DataEntity> {
+        return dataSource.getDataByWord(word)
+    }
+
+    suspend fun deleteWordSearchHistory(word: String) {
+        dataSource.deleteWord(word)
+    }
 }

@@ -19,4 +19,26 @@ class RoomDataBaseImpl(
             historyDao.insert(it)
         }
     }
+
+    override suspend fun getDataByWord(word: String): List<DataEntity> {
+        val formattedWord = word.trim().uppercase()
+        return mapHistoryEntityToSearchResult(historyDao.all().filter {
+            it.word.trim().uppercase() == formattedWord
+        })
+
+//        return historyDao.getDataByWord("%$word%") // Искомое слово оборачиваем в %
+    }
+
+    override suspend fun saveWord(word: String) {
+        // TODO("Not yet implemented")
+    }
+
+    override suspend fun deleteWord(word: String) {
+        historyDao.delete(
+            HistoryEntity(
+                word = word,
+                description = null
+            )
+        )
+    }
 }
