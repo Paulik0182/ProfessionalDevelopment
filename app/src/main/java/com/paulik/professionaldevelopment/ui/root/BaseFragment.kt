@@ -105,7 +105,7 @@ abstract class BaseFragment<T : AppState, I : WordTranslationInteractor<T>> : Fr
         )
     }
 
-    protected fun showAlertDialog(title: String?, message: String?) {
+    private fun showAlertDialog(title: String?, message: String?) {
         AlertDialogFragment.newInstance(title, message)
             .show(childFragmentManager, DIALOG_FRAGMENT_TAG)
     }

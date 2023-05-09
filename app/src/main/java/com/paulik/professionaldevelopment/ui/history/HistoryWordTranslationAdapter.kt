@@ -5,12 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.paulik.professionaldevelopment.R
 import com.paulik.professionaldevelopment.domain.entity.DataEntity
 
-class HistoryWordTranslationAdapter :
+class HistoryWordTranslationAdapter(
+    private var onListItemClickListener: OnListItemClickListener
+) :
     RecyclerView.Adapter<HistoryWordTranslationAdapter.RecyclerItemViewHolder>() {
 
     private var data: List<DataEntity> = arrayListOf()
@@ -43,12 +44,21 @@ class HistoryWordTranslationAdapter :
                 itemView.findViewById<TextView>(R.id.header_history_textview_recycler_item).text =
                     data.text
                 itemView.setOnClickListener {
-
                     //TODO Обработка нажатия на элемент в списке
-                    Toast.makeText(itemView.context, "on click: ${data.text}", Toast.LENGTH_SHORT)
-                        .show()
+                    openInNewWindow(data)
+
+//                    Toast.makeText(itemView.context, "on click: ${data.text}", Toast.LENGTH_SHORT)
+//                        .show()
                 }
             }
         }
+    }
+
+    private fun openInNewWindow(listItemData: DataEntity) {
+        onListItemClickListener.onItemClick(listItemData)
+    }
+
+    interface OnListItemClickListener {
+        fun onItemClick(data: DataEntity)
     }
 }

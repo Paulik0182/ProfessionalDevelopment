@@ -13,6 +13,7 @@ import com.paulik.professionaldevelopment.domain.repo.Repository
 import com.paulik.professionaldevelopment.domain.repo.RepositoryLocal
 import com.paulik.professionaldevelopment.ui.history.HistoryWordTranslationViewModel
 import com.paulik.professionaldevelopment.ui.translation.WordTranslationViewModel
+import com.paulik.professionaldevelopment.ui.translation.descriptios.DescriptionWordTranslationViewModel
 import org.koin.dsl.module
 
 /** single - обозначает что это единственный экземпляр на всё приложение. Используется для ленивой
@@ -82,6 +83,14 @@ val historyScreen = module {
     factory {
         RepositoryLocalImpl(
             RoomDataBaseImpl(get())
+        )
+    }
+}
+
+val wordDetailsScreen = module {
+    factory {
+        DescriptionWordTranslationViewModel(
+            get()
         )
     }
 }

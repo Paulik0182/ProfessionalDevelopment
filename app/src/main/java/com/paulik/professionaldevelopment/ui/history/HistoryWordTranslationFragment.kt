@@ -1,5 +1,6 @@
 package com.paulik.professionaldevelopment.ui.history
 
+import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.Gravity
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.ChangeBounds
 import androidx.transition.Slide
 import androidx.transition.TransitionManager
@@ -30,7 +32,28 @@ class HistoryWordTranslationFragment :
     private var flagVisible = true
 
     override val viewModel: HistoryWordTranslationViewModel by viewModel()
-    private val adapter: HistoryWordTranslationAdapter by lazy { HistoryWordTranslationAdapter() }
+    private val adapter: HistoryWordTranslationAdapter by lazy {
+        HistoryWordTranslationAdapter(
+            onListItemClickListener
+        )
+    }
+
+    private val onListItemClickListener: HistoryWordTranslationAdapter.OnListItemClickListener =
+        object : HistoryWordTranslationAdapter.OnListItemClickListener {
+            override fun onItemClick(data: DataEntity) {
+                getController().openVariantTranslationWord(
+                    word = data.text!!,
+                    flagHistory = true
+                )
+
+//                getController().openDetailsWord(
+//                    requireActivity(),
+//                    data.text!!,
+//                    convertMeaningsToString(data.meanings!!),
+//                    url = null
+//                )
+            }
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -78,7 +101,7 @@ class HistoryWordTranslationFragment :
             actionСlickingOnSearchFab()
         }
 
-//        binding.historyFragmentRecyclerview.layoutManager = LinearLayoutManager(context)
+        binding.historyFragmentRecyclerview.layoutManager = LinearLayoutManager(context)
         binding.historyFragmentRecyclerview.adapter = adapter
     }
 
@@ -89,13 +112,18 @@ class HistoryWordTranslationFragment :
             Toast.makeText(requireContext(), word, Toast.LENGTH_SHORT).show()
 
             onWhenSearchingWordList(word)
-
         }
     }
 
     fun onWhenSearchingWordList(word: String?): Boolean {
         if (!word.isNullOrEmpty()) {
             viewModel.searchData(word)
+//            getController().openDetailsWord(
+//                context = requireContext(),
+//                word = word,
+//                description = null,
+//                url = null
+//            )
         }
         return true
     }
@@ -133,7 +161,6 @@ class HistoryWordTranslationFragment :
 
         binding.inputLayout.visibility = if (flagVisible) View.GONE else View.VISIBLE
         binding.line.visibility = if (flagVisible) View.GONE else View.VISIBLE
-
     }
 
     private fun changingColorSearchFab(view: View) {
@@ -144,6 +171,26 @@ class HistoryWordTranslationFragment :
 
         searchFab.imageTintList =
             ColorStateList.valueOf(requireActivity().getColor(R.color.color_element_search_fab))
+    }
+
+    interface Controller {
+        fun openVariantTranslationWord(
+            word: String,
+            flagHistory: Boolean
+        )
+//        fun openDetailsWord(
+//            context: Context,
+//            word: String,
+//            description: String?,
+//            url: String?
+//        )
+    }
+
+    private fun getController(): Controller = activity as Controller
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        getController()
     }
 
     companion object {

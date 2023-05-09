@@ -19,10 +19,11 @@ class RootActivity : ViewBindingActivity<ActivityRootBinding>(
     ActivityRootBinding::inflate
 ),
     SettingsFragment.Controller,
-    WordTranslationFragment.Controller {
+    WordTranslationFragment.Controller,
+    HistoryWordTranslationFragment.Controller {
 
     private val wordTranslationFragment: WordTranslationFragment by lazy {
-        WordTranslationFragment.newInstance()
+        WordTranslationFragment()
     }
     private val settingsFragment: SettingsFragment by lazy { SettingsFragment.newInstance() }
     private val historyFragment: HistoryWordTranslationFragment by lazy {
@@ -47,12 +48,15 @@ class RootActivity : ViewBindingActivity<ActivityRootBinding>(
                 R.id.word_translation_item -> {
                     navigateTo(wordTranslationFragment)
                 }
+
                 R.id.history_word_translation_item -> {
                     navigateWithBackStack(historyFragment)
                 }
+
                 R.id.settings_item -> {
                     navigateTo(settingsFragment)
                 }
+
                 else -> throw IllegalStateException("Такого фрагмента нет")
             }
             return@setOnItemSelectedListener true
@@ -95,7 +99,7 @@ class RootActivity : ViewBindingActivity<ActivityRootBinding>(
     override fun openDescriptionWordTranslation(
         context: Context,
         word: String,
-        description: String,
+        description: String?,
         url: String?
     ) {
         navigateWithBackStack(
@@ -108,6 +112,29 @@ class RootActivity : ViewBindingActivity<ActivityRootBinding>(
         )
         binding.bottomNavBar.visibility = View.GONE
     }
+
+    override fun openVariantTranslationWord(word: String, flagHistory: Boolean) {
+        navigateWithBackStack(WordTranslationFragment.newInstance(word, flagHistory))
+        binding.bottomNavBar.visibility = View.GONE
+    }
+
+    // todo это для открытия детальной инф. о слове
+//    override fun openDetailsWord(
+//        context: Context,
+//        word: String,
+//        description: String?,
+//        url: String?
+//    ) {
+//        navigateWithBackStack(
+//            DescriptionWordTranslationFragment.newInstance(
+//                context,
+//                word,
+//                description,
+//                url
+//            )
+//        )
+//        binding.bottomNavBar.visibility = View.GONE
+//    }
 
     override fun openHistoryFragment() {
         navigateWithBackStack(

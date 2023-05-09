@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import coil.load
 import com.bumptech.glide.Glide
@@ -21,6 +22,7 @@ import com.paulik.professionaldevelopment.ui.translation.dialog.AlertDialogFragm
 import com.paulik.professionaldevelopment.ui.utils.isOnline
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 private const val DIALOG_FRAGMENT_TAG = "8c7dff51-9769-4f6d-bbee-a3896085e76e"
 private const val WORD_EXTRA = "f76a288a-5dcc-43f1-ba89-7fe1d53f63b0"
@@ -34,6 +36,8 @@ class DescriptionWordTranslationFragment :
 
     private var fragmentContext: Context? = null
 
+    private val viewModel: DescriptionWordTranslationViewModel by viewModel()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -44,8 +48,8 @@ class DescriptionWordTranslationFragment :
         binding.descriptionScreenSwipeRefreshLayout.setOnRefreshListener {
             startLoadingOrShowError()
         }
-
         setData()
+//        getDataWord()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -54,11 +58,11 @@ class DescriptionWordTranslationFragment :
                 requireActivity().onBackPressed()
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-    // todo нормально не работает. Скорее свего отсутствует стэк
     private fun setActionbarHomeButtonAsUp() {
         (activity as AppCompatActivity).supportActionBar?.apply {
             setHomeButtonEnabled(true)
@@ -79,6 +83,36 @@ class DescriptionWordTranslationFragment :
             useCoilToLoadPhoto(binding.descriptionImageView, imageLink)
 //            useGlideToLoadPhoto(binding.descriptionImageView, imageLink)
 //            usePicassoToLoadPhoto(binding.descriptionImageView, imageLink)
+        }
+    }
+
+    private fun getDataWord() {
+        val word = binding.descriptionHeaderTextView.text.toString()
+        viewModel.getWordDetails(word)
+        viewModel.wordDetails.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is WordDetailsResult.Loading -> {
+                    // todo
+                }
+
+                is WordDetailsResult.Success -> {
+                    val wordDetails = result.wordDetails[0]
+                    binding.descriptionHeaderTextView.text = wordDetails.text
+                    binding.descriptionTextView.text =
+                        wordDetails.meanings?.get(0)?.translation.toString()
+
+                    val imageLink = wordDetails.meanings?.get(0)?.imageUrl
+                    if (imageLink.isNullOrBlank()) {
+                        stopRefreshAnimationIfNeeded()
+                    } else {
+                        useCoilToLoadPhoto(binding.descriptionImageView, imageLink)
+                    }
+                }
+
+                is WordDetailsResult.Error -> {
+                    Toast.makeText(requireContext(), result.message, Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
@@ -159,7 +193,6 @@ class DescriptionWordTranslationFragment :
             })
     }
 
-
     private fun useGlideToLoadPhoto(imageView: ImageView, imageLink: String) {
         Glide.with(imageView)
             .load("https:$imageLink")
@@ -195,12 +228,11 @@ class DescriptionWordTranslationFragment :
     }
 
     companion object {
-
         @JvmStatic
         fun newInstance(
             context: Context,
             word: String,
-            description: String,
+            description: String?,
             url: String?
         ) =
             DescriptionWordTranslationFragment().apply {

@@ -6,6 +6,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.paulik.professionaldevelopment.R
 import com.paulik.professionaldevelopment.databinding.SearchDialogFragmentBinding
 
+private const val WORD_FROM_HISTORY_LIST = "WORD_FROM_HISTORY_LIST"
+
 class SearchDialogFragment : BottomSheetDialogFragment(R.layout.search_dialog_fragment) {
 
     private var _binding: SearchDialogFragmentBinding? = null
@@ -61,7 +63,14 @@ class SearchDialogFragment : BottomSheetDialogFragment(R.layout.search_dialog_fr
     }
 
     companion object {
-        fun newInstance(): SearchDialogFragment = SearchDialogFragment()
+
+        @JvmStatic
+        fun newInstance(word: String) =
+            SearchDialogFragment().apply {
+                arguments = Bundle().apply {
+                    putString(WORD_FROM_HISTORY_LIST, word)
+                }
+            }
     }
 
     override fun onDestroyView() {

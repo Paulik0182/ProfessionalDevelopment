@@ -17,10 +17,15 @@ import com.paulik.professionaldevelopment.ui.utils.isOnline
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 private const val BOTTOM_SHEET_FRAGMENT_DIALOG_TAG = "74a54328-5d62-46bf-ab6b-cbf5fgt0-092395"
+private const val WORD_FROM_HISTORY_LIST = "WORD_FROM_HISTORY_LIST"
+private const val FLAG_HISTORY_KEY = "FLAG_HISTORY_KEY"
 
 class WordTranslationFragment : ViewBindingWordTranslationFragment<FragmentWordTranslationBinding>(
     FragmentWordTranslationBinding::inflate
 ) {
+
+    private var word: String? = null
+    private var flagHistory: Boolean = false
 
     override val viewModel: WordTranslationViewModel by viewModel()
 
@@ -32,7 +37,7 @@ class WordTranslationFragment : ViewBindingWordTranslationFragment<FragmentWordT
 
     private val fabClickListener: View.OnClickListener =
         View.OnClickListener {
-            val searchDialogFragment = SearchDialogFragment.newInstance()
+            val searchDialogFragment = SearchDialogFragment()
             searchDialogFragment.setOnSearchClickListener(onSearchClickListener)
             searchDialogFragment.show(childFragmentManager, BOTTOM_SHEET_FRAGMENT_DIALOG_TAG)
         }
@@ -66,6 +71,11 @@ class WordTranslationFragment : ViewBindingWordTranslationFragment<FragmentWordT
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        arguments?.let {
+            word = it.getString(WORD_FROM_HISTORY_LIST)
+            flagHistory = it.getBoolean(FLAG_HISTORY_KEY)
+        }
 
         setHasOptionsMenu(true)
         initViewModel()
@@ -101,7 +111,13 @@ class WordTranslationFragment : ViewBindingWordTranslationFragment<FragmentWordT
     }
 
     private fun initViews() {
+        if (flagHistory) {
+            viewModel.getData(word!!, true)
+            binding.searchFab.visibility = View.GONE
+        }
+
         binding.searchFab.setOnClickListener(fabClickListener)
+
         binding.mainRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.mainRecyclerView.adapter = adapter
     }
@@ -110,7 +126,7 @@ class WordTranslationFragment : ViewBindingWordTranslationFragment<FragmentWordT
         fun openDescriptionWordTranslation(
             context: Context,
             word: String,
-            description: String,
+            description: String?,
             url: String?
         )
 
@@ -125,8 +141,13 @@ class WordTranslationFragment : ViewBindingWordTranslationFragment<FragmentWordT
     }
 
     companion object {
-
         @JvmStatic
-        fun newInstance() = WordTranslationFragment()
+        fun newInstance(word: String, flagHistory: Boolean) =
+            WordTranslationFragment().apply {
+                arguments = Bundle().apply {
+                    putString(WORD_FROM_HISTORY_LIST, word)
+                    putBoolean(FLAG_HISTORY_KEY, flagHistory)
+                }
+            }
     }
 }
