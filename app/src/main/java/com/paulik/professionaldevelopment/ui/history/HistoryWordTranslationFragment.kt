@@ -5,9 +5,11 @@ import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.PopupMenu
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.ChangeBounds
@@ -45,13 +47,10 @@ class HistoryWordTranslationFragment :
                     word = data.text!!,
                     flagHistory = true
                 )
+            }
 
-//                getController().openDetailsWord(
-//                    requireActivity(),
-//                    data.text!!,
-//                    convertMeaningsToString(data.meanings!!),
-//                    url = null
-//                )
+            override fun onDeleteClick(view: View, word: String) {
+                showLongMenu(view, word)
             }
         }
 
@@ -115,15 +114,28 @@ class HistoryWordTranslationFragment :
         }
     }
 
-    fun onWhenSearchingWordList(word: String?): Boolean {
+    private fun showLongMenu(view: View, word: String) {
+        val popupMenu = PopupMenu(requireContext(), view)
+        popupMenu.inflate(R.menu.delete_word_menu)
+        popupMenu
+            .setOnMenuItemClickListener { item: MenuItem? ->
+                when (item!!.itemId) {
+                    R.id.delete_item -> {
+                        viewModel.deleteWord(word)
+
+                        Toast.makeText(requireContext(), word, Toast.LENGTH_SHORT).show()
+                        true
+                    }
+
+                    else -> false
+                }
+            }
+        popupMenu.show()
+    }
+
+    private fun onWhenSearchingWordList(word: String?): Boolean {
         if (!word.isNullOrEmpty()) {
             viewModel.searchData(word)
-//            getController().openDetailsWord(
-//                context = requireContext(),
-//                word = word,
-//                description = null,
-//                url = null
-//            )
         }
         return true
     }
@@ -178,12 +190,6 @@ class HistoryWordTranslationFragment :
             word: String,
             flagHistory: Boolean
         )
-//        fun openDetailsWord(
-//            context: Context,
-//            word: String,
-//            description: String?,
-//            url: String?
-//        )
     }
 
     private fun getController(): Controller = activity as Controller

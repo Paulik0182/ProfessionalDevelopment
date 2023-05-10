@@ -15,9 +15,7 @@ class HistoryWordTranslationViewModel(
 
     private val liveDataForViewToObserve: LiveData<AppState> = _mutableLiveData
 
-    fun subscribe(): LiveData<AppState> {
-        return liveDataForViewToObserve
-    }
+    fun subscribe(): LiveData<AppState> = liveDataForViewToObserve
 
     override fun getData(word: String, isOnline: Boolean) {
         _mutableLiveData.value = AppState.Loading(null)
@@ -40,14 +38,19 @@ class HistoryWordTranslationViewModel(
         }
     }
 
-    private suspend fun startInteractor(word: String, isOnline: Boolean) {
-//        val data: List<DataEntity> = if (isOnline) {
-//            interactor.getData(word, isOnline)
-//        } else {
-//            localData.getDataByWord(word)
-//        }
-//        _mutableLiveData.postValue(parseLocalSearchResults(data))
+    fun deleteWord(word: String) {
+        viewModelCoroutineScope.launch {
+            try {
+                repositoryLocal.deleteWordSearchHistory(word)
+                val updatedList = repositoryLocal.getLocalData("")
+                _mutableLiveData.postValue(AppState.Success(updatedList))
+            } catch (e: Exception) {
+                _mutableLiveData.postValue(AppState.Error(e))
+            }
+        }
+    }
 
+    private suspend fun startInteractor(word: String, isOnline: Boolean) {
         _mutableLiveData.postValue(parseLocalSearchResults(interactor.getData(word, isOnline)))
     }
 

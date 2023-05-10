@@ -51,6 +51,11 @@ class HistoryWordTranslationAdapter(
 //                        .show()
                 }
             }
+
+            itemView.setOnLongClickListener {
+                onListItemClickListener.onDeleteClick(itemView, data.text!!)
+                true
+            }
         }
     }
 
@@ -60,5 +65,6 @@ class HistoryWordTranslationAdapter(
 
     interface OnListItemClickListener {
         fun onItemClick(data: DataEntity)
+        fun onDeleteClick(view: View, word: String)
     }
 }

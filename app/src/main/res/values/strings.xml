@@ -4,7 +4,9 @@
     <!-- bottom nav menu -->
     <string name="word_translation">Перевод слов</string>
     <string name="history_word_translation">История просмотра</string>
+    <string name="favorites_word_translation">Избраное</string>
     <string name="settings">Настройки</string>
+    <string name="delete_menu">Удалить</string>
 
     <!-- О приложении -->
     <string name="about_app">О приложении</string>
@@ -33,6 +35,8 @@
     <!-- Для экрана истории -->
     <string name="search_through_the_list">Поиск по списку</string>
     <string name="word_helper_text">Поищите слово в предложенном списке</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>
