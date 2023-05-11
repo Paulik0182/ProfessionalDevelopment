@@ -7,6 +7,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import com.paulik.professionaldevelopment.R
 import com.paulik.professionaldevelopment.databinding.ActivityRootBinding
+import com.paulik.professionaldevelopment.ui.favorite.FavoritesWordsFragment
 import com.paulik.professionaldevelopment.ui.history.HistoryWordTranslationFragment
 import com.paulik.professionaldevelopment.ui.settings.AboutAppFragment
 import com.paulik.professionaldevelopment.ui.settings.SettingsFragment
@@ -24,6 +25,9 @@ class RootActivity : ViewBindingActivity<ActivityRootBinding>(
 
     private val wordTranslationFragment: WordTranslationFragment by lazy {
         WordTranslationFragment()
+    }
+    private val favoritesWordsFragment: FavoritesWordsFragment by lazy {
+        FavoritesWordsFragment()
     }
     private val settingsFragment: SettingsFragment by lazy { SettingsFragment.newInstance() }
     private val historyFragment: HistoryWordTranslationFragment by lazy {
@@ -50,7 +54,11 @@ class RootActivity : ViewBindingActivity<ActivityRootBinding>(
                 }
 
                 R.id.history_word_translation_item -> {
-                    navigateWithBackStack(historyFragment)
+                    navigateWithBackStack(HistoryWordTranslationFragment.newInstance())
+                }
+
+                R.id.favorites_word_translation_item -> {
+                    navigateTo(favoritesWordsFragment)
                 }
 
                 R.id.settings_item -> {

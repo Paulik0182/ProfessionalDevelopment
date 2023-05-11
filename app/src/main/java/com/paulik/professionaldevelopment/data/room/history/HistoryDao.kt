@@ -1,6 +1,7 @@
-package com.paulik.professionaldevelopment.data.room
+package com.paulik.professionaldevelopment.data.room.history
 
 import androidx.room.*
+import com.paulik.professionaldevelopment.data.room.favorite.FavoriteEntity
 
 /**
  * suspend - связано с асинхронными функциями, которые могут выполняться на корутинах.
@@ -28,4 +29,13 @@ interface HistoryDao {
 
     @Delete
     suspend fun delete(entity: HistoryEntity)
+
+    @Query("SELECT * FROM favorite WHERE is_favorite = 1")
+    suspend fun getFavoriteEntities(): List<FavoriteEntity>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFavorite(favorite: FavoriteEntity)
+
+    @Query("DELETE FROM favorite WHERE word = :word")
+    suspend fun deleteFavorite(word: String)
 }

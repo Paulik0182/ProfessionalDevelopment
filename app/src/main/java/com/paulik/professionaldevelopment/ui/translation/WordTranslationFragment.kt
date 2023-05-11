@@ -2,6 +2,7 @@ package com.paulik.professionaldevelopment.ui.translation
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -55,6 +56,19 @@ class WordTranslationFragment : ViewBindingWordTranslationFragment<FragmentWordT
                 )
 //                Toast.makeText(requireContext(), data.text, Toast.LENGTH_SHORT).show()
             }
+
+            override fun onFavoriteClick(word: String, isFavorite: Boolean) {
+                if (isFavorite) {
+                    viewModel.addToFavorites(word, true)
+                } else {
+                    viewModel.removeFromFavorite(word, false)
+                }
+
+                Log.d(
+                    "@@@",
+                    "WordTranslationFragment -> onFavoriteClick: $word, $isFavorite"
+                )
+            }
         }
 
     private val onSearchClickListener: SearchDialogFragment.OnSearchClickListener =
@@ -97,6 +111,7 @@ class WordTranslationFragment : ViewBindingWordTranslationFragment<FragmentWordT
                 getController().openHistoryFragment()
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -108,6 +123,11 @@ class WordTranslationFragment : ViewBindingWordTranslationFragment<FragmentWordT
         viewModel.subscribe().observe(viewLifecycleOwner) { appStat ->
             renderData(appStat)
         }
+
+        // подписка на LiveData с избранными словами
+//        viewModel.favoriteEntities.observe(viewLifecycleOwner, { favorites ->
+//            adapter.setData(favorites)
+//        })
     }
 
     private fun initViews() {

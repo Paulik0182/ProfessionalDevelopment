@@ -11,6 +11,11 @@
         android:title="@string/history_word_translation" />
 
     <item
+        android:id="@+id/favorites_word_translation_item"
+        android:icon="@drawable/ic_favorite_item"
+        android:title="@string/favorites_word_translation" />
+
+    <item
         android:id="@+id/settings_item"
         android:icon="@drawable/ic_settings_24"
         android:title="@string/settings" />

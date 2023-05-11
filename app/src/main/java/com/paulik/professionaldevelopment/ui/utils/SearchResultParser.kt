@@ -1,7 +1,9 @@
 package com.paulik.professionaldevelopment.ui.utils
 
 import com.paulik.professionaldevelopment.AppState
-import com.paulik.professionaldevelopment.data.room.HistoryEntity
+import com.paulik.professionaldevelopment.data.room.favorite.Favorite
+import com.paulik.professionaldevelopment.data.room.favorite.FavoriteEntity
+import com.paulik.professionaldevelopment.data.room.history.HistoryEntity
 import com.paulik.professionaldevelopment.domain.entity.DataEntity
 import com.paulik.professionaldevelopment.domain.entity.MeaningsEntity
 
@@ -19,6 +21,23 @@ fun mapHistoryEntityToSearchResult(list: List<HistoryEntity>): List<DataEntity> 
 //    return searchResult
 }
 
+fun mapFavoriteEntityToSearchResult(list: List<Favorite>): List<DataEntity> {
+    return list.map {
+        DataEntity(it.word, null)
+    }
+}
+
+fun DataEntity.toHistoryEntity(): HistoryEntity {
+    return HistoryEntity(
+        word = text.orEmpty(),
+        description = meanings?.get(0)?.translation?.translation?.get(0)?.toString()
+    )
+}
+
+fun DataEntity.toFavoriteEntity(): FavoriteEntity {
+    return FavoriteEntity(word = text.orEmpty(), isFavorite = true)
+}
+
 fun convertDataModelSuccessToEntity(appState: AppState): HistoryEntity? {
     return when (appState) {
         is AppState.Success -> {
@@ -29,6 +48,7 @@ fun convertDataModelSuccessToEntity(appState: AppState): HistoryEntity? {
                 HistoryEntity(searchResult[0].text!!, null)
             }
         }
+
         else -> null
     }
 }
@@ -63,6 +83,7 @@ private fun mapResult(
         is AppState.Success -> {
             getSuccessResultData(appState, isOnline, newSearchResults)
         }
+
         else -> {}
     }
     return newSearchResults

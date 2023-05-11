@@ -1,4 +1,4 @@
-package com.paulik.professionaldevelopment.data.room
+package com.paulik.professionaldevelopment.data.room.history
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

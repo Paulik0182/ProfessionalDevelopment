@@ -1,6 +1,7 @@
-package com.paulik.professionaldevelopment.data.room
+package com.paulik.professionaldevelopment.data.room.history
 
 import com.paulik.professionaldevelopment.AppState
+import com.paulik.professionaldevelopment.data.room.favorite.FavoriteEntity
 import com.paulik.professionaldevelopment.domain.entity.DataEntity
 import com.paulik.professionaldevelopment.domain.source.DataSourceLocal
 import com.paulik.professionaldevelopment.ui.utils.convertDataModelSuccessToEntity
@@ -41,4 +42,16 @@ class RoomDataBaseImpl(
             )
         )
     }
+
+    override suspend fun addToFavorites(word: String) {
+        val favorite = FavoriteEntity(word, true)
+        historyDao.insertFavorite((favorite))
+    }
+
+    override suspend fun removeFromFavorite(word: String) {
+        historyDao.deleteFavorite(word)
+    }
+
+    override suspend fun getFavoriteEntities(): List<FavoriteEntity> =
+        historyDao.getFavoriteEntities()
 }

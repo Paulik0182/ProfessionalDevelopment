@@ -1,8 +1,12 @@
 package com.paulik.professionaldevelopment.ui.translation
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
 import com.paulik.professionaldevelopment.AppState
 import com.paulik.professionaldevelopment.data.WordTranslationInteractorImpl
+import com.paulik.professionaldevelopment.data.room.favorite.Favorite
+import com.paulik.professionaldevelopment.data.room.favorite.FavoriteDataBaseImpl
 import com.paulik.professionaldevelopment.ui.root.BaseViewModel
 import com.paulik.professionaldevelopment.ui.utils.parseOnlineSearchResults
 import kotlinx.coroutines.Dispatchers
@@ -10,10 +14,15 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class WordTranslationViewModel(
-    private val interactor: WordTranslationInteractorImpl
+    private val interactor: WordTranslationInteractorImpl,
+    private val favoriteRepo: FavoriteDataBaseImpl
 ) : BaseViewModel<AppState>() {
 
     private val liveDataForViewToObserve: LiveData<AppState> = _mutableLiveData
+
+    val favoriteEntities: LiveData<List<Favorite>> = liveData {
+        emit(favoriteRepo.getFavoriteEntities())
+    }
 
     fun subscribe(): LiveData<AppState> {
         return liveDataForViewToObserve
@@ -52,5 +61,17 @@ class WordTranslationViewModel(
     override fun onCleared() {
         _mutableLiveData.value = AppState.Success(null)
         super.onCleared()
+    }
+
+    fun addToFavorites(word: String, isFavorite: Boolean) {
+        viewModelScope.launch {
+            favoriteRepo.addToFavorites(word, isFavorite)
+        }
+    }
+
+    fun removeFromFavorite(word: String, isFavorite: Boolean) {
+        viewModelScope.launch {
+            favoriteRepo.removeFromFavorite(word, isFavorite)
+        }
     }
 }
