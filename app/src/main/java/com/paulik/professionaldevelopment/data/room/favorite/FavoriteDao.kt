@@ -9,9 +9,11 @@ interface FavoriteDao {
     @Query("SELECT * FROM favorite")
     suspend fun all(): List<FavoriteEntity>
 
-
     @Query("SELECT * FROM favorite WHERE is_favorite = 1")
     suspend fun getFavoriteEntities(): List<FavoriteEntity>
+
+    @Query("SELECT * FROM favorite WHERE word = :word LIMIT 1")
+    suspend fun getFavoriteWord(word: String): FavoriteEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertFavorite(favoriteEntity: FavoriteEntity)

@@ -22,6 +22,13 @@ class FavoriteDataBaseImpl(
         favoriteDao.deleteFavorite(word)
     }
 
+    override suspend fun getFavoriteWord(word: String): List<FavoriteEntity> {
+        val formattedWord = word.trim().uppercase()
+        return favoriteDao.all().filter {
+            it.word.trim().uppercase().contains(formattedWord)
+        }
+    }
+
     override suspend fun getFavoriteEntities(): List<FavoriteEntity> =
         favoriteDao.getFavoriteEntities()
 

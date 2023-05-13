@@ -10,5 +10,7 @@ interface DataSourceFavorite<T> : DataSource<T> {
 
     suspend fun getFavoriteEntities(): List<FavoriteEntity>
 
+    suspend fun getFavoriteWord(word: String): List<FavoriteEntity>
+
     suspend fun deleteWord(word: String)
 }

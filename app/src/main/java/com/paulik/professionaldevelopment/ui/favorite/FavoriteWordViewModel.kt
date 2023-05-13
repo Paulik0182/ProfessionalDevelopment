@@ -1,5 +1,6 @@
 package com.paulik.professionaldevelopment.ui.favorite
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -39,6 +40,18 @@ class FavoriteWordViewModel(
         viewModelCoroutineScope.launch {
             val favorites = favoriteLocalRepo.getFavoriteEntities()
             favoriteEntityLiveData.mutable().postValue(favorites)
+        }
+    }
+
+    fun searchData(word: String) {
+        viewModelCoroutineScope.launch {
+            try {
+                val data = favoriteLocalRepo.getFavoriteWord(word)
+                favoriteEntityLiveData.mutable().postValue(data)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Log.d("@@@", "FavoriteWordViewModel -> searchData: $word  (Exception)")
+            }
         }
     }
 

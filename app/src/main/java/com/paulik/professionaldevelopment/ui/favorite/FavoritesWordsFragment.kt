@@ -1,6 +1,7 @@
 package com.paulik.professionaldevelopment.ui.favorite
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.paulik.professionaldevelopment.databinding.FragmentFavoritesWordsBinding
@@ -26,6 +27,23 @@ class FavoritesWordsFragment : ViewBindingFragment<FragmentFavoritesWordsBinding
 
         initViewModel()
         initViews()
+        onClickIconSearching()
+    }
+
+    private fun onClickIconSearching() {
+        binding.inputLayout.setEndIconOnClickListener {
+            val word = binding.inputEditText.text.toString()
+            Log.d("@@@", "FavoritesWordsFragment -> onClickIconSearching: $word")
+
+            onWhenSearchingWordList(word)
+        }
+    }
+
+    private fun onWhenSearchingWordList(word: String?): Boolean {
+        if (!word.isNullOrEmpty()) {
+            viewModel.searchData(word)
+        }
+        return true
     }
 
     private fun initViewModel() {
