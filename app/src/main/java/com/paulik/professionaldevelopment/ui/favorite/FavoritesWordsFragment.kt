@@ -4,19 +4,21 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.paulik.professionaldevelopment.databinding.FragmentFavoritesWordsBinding
-import com.paulik.professionaldevelopment.domain.entity.DataEntity
-import com.paulik.professionaldevelopment.ui.root.ViewBindingWordTranslationFragment
+import com.paulik.professionaldevelopment.ui.root.ViewBindingFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class FavoritesWordsFragment : ViewBindingWordTranslationFragment<FragmentFavoritesWordsBinding>(
+class FavoritesWordsFragment : ViewBindingFragment<FragmentFavoritesWordsBinding>(
     FragmentFavoritesWordsBinding::inflate
 ) {
 
-    override val viewModel: FavoriteWordViewModel by viewModel()
+    private val viewModel: FavoriteWordViewModel by viewModel()
 
     private val adapter: FavoriteWordAdapter by lazy {
-        FavoriteWordAdapter()
+        FavoriteWordAdapter(
+            data = emptyList(),
+            viewModel = viewModel
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -26,17 +28,18 @@ class FavoritesWordsFragment : ViewBindingWordTranslationFragment<FragmentFavori
         initViews()
     }
 
-    override fun setDataToAdapter(data: List<DataEntity>) {
-//        adapter.setData(data)
-    }
-
     private fun initViewModel() {
         if (binding.historyFragmentRecyclerview.adapter != null) {
             throw IllegalStateException("Сначала должна быть инициализирована ViewModel")
         }
-//        viewModel.subscribe().observe(viewLifecycleOwner) { appStat ->
-//            renderData(appStat)
-//        }
+        viewModel.favoriteEntityLiveData.observe(viewLifecycleOwner) {
+            adapter.setData(it)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.onRefresh()
     }
 
     private fun initViews() {

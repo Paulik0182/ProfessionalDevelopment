@@ -123,11 +123,6 @@ class WordTranslationFragment : ViewBindingWordTranslationFragment<FragmentWordT
         viewModel.subscribe().observe(viewLifecycleOwner) { appStat ->
             renderData(appStat)
         }
-
-        // подписка на LiveData с избранными словами
-//        viewModel.favoriteEntities.observe(viewLifecycleOwner, { favorites ->
-//            adapter.setData(favorites)
-//        })
     }
 
     private fun initViews() {

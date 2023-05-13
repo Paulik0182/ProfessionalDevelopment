@@ -1,27 +1,18 @@
 package com.paulik.professionaldevelopment.ui.utils
 
 import com.paulik.professionaldevelopment.AppState
-import com.paulik.professionaldevelopment.data.room.favorite.Favorite
-import com.paulik.professionaldevelopment.data.room.favorite.FavoriteEntity
-import com.paulik.professionaldevelopment.data.room.history.HistoryEntity
 import com.paulik.professionaldevelopment.domain.entity.DataEntity
+import com.paulik.professionaldevelopment.domain.entity.FavoriteEntity
+import com.paulik.professionaldevelopment.domain.entity.HistoryEntity
 import com.paulik.professionaldevelopment.domain.entity.MeaningsEntity
 
 fun mapHistoryEntityToSearchResult(list: List<HistoryEntity>): List<DataEntity> {
     return list.map {
         DataEntity(it.word, null)
     }
-
-//    val searchResult = ArrayList<DataEntity>()
-//    if (!list.isNullOrEmpty()) {
-//        for (entity in list) {
-//            searchResult.add(DataEntity(entity.word, null))
-//        }
-//    }
-//    return searchResult
 }
 
-fun mapFavoriteEntityToSearchResult(list: List<Favorite>): List<DataEntity> {
+fun mapFavoriteEntityToSearchResult(list: List<FavoriteEntity>): List<DataEntity> {
     return list.map {
         DataEntity(it.word, null)
     }
@@ -35,7 +26,11 @@ fun DataEntity.toHistoryEntity(): HistoryEntity {
 }
 
 fun DataEntity.toFavoriteEntity(): FavoriteEntity {
-    return FavoriteEntity(word = text.orEmpty(), isFavorite = true)
+    return FavoriteEntity(
+        word = text.orEmpty(),
+        description = null,
+        isFavorite = true
+    )
 }
 
 fun convertDataModelSuccessToEntity(appState: AppState): HistoryEntity? {

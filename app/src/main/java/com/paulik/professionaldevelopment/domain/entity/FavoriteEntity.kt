@@ -1,4 +1,4 @@
-package com.paulik.professionaldevelopment.data.room.favorite
+package com.paulik.professionaldevelopment.domain.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -6,13 +6,13 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "favorite_test",
+    tableName = "favorite",
     indices = [Index(
         value = arrayOf("word"),
         unique = true
     )]
 )
-data class Favorite(
+data class FavoriteEntity(
     @field:PrimaryKey
     @ColumnInfo(name = "word")
     var word: String,

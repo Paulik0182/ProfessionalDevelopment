@@ -23,16 +23,10 @@ class RootActivity : ViewBindingActivity<ActivityRootBinding>(
     WordTranslationFragment.Controller,
     HistoryWordTranslationFragment.Controller {
 
-    private val wordTranslationFragment: WordTranslationFragment by lazy {
-        WordTranslationFragment()
-    }
     private val favoritesWordsFragment: FavoritesWordsFragment by lazy {
         FavoritesWordsFragment()
     }
     private val settingsFragment: SettingsFragment by lazy { SettingsFragment.newInstance() }
-    private val historyFragment: HistoryWordTranslationFragment by lazy {
-        HistoryWordTranslationFragment.newInstance()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +44,7 @@ class RootActivity : ViewBindingActivity<ActivityRootBinding>(
         binding.bottomNavBar.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.word_translation_item -> {
-                    navigateTo(wordTranslationFragment)
+                    navigateTo(WordTranslationFragment())
                 }
 
                 R.id.history_word_translation_item -> {

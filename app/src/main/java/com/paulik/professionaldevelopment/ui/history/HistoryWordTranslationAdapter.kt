@@ -46,9 +46,6 @@ class HistoryWordTranslationAdapter(
                 itemView.setOnClickListener {
                     //TODO Обработка нажатия на элемент в списке
                     openInNewWindow(data)
-
-//                    Toast.makeText(itemView.context, "on click: ${data.text}", Toast.LENGTH_SHORT)
-//                        .show()
                 }
             }
 

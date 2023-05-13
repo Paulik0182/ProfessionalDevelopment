@@ -2,13 +2,13 @@ package com.paulik.professionaldevelopment.data
 
 import com.paulik.professionaldevelopment.AppState
 import com.paulik.professionaldevelopment.domain.entity.DataEntity
+import com.paulik.professionaldevelopment.domain.repo.HistoryRepo
 import com.paulik.professionaldevelopment.domain.repo.Repository
-import com.paulik.professionaldevelopment.domain.repo.RepositoryLocal
 import com.paulik.professionaldevelopment.domain.repo.WordTranslationInteractor
 
 class WordTranslationInteractorImpl(
     private val remoteRepository: Repository<List<DataEntity>>,
-    private val localRepository: RepositoryLocal<List<DataEntity>>
+    private val localRepository: HistoryRepo<List<DataEntity>>
 ) : WordTranslationInteractor<AppState> {
 
     private lateinit var appState: AppState

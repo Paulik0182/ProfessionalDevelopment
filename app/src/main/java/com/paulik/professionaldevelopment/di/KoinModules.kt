@@ -5,13 +5,13 @@ import com.paulik.professionaldevelopment.data.HistoryWordTranslationInteractorI
 import com.paulik.professionaldevelopment.data.RepositoryImpl
 import com.paulik.professionaldevelopment.data.WordTranslationInteractorImpl
 import com.paulik.professionaldevelopment.data.retrofit.RetrofitImpl
-import com.paulik.professionaldevelopment.data.room.RepositoryLocalImpl
 import com.paulik.professionaldevelopment.data.room.WordDataBase
 import com.paulik.professionaldevelopment.data.room.favorite.FavoriteDataBaseImpl
-import com.paulik.professionaldevelopment.data.room.history.RoomDataBaseImpl
+import com.paulik.professionaldevelopment.data.room.history.HistoryDataBaseImpl
+import com.paulik.professionaldevelopment.data.room.history.HistoryLocalRepoImpl
 import com.paulik.professionaldevelopment.domain.entity.DataEntity
+import com.paulik.professionaldevelopment.domain.repo.HistoryRepo
 import com.paulik.professionaldevelopment.domain.repo.Repository
-import com.paulik.professionaldevelopment.domain.repo.RepositoryLocal
 import com.paulik.professionaldevelopment.ui.favorite.FavoriteWordViewModel
 import com.paulik.professionaldevelopment.ui.history.HistoryWordTranslationViewModel
 import com.paulik.professionaldevelopment.ui.translation.WordTranslationViewModel
@@ -54,9 +54,9 @@ val application = module {
         RepositoryImpl(RetrofitImpl())
     }
 
-    single<RepositoryLocal<List<DataEntity>>> {
-        RepositoryLocalImpl(
-            RoomDataBaseImpl(get())
+    single<HistoryRepo<List<DataEntity>>> {
+        HistoryLocalRepoImpl(
+            HistoryDataBaseImpl(get())
         )
     }
 }
@@ -86,20 +86,20 @@ val mainScreen = module {
 val historyScreen = module {
     factory {
         HistoryWordTranslationInteractorImpl(
-            get(), get()
+            get()
         )
     }
 
     factory {
-        RepositoryLocalImpl(
-            RoomDataBaseImpl(get())
+        HistoryLocalRepoImpl(
+            HistoryDataBaseImpl(get())
         )
     }
 
     factory {
         HistoryWordTranslationViewModel(
             get<HistoryWordTranslationInteractorImpl>(),
-            get<RepositoryLocalImpl>()
+            get<HistoryLocalRepoImpl>()
         )
     }
 }
@@ -115,6 +115,7 @@ val wordDetailsScreen = module {
 val favoriteScreen = module {
     factory {
         FavoriteWordViewModel(
+            get<FavoriteDataBaseImpl>()
         )
     }
 }

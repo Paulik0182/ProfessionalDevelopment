@@ -3,14 +3,14 @@ package com.paulik.professionaldevelopment.ui.history
 import androidx.lifecycle.LiveData
 import com.paulik.professionaldevelopment.AppState
 import com.paulik.professionaldevelopment.data.HistoryWordTranslationInteractorImpl
-import com.paulik.professionaldevelopment.data.room.RepositoryLocalImpl
+import com.paulik.professionaldevelopment.data.room.history.HistoryLocalRepoImpl
 import com.paulik.professionaldevelopment.ui.root.BaseViewModel
 import com.paulik.professionaldevelopment.ui.utils.parseLocalSearchResults
 import kotlinx.coroutines.launch
 
 class HistoryWordTranslationViewModel(
     private val interactor: HistoryWordTranslationInteractorImpl,
-    private val repositoryLocal: RepositoryLocalImpl
+    private val historyLocalRepo: HistoryLocalRepoImpl
 ) : BaseViewModel<AppState>() {
 
     private val liveDataForViewToObserve: LiveData<AppState> = _mutableLiveData
@@ -29,7 +29,7 @@ class HistoryWordTranslationViewModel(
         viewModelCoroutineScope.launch {
             _mutableLiveData.postValue(AppState.Loading(null))
             try {
-                val data = repositoryLocal.getLocalData(word)
+                val data = historyLocalRepo.getLocalData(word)
                 _mutableLiveData.postValue(AppState.Success(data))
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -41,8 +41,8 @@ class HistoryWordTranslationViewModel(
     fun deleteWord(word: String) {
         viewModelCoroutineScope.launch {
             try {
-                repositoryLocal.deleteWordSearchHistory(word)
-                val updatedList = repositoryLocal.getLocalData("")
+                historyLocalRepo.deleteWordSearchHistory(word)
+                val updatedList = historyLocalRepo.getData("")
                 _mutableLiveData.postValue(AppState.Success(updatedList))
             } catch (e: Exception) {
                 _mutableLiveData.postValue(AppState.Error(e))

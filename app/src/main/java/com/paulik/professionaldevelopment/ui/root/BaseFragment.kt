@@ -17,17 +17,12 @@ abstract class BaseFragment<T : AppState, I : WordTranslationInteractor<T>> : Fr
 
     private var binding: LoadingLayoutBinding? = null
 
-//    private var _binding: LoadingLayoutBinding? = null
-//    private val binding get() = _binding!!
-
     abstract val viewModel: BaseViewModel<T>
 
     protected var isNetworkAvailable: Boolean = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-//        _binding = LoadingLayoutBinding.bind(view)
 
         isNetworkAvailable = isOnline(requireActivity().application)
     }
@@ -49,18 +44,6 @@ abstract class BaseFragment<T : AppState, I : WordTranslationInteractor<T>> : Fr
 
     protected fun renderData(appState: T) {
         when (appState) {
-//            is AppState.Success -> {
-//                showViewWorking()
-//                val dataEntity = appState.data
-//                if (dataEntity.isNullOrEmpty()) {
-//                    showAlertDialog(
-//                        getString(R.string.dialog_tittle_sorry),
-//                        getString(R.string.empty_server_response_on_success)
-//                    )
-//                } else {
-//                    setDataToAdapter(dataEntity)
-//                }
-//            }
             is AppState.Success -> {
                 showViewWorking()
                 appState.data?.let {
@@ -123,9 +106,4 @@ abstract class BaseFragment<T : AppState, I : WordTranslationInteractor<T>> : Fr
     }
 
     abstract fun setDataToAdapter(data: List<DataEntity>)
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-//        _binding = null
-    }
 }
