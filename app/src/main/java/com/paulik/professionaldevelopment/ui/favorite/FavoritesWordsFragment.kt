@@ -1,5 +1,6 @@
 package com.paulik.professionaldevelopment.ui.favorite
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -7,7 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.paulik.professionaldevelopment.databinding.FragmentFavoritesWordsBinding
 import com.paulik.professionaldevelopment.ui.root.ViewBindingFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
 
 class FavoritesWordsFragment : ViewBindingFragment<FragmentFavoritesWordsBinding>(
     FragmentFavoritesWordsBinding::inflate
@@ -18,7 +18,11 @@ class FavoritesWordsFragment : ViewBindingFragment<FragmentFavoritesWordsBinding
     private val adapter: FavoriteWordAdapter by lazy {
         FavoriteWordAdapter(
             data = emptyList(),
-            viewModel = viewModel
+            viewModel = viewModel,
+            context = requireContext().applicationContext,
+            onWordClickListener = {
+                viewModel.onWordClick(it)
+            }
         )
     }
 
@@ -26,7 +30,9 @@ class FavoritesWordsFragment : ViewBindingFragment<FragmentFavoritesWordsBinding
         super.onViewCreated(view, savedInstanceState)
 
         initViewModel()
+
         initViews()
+
         onClickIconSearching()
     }
 
@@ -47,11 +53,15 @@ class FavoritesWordsFragment : ViewBindingFragment<FragmentFavoritesWordsBinding
     }
 
     private fun initViewModel() {
-        if (binding.historyFragmentRecyclerview.adapter != null) {
+        if (binding.favoriteFragmentRecyclerview.adapter != null) {
             throw IllegalStateException("Сначала должна быть инициализирована ViewModel")
         }
         viewModel.favoriteEntityLiveData.observe(viewLifecycleOwner) {
             adapter.setData(it)
+        }
+
+        viewModel.selectedDetailsWordLiveData.observe(viewLifecycleOwner) {
+            getController().openDetailsWord(it.word, it.isFavorite)
         }
     }
 
@@ -61,8 +71,22 @@ class FavoritesWordsFragment : ViewBindingFragment<FragmentFavoritesWordsBinding
     }
 
     private fun initViews() {
-        binding.historyFragmentRecyclerview.layoutManager = LinearLayoutManager(context)
-        binding.historyFragmentRecyclerview.adapter = adapter
+        binding.favoriteFragmentRecyclerview.layoutManager = LinearLayoutManager(context)
+        binding.favoriteFragmentRecyclerview.adapter = adapter
+    }
+
+    interface Controller {
+        fun openDetailsWord(
+            word: String,
+            flagFavorite: Boolean
+        )
+    }
+
+    private fun getController(): Controller = activity as Controller
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        getController()
     }
 
     companion object {

@@ -25,7 +25,7 @@ class HistoryWordTranslationAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerItemViewHolder {
         return RecyclerItemViewHolder(
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.history_recyclerview_item, parent, false) as View
+                .inflate(R.layout.element_word_recyclerview_item, parent, false) as View
         )
     }
 
@@ -41,7 +41,7 @@ class HistoryWordTranslationAdapter(
 
         fun bind(data: DataEntity) {
             if (layoutPosition != RecyclerView.NO_POSITION) {
-                itemView.findViewById<TextView>(R.id.header_history_textview_recycler_item).text =
+                itemView.findViewById<TextView>(R.id.header_word_textview_recycler_item).text =
                     data.text
                 itemView.setOnClickListener {
                     //TODO Обработка нажатия на элемент в списке

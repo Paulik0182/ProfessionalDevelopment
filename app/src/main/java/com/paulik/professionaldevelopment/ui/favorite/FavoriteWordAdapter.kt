@@ -1,13 +1,16 @@
 package com.paulik.professionaldevelopment.ui.favorite
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.paulik.professionaldevelopment.domain.entity.FavoriteEntity
 
 class FavoriteWordAdapter(
     private var data: List<FavoriteEntity> = mutableListOf(),
-    private var viewModel: FavoriteWordViewModel
+    private var viewModel: FavoriteWordViewModel,
+    private var context: Context,
+    private var onWordClickListener: (FavoriteEntity) -> Unit = {}
 ) : RecyclerView.Adapter<FavoriteWordViewHolder>() {
 
     @SuppressLint("NotifyDataSetChanged")
@@ -19,7 +22,9 @@ class FavoriteWordAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteWordViewHolder {
         return FavoriteWordViewHolder(
             parent,
-            viewModel
+            viewModel,
+            context,
+            onWordClickListener
         )
     }
 

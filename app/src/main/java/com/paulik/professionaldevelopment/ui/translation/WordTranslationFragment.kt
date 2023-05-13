@@ -49,7 +49,6 @@ class WordTranslationFragment : ViewBindingWordTranslationFragment<FragmentWordT
 
                 // Требуется пояснение почему так. почему meanings[0] ноль?
                 getController().openDescriptionWordTranslation(
-                    requireActivity(),
                     data.text!!,
                     convertMeaningsToString(data.meanings!!),
                     data.meanings[0].imageUrl
@@ -139,7 +138,6 @@ class WordTranslationFragment : ViewBindingWordTranslationFragment<FragmentWordT
 
     interface Controller {
         fun openDescriptionWordTranslation(
-            context: Context,
             word: String,
             description: String?,
             url: String?

@@ -28,6 +28,7 @@ private const val DIALOG_FRAGMENT_TAG = "8c7dff51-9769-4f6d-bbee-a3896085e76e"
 private const val WORD_EXTRA = "f76a288a-5dcc-43f1-ba89-7fe1d53f63b0"
 private const val DESCRIPTION_EXTRA = "0eeb92aa-520b-4fd1-bb4b-027fbf963d9a"
 private const val URL_EXTRA = "6e4b154d-e01f-4953-a404-639fb3bf7281"
+private const val FLAG_FAVORITE_FRAGMENT_KEY = "FLAG_FAVORITE_FRAGMENT_KEY"
 
 class DescriptionWordTranslationFragment :
     ViewBindingFragment<FragmentDescriptionWordTranslationBinding>(
@@ -49,6 +50,7 @@ class DescriptionWordTranslationFragment :
             startLoadingOrShowError()
         }
         setData()
+
 //        getDataWord()
     }
 
@@ -87,8 +89,11 @@ class DescriptionWordTranslationFragment :
     }
 
     private fun getDataWord() {
-        val word = binding.descriptionHeaderTextView.text.toString()
-        viewModel.getWordDetails(word)
+        val bundle = arguments
+        val word = bundle?.getString(WORD_EXTRA)
+
+//        val word = binding.descriptionHeaderTextView.text.toString()
+//        viewModel.getWordDetails(word)
         viewModel.wordDetails.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is WordDetailsResult.Loading -> {
@@ -96,12 +101,12 @@ class DescriptionWordTranslationFragment :
                 }
 
                 is WordDetailsResult.Success -> {
-                    val wordDetails = result.wordDetails[0]
-                    binding.descriptionHeaderTextView.text = wordDetails.text
+                    val wordDetails = result.wordDetails
+                    binding.descriptionHeaderTextView.text = word
                     binding.descriptionTextView.text =
-                        wordDetails.meanings?.get(0)?.translation.toString()
+                        wordDetails.translation?.translation
 
-                    val imageLink = wordDetails.meanings?.get(0)?.imageUrl
+                    val imageLink = wordDetails.imageUrl
                     if (imageLink.isNullOrBlank()) {
                         stopRefreshAnimationIfNeeded()
                     } else {
@@ -230,19 +235,18 @@ class DescriptionWordTranslationFragment :
     companion object {
         @JvmStatic
         fun newInstance(
-            context: Context,
             word: String,
             description: String?,
-            url: String?
+            url: String?,
+            flagView: Boolean
         ) =
             DescriptionWordTranslationFragment().apply {
                 arguments = Bundle().apply {
                     putString(WORD_EXTRA, word)
                     putString(DESCRIPTION_EXTRA, description)
                     putString(URL_EXTRA, url)
+                    putBoolean(FLAG_FAVORITE_FRAGMENT_KEY, flagView)
                 }
-                // Сохраняем контекст в свойстве класса для возможности использования в фрагменте
-                this.fragmentContext = context
             }
     }
 }

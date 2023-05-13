@@ -1,6 +1,5 @@
 package com.paulik.professionaldevelopment.ui.root
 
-import android.content.Context
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
@@ -21,7 +20,8 @@ class RootActivity : ViewBindingActivity<ActivityRootBinding>(
 ),
     SettingsFragment.Controller,
     WordTranslationFragment.Controller,
-    HistoryWordTranslationFragment.Controller {
+    HistoryWordTranslationFragment.Controller,
+    FavoritesWordsFragment.Controller {
 
     private val favoritesWordsFragment: FavoritesWordsFragment by lazy {
         FavoritesWordsFragment()
@@ -99,17 +99,16 @@ class RootActivity : ViewBindingActivity<ActivityRootBinding>(
     }
 
     override fun openDescriptionWordTranslation(
-        context: Context,
         word: String,
         description: String?,
         url: String?
     ) {
         navigateWithBackStack(
             DescriptionWordTranslationFragment.newInstance(
-                context,
-                word,
-                description,
-                url
+                word = word,
+                description = description,
+                url = url,
+                flagView = false
             )
         )
         binding.bottomNavBar.visibility = View.GONE
@@ -120,23 +119,19 @@ class RootActivity : ViewBindingActivity<ActivityRootBinding>(
         binding.bottomNavBar.visibility = View.GONE
     }
 
-    // todo это для открытия детальной инф. о слове
-//    override fun openDetailsWord(
-//        context: Context,
-//        word: String,
-//        description: String?,
-//        url: String?
-//    ) {
-//        navigateWithBackStack(
-//            DescriptionWordTranslationFragment.newInstance(
-//                context,
-//                word,
-//                description,
-//                url
-//            )
-//        )
+
+    override fun openDetailsWord(word: String, flagFavorite: Boolean) {
+        navigateWithBackStack(WordTranslationFragment.newInstance(word, true))
+        binding.bottomNavBar.visibility = View.GONE
+
+//        navigateWithBackStack(DescriptionWordTranslationFragment.newInstance(
+//            word = word,
+//            description = null,
+//            url = null,
+//            flagView = flagFavorite
+//        ))
 //        binding.bottomNavBar.visibility = View.GONE
-//    }
+    }
 
     override fun openHistoryFragment() {
         navigateWithBackStack(

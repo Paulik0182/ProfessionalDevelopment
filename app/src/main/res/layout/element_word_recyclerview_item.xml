@@ -14,7 +14,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/header_history_textview_recycler_item"
+            android:id="@+id/header_word_textview_recycler_item"
             style="@style/HeaderTextStyle"
             android:layout_width="0dp"
             android:layout_height="45dp"

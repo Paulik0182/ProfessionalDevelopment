@@ -45,11 +45,11 @@
             android:gravity="center">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/history_fragment_recyclerview"
+                android:id="@+id/favorite_fragment_recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/history_recyclerview_item" />
+                tools:listitem="@layout/element_word_recyclerview_item" />
 
         </FrameLayout>
 

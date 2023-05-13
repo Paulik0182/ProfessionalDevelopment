@@ -54,7 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/history_recyclerview_item" />
+                tools:listitem="@layout/element_word_recyclerview_item" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/search_fab"

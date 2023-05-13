@@ -18,6 +18,7 @@ class FavoriteWordViewModel(
     private val favoriteLocalRepo: FavoriteDataBaseImpl
 ) : ViewModel() {
 
+    val selectedDetailsWordLiveData: LiveData<FavoriteEntity> = MutableLiveData()
     val favoriteEntityLiveData: LiveData<List<FavoriteEntity>> = MutableLiveData()
 
     private val viewModelCoroutineScope: CoroutineScope = CoroutineScope(
@@ -41,6 +42,10 @@ class FavoriteWordViewModel(
             val favorites = favoriteLocalRepo.getFavoriteEntities()
             favoriteEntityLiveData.mutable().postValue(favorites)
         }
+    }
+
+    fun onWordClick(favoriteEntity: FavoriteEntity) {
+        (selectedDetailsWordLiveData as MutableLiveData).value = favoriteEntity
     }
 
     fun searchData(word: String) {
