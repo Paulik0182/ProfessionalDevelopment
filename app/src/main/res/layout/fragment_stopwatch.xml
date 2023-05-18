@@ -7,10 +7,12 @@
     android:orientation="vertical"
     tools:context=".ui.root.RootActivity">
 
-    <FrameLayout
-        android:id="@+id/fragment_container_frame_layout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+    <include
+        android:id="@+id/first_stopwatch"
+        layout="@layout/item_stopwatch" />
+
+    <include
+        android:id="@+id/second_stopwatch"
+        layout="@layout/item_stopwatch" />
 
 </LinearLayout>
