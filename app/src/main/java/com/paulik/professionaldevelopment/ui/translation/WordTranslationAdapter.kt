@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.paulik.professionaldevelopment.R
@@ -38,7 +39,12 @@ class WordTranslationAdapter(
         return data.size
     }
 
-    inner class RecyclerItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class RecyclerItemViewHolder(
+        view: View
+    ) : RecyclerView.ViewHolder(view) {
+
+        private var flagFavorite: Boolean = true
+        private var favoriteImageView = itemView.findViewById<ImageView>(R.id.favorite_image_view)
 
         fun bind(data: DataEntity) {
             if (layoutPosition != RecyclerView.NO_POSITION) {
@@ -47,6 +53,21 @@ class WordTranslationAdapter(
                 itemView.findViewById<TextView>(R.id.description_recycler_item_text_view).text =
                     convertMeaningsToString(data.meanings!!)
                 itemView.setOnClickListener { openInNewWindow(data) }
+            }
+
+            favoriteImageView.setOnClickListener {
+                onListItemClickListener.onFavoriteClick(
+                    data.text!!,
+                    flagFavorite
+                )
+
+                if (flagFavorite) {
+                    favoriteImageView.setImageResource(R.drawable.favourites_icon_filled)
+                    flagFavorite = false
+                } else {
+                    favoriteImageView.setImageResource(R.drawable.favourites_icon)
+                    flagFavorite = true
+                }
             }
         }
     }
@@ -57,5 +78,7 @@ class WordTranslationAdapter(
 
     interface OnListItemClickListener {
         fun onItemClick(data: DataEntity)
+
+        fun onFavoriteClick(word: String, isFavorite: Boolean)
     }
 }

@@ -6,19 +6,25 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import com.paulik.professionaldevelopment.R
 import com.paulik.professionaldevelopment.databinding.ActivityRootBinding
+import com.paulik.professionaldevelopment.ui.favorite.FavoritesWordsFragment
+import com.paulik.professionaldevelopment.ui.history.HistoryWordTranslationFragment
 import com.paulik.professionaldevelopment.ui.settings.AboutAppFragment
 import com.paulik.professionaldevelopment.ui.settings.SettingsFragment
 import com.paulik.professionaldevelopment.ui.translation.WordTranslationFragment
+import com.paulik.professionaldevelopment.ui.translation.descriptios.DescriptionWordTranslationFragment
 
 private const val TAG_ROOT_CONTAINER_LAYOUT_KEY = "TAG_ROOT_CONTAINER_LAYOUT_KEY"
 
 class RootActivity : ViewBindingActivity<ActivityRootBinding>(
     ActivityRootBinding::inflate
 ),
-    SettingsFragment.Controller {
+    SettingsFragment.Controller,
+    WordTranslationFragment.Controller,
+    HistoryWordTranslationFragment.Controller,
+    FavoritesWordsFragment.Controller {
 
-    private val wordTranslationFragment: WordTranslationFragment by lazy {
-        WordTranslationFragment.newInstance()
+    private val favoritesWordsFragment: FavoritesWordsFragment by lazy {
+        FavoritesWordsFragment()
     }
     private val settingsFragment: SettingsFragment by lazy { SettingsFragment.newInstance() }
 
@@ -38,11 +44,21 @@ class RootActivity : ViewBindingActivity<ActivityRootBinding>(
         binding.bottomNavBar.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.word_translation_item -> {
-                    navigateTo(wordTranslationFragment)
+                    navigateTo(WordTranslationFragment())
                 }
+
+                R.id.history_word_translation_item -> {
+                    navigateWithBackStack(HistoryWordTranslationFragment.newInstance())
+                }
+
+                R.id.favorites_word_translation_item -> {
+                    navigateTo(favoritesWordsFragment)
+                }
+
                 R.id.settings_item -> {
                     navigateTo(settingsFragment)
                 }
+
                 else -> throw IllegalStateException("Такого фрагмента нет")
             }
             return@setOnItemSelectedListener true
@@ -79,6 +95,48 @@ class RootActivity : ViewBindingActivity<ActivityRootBinding>(
 
     override fun openAboutApp() {
         navigateWithBackStack(AboutAppFragment.newInstance())
+        binding.bottomNavBar.visibility = View.GONE
+    }
+
+    override fun openDescriptionWordTranslation(
+        word: String,
+        description: String?,
+        url: String?
+    ) {
+        navigateWithBackStack(
+            DescriptionWordTranslationFragment.newInstance(
+                word = word,
+                description = description,
+                url = url,
+                flagView = false
+            )
+        )
+        binding.bottomNavBar.visibility = View.GONE
+    }
+
+    override fun openVariantTranslationWord(word: String, flagHistory: Boolean) {
+        navigateWithBackStack(WordTranslationFragment.newInstance(word, flagHistory))
+        binding.bottomNavBar.visibility = View.GONE
+    }
+
+
+    override fun openDetailsWord(word: String, flagFavorite: Boolean) {
+        navigateWithBackStack(WordTranslationFragment.newInstance(word, true))
+        binding.bottomNavBar.visibility = View.GONE
+
+//        navigateWithBackStack(DescriptionWordTranslationFragment.newInstance(
+//            word = word,
+//            description = null,
+//            url = null,
+//            flagView = flagFavorite
+//        ))
+//        binding.bottomNavBar.visibility = View.GONE
+    }
+
+    override fun openHistoryFragment() {
+        navigateWithBackStack(
+            HistoryWordTranslationFragment.newInstance()
+        )
         binding.bottomNavBar.visibility = View.GONE
     }
 

@@ -3,6 +3,7 @@ package com.paulik.professionaldevelopment.data.retrofit
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.paulik.professionaldevelopment.data.BaseInterceptorImpl
 import com.paulik.professionaldevelopment.domain.entity.DataEntity
+import com.paulik.professionaldevelopment.domain.entity.MeaningsEntity
 import com.paulik.professionaldevelopment.domain.source.DataSource
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -18,6 +19,10 @@ class RetrofitImpl : DataSource<List<DataEntity>> {
         /** await() - функция позволяет получать результат в данном месте.
          * То-есть, карутины будут остановленны именно здесь пока мы не получим какойто результат.*/
         return getService(BaseInterceptorImpl.interceptor).searchAsync(word).await()
+    }
+
+    suspend fun getDetailsWord(word: String): MeaningsEntity {
+        return getService(BaseInterceptorImpl.interceptor).wordAsync(word).await()
     }
 
     private fun getService(interceptor: Interceptor): ApiService {
