@@ -14,7 +14,7 @@ import com.paulik.professionaldevelopment.domain.entity.DataEntity
 import com.paulik.professionaldevelopment.ui.root.ViewBindingWordTranslationFragment
 import com.paulik.professionaldevelopment.ui.translation.dialog.SearchDialogFragment
 import com.paulik.professionaldevelopment.ui.utils.convertMeaningsToString
-import com.paulik.professionaldevelopment.ui.utils.isOnline
+import com.paulik.utils.network.isOnline
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 private const val BOTTOM_SHEET_FRAGMENT_DIALOG_TAG = "74a54328-5d62-46bf-ab6b-cbf5fgt0-092395"

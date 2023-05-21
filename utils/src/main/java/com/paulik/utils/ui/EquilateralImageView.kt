@@ -1,4 +1,4 @@
-package com.paulik.professionaldevelopment.ui.utils
+package com.paulik.utils.ui
 
 import android.content.Context
 import android.util.AttributeSet

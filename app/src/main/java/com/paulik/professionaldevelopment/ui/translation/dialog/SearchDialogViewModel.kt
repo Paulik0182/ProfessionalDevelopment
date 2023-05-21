@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.ViewModel
 import com.google.android.material.textfield.TextInputEditText
-import com.paulik.professionaldevelopment.ui.utils.getEmptyString
+import com.paulik.utils.getEmptyString
 
 class SearchDialogViewModel : ViewModel() {
 

@@ -1,4 +1,4 @@
-package com.paulik.professionaldevelopment.ui.utils
+package com.paulik.utils.network
 
 import android.content.Context
 import android.net.ConnectivityManager

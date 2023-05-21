@@ -1,8 +1,8 @@
-package com.paulik.professionaldevelopment.ui.utils
+package com.paulik.utils.ui
 
 import android.content.Context
 import androidx.appcompat.app.AlertDialog
-import com.paulik.professionaldevelopment.R
+import com.paulik.utils.R
 
 fun getStubAlertDialog(context: Context): AlertDialog {
     return getAlertDialog(context, null, null)

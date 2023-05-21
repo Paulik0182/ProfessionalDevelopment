@@ -3,8 +3,8 @@ package com.paulik.professionaldevelopment.ui.translation.dialog
 import android.app.Dialog
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDialogFragment
-import com.paulik.professionaldevelopment.ui.utils.getAlertDialog
-import com.paulik.professionaldevelopment.ui.utils.getStubAlertDialog
+import com.paulik.utils.ui.getAlertDialog
+import com.paulik.utils.ui.getStubAlertDialog
 
 private const val TITLE_EXTRA = "89cbce59-e28f-418f-b470-ff67125c2e2f"
 private const val MESSAGE_EXTRA = "0dd00b66-91c2-447d-b627-530065040905"

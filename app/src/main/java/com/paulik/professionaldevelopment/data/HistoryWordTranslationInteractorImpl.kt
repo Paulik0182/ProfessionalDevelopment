@@ -1,9 +1,9 @@
 package com.paulik.professionaldevelopment.data
 
+import com.paulik.core.WordTranslationInteractor
 import com.paulik.professionaldevelopment.AppState
 import com.paulik.professionaldevelopment.domain.entity.DataEntity
 import com.paulik.professionaldevelopment.domain.repo.HistoryRepo
-import com.paulik.professionaldevelopment.domain.repo.WordTranslationInteractor
 
 class HistoryWordTranslationInteractorImpl(
     private val historyRepo: HistoryRepo<List<DataEntity>>

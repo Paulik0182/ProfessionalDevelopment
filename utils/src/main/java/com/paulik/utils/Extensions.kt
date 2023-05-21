@@ -1,4 +1,4 @@
-package com.paulik.professionaldevelopment.ui.utils
+package com.paulik.utils
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

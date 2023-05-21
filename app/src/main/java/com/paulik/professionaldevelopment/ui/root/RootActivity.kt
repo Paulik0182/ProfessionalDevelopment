@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import androidx.fragment.app.Fragment
+import com.paulik.core.ViewBindingActivity
 import com.paulik.professionaldevelopment.R
 import com.paulik.professionaldevelopment.databinding.ActivityRootBinding
 import com.paulik.professionaldevelopment.ui.favorite.FavoritesWordsFragment

@@ -1,4 +1,4 @@
-package com.paulik.professionaldevelopment.domain.repo
+package com.paulik.core
 
 interface WordTranslationInteractor<T> {
 
