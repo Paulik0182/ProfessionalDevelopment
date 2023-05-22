@@ -3,12 +3,12 @@ package com.paulik.professionaldevelopment.ui.root
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import com.paulik.core.WordTranslationInteractor
-import com.paulik.professionaldevelopment.AppState
+import com.paulik.models.AppState
+import com.paulik.models.entity.DataEntity
 import com.paulik.professionaldevelopment.R
 import com.paulik.professionaldevelopment.databinding.LoadingLayoutBinding
-import com.paulik.professionaldevelopment.domain.entity.DataEntity
 import com.paulik.professionaldevelopment.ui.translation.dialog.AlertDialogFragment
+import com.paulik.repository.domain.WordTranslationInteractor
 import com.paulik.utils.network.isOnline
 
 private const val DIALOG_FRAGMENT_TAG = "74a54328-5d62-46bf-ab6b-cbf5d8c79522"
@@ -68,7 +68,7 @@ abstract class BaseFragment<T : AppState, I : WordTranslationInteractor<T>> : Fr
                 if (appState.progress != null) {
                     binding?.horizontalProgressBar?.visibility = View.VISIBLE
                     binding?.roundProgressBar?.visibility = View.GONE
-                    binding?.horizontalProgressBar?.progress = appState.progress
+                    binding?.horizontalProgressBar?.progress = appState.progress!!
                 } else {
                     binding?.horizontalProgressBar?.visibility = View.GONE
                     binding?.roundProgressBar?.visibility = View.VISIBLE

@@ -2,11 +2,11 @@ package com.paulik.professionaldevelopment.ui.translation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import com.paulik.professionaldevelopment.AppState
-import com.paulik.professionaldevelopment.data.WordTranslationInteractorImpl
-import com.paulik.professionaldevelopment.data.room.favorite.FavoriteDataBaseImpl
+import com.paulik.models.AppState
 import com.paulik.professionaldevelopment.ui.root.BaseViewModel
-import com.paulik.professionaldevelopment.ui.utils.parseOnlineSearchResults
+import com.paulik.repository.data.WordTranslationInteractorImpl
+import com.paulik.repository.parseOnlineSearchResults
+import com.paulik.repository.room.favorite.FavoriteDataBaseImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

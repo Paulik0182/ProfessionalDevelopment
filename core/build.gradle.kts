@@ -7,7 +7,7 @@ plugins {
 
 dependencies {
 
-//    implementation (project(Modules.app))
+    implementation(project(Modules.model))
     implementation(project(Modules.utils))
 
     // Android

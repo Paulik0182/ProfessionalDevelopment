@@ -17,12 +17,12 @@ import androidx.transition.Slide
 import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.paulik.professionaldevelopment.AppState
+import com.paulik.models.AppState
+import com.paulik.models.entity.DataEntity
 import com.paulik.professionaldevelopment.R
-import com.paulik.professionaldevelopment.data.HistoryWordTranslationInteractorImpl
 import com.paulik.professionaldevelopment.databinding.FragmentHistoryWordTranslationBinding
-import com.paulik.professionaldevelopment.domain.entity.DataEntity
 import com.paulik.professionaldevelopment.ui.root.BaseFragment
+import com.paulik.repository.data.HistoryWordTranslationInteractorImpl
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HistoryWordTranslationFragment :

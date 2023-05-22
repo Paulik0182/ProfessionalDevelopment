@@ -1,11 +1,11 @@
 package com.paulik.professionaldevelopment.ui.history
 
 import androidx.lifecycle.LiveData
-import com.paulik.professionaldevelopment.AppState
-import com.paulik.professionaldevelopment.data.HistoryWordTranslationInteractorImpl
-import com.paulik.professionaldevelopment.data.room.history.HistoryLocalRepoImpl
+import com.paulik.models.AppState
 import com.paulik.professionaldevelopment.ui.root.BaseViewModel
-import com.paulik.professionaldevelopment.ui.utils.parseLocalSearchResults
+import com.paulik.repository.data.HistoryWordTranslationInteractorImpl
+import com.paulik.repository.parseLocalSearchResults
+import com.paulik.repository.room.history.HistoryLocalRepoImpl
 import kotlinx.coroutines.launch
 
 class HistoryWordTranslationViewModel(

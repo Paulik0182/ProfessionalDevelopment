@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
-import com.paulik.professionaldevelopment.AppState
-import com.paulik.professionaldevelopment.data.WordTranslationInteractorImpl
+import com.paulik.models.AppState
+import com.paulik.repository.data.WordTranslationInteractorImpl
 
 abstract class ViewBindingWordTranslationFragment<T : ViewBinding>(
     private val inflateBinding: (
