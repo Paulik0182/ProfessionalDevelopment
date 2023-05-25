@@ -8,13 +8,13 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.paulik.core.ViewBindingWordTranslationFragment
+import com.paulik.models.entity.DataEntity
 import com.paulik.professionaldevelopment.R
 import com.paulik.professionaldevelopment.databinding.FragmentWordTranslationBinding
-import com.paulik.professionaldevelopment.domain.entity.DataEntity
-import com.paulik.professionaldevelopment.ui.root.ViewBindingWordTranslationFragment
 import com.paulik.professionaldevelopment.ui.translation.dialog.SearchDialogFragment
-import com.paulik.professionaldevelopment.ui.utils.convertMeaningsToString
-import com.paulik.professionaldevelopment.ui.utils.isOnline
+import com.paulik.repository.convertMeaningsToString
+import com.paulik.utils.network.isOnline
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 private const val BOTTOM_SHEET_FRAGMENT_DIALOG_TAG = "74a54328-5d62-46bf-ab6b-cbf5fgt0-092395"
@@ -51,7 +51,7 @@ class WordTranslationFragment : ViewBindingWordTranslationFragment<FragmentWordT
                 getController().openDescriptionWordTranslation(
                     data.text!!,
                     convertMeaningsToString(data.meanings!!),
-                    data.meanings[0].imageUrl
+                    data.meanings!![0].imageUrl
                 )
 //                Toast.makeText(requireContext(), data.text, Toast.LENGTH_SHORT).show()
             }

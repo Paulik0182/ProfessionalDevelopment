@@ -1,21 +1,20 @@
 package com.paulik.professionaldevelopment.di
 
 import androidx.room.Room
-import com.paulik.professionaldevelopment.data.HistoryWordTranslationInteractorImpl
-import com.paulik.professionaldevelopment.data.RepositoryImpl
-import com.paulik.professionaldevelopment.data.WordTranslationInteractorImpl
-import com.paulik.professionaldevelopment.data.retrofit.RetrofitImpl
-import com.paulik.professionaldevelopment.data.room.WordDataBase
-import com.paulik.professionaldevelopment.data.room.favorite.FavoriteDataBaseImpl
-import com.paulik.professionaldevelopment.data.room.history.HistoryDataBaseImpl
-import com.paulik.professionaldevelopment.data.room.history.HistoryLocalRepoImpl
-import com.paulik.professionaldevelopment.domain.entity.DataEntity
-import com.paulik.professionaldevelopment.domain.repo.HistoryRepo
-import com.paulik.professionaldevelopment.domain.repo.Repository
+import com.paulik.models.entity.DataEntity
 import com.paulik.professionaldevelopment.ui.favorite.FavoriteWordViewModel
-import com.paulik.professionaldevelopment.ui.history.HistoryWordTranslationViewModel
 import com.paulik.professionaldevelopment.ui.translation.WordTranslationViewModel
 import com.paulik.professionaldevelopment.ui.translation.descriptios.DescriptionWordTranslationViewModel
+import com.paulik.repository.data.HistoryWordTranslationInteractorImpl
+import com.paulik.repository.data.RepositoryImpl
+import com.paulik.repository.data.WordTranslationInteractorImpl
+import com.paulik.repository.data.retrofit.RetrofitImpl
+import com.paulik.repository.data.room.WordDataBase
+import com.paulik.repository.domain.repo.HistoryRepo
+import com.paulik.repository.domain.repo.Repository
+import com.paulik.repository.room.favorite.FavoriteDataBaseImpl
+import com.paulik.repository.room.history.HistoryDataBaseImpl
+import com.paulik.repository.room.history.HistoryLocalRepoImpl
 import org.koin.dsl.module
 
 /** single - обозначает что это единственный экземпляр на всё приложение. Используется для ленивой
@@ -93,13 +92,6 @@ val historyScreen = module {
     factory {
         HistoryLocalRepoImpl(
             HistoryDataBaseImpl(get())
-        )
-    }
-
-    factory {
-        HistoryWordTranslationViewModel(
-            get<HistoryWordTranslationInteractorImpl>(),
-            get<HistoryLocalRepoImpl>()
         )
     }
 }

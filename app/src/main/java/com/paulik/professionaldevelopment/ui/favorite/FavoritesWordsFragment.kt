@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.paulik.core.ViewBindingFragment
 import com.paulik.professionaldevelopment.databinding.FragmentFavoritesWordsBinding
-import com.paulik.professionaldevelopment.ui.root.ViewBindingFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavoritesWordsFragment : ViewBindingFragment<FragmentFavoritesWordsBinding>(

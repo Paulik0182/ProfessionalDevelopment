@@ -3,9 +3,9 @@ package com.paulik.professionaldevelopment.ui.settings
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import com.paulik.core.ViewBindingFragment
 import com.paulik.professionaldevelopment.BuildConfig
 import com.paulik.professionaldevelopment.databinding.FragmentAboutAppBinding
-import com.paulik.professionaldevelopment.ui.root.ViewBindingFragment
 
 class AboutAppFragment : ViewBindingFragment<FragmentAboutAppBinding>(
     FragmentAboutAppBinding::inflate

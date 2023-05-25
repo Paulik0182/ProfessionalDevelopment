@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.paulik.professionaldevelopment.domain.entity.FavoriteEntity
+import com.paulik.models.entity.FavoriteEntity
 
 class FavoriteWordAdapter(
     private var data: List<FavoriteEntity> = mutableListOf(),

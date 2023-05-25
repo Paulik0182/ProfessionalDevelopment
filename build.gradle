@@ -4,3 +4,46 @@ plugins {
     id 'com.android.library' version '7.4.2' apply false
     id 'org.jetbrains.kotlin.android' version '1.8.20' apply false
 }
+
+//Для всех подпроектов - сгенерировать compileSdkVersion, minSdkVersion, targetSdkVersion и совместимость с Java
+subprojects {
+    afterEvaluate { project ->
+        if (project.plugins.findPlugin('android') ?: project.plugins.findPlugin('android-library')) {
+            android {
+                compileSdkVersion Config.compile_sdk
+
+                defaultConfig {
+                    minSdkVersion Config.min_sdk
+                    targetSdkVersion Config.target_sdk
+                }
+
+                compileOptions {
+                    sourceCompatibility Config.java_version
+                    targetCompatibility Config.java_version
+                }
+
+                buildFeatures {
+                    viewBinding = true
+                }
+            }
+            /** Можно добавить общие зависимости для всех модулей */
+            dependencies {
+                // Kotlin
+                implementation(Kotlin.stdlib)
+                // Android X
+                implementation(AndroidX.core)
+                // CardView
+                implementation(CardView.appcompat)
+                // Test
+                testImplementation(TestImpl.junit_test)
+                androidTestImplementation(TestImpl.ext_junit_test)
+                androidTestImplementation(TestImpl.espresso_core_test)
+                implementation(fileTree(dir: "libs", include: ["*.jar"])) // todo
+            }
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

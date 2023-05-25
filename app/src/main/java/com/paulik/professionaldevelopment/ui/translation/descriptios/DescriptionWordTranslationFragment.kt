@@ -15,11 +15,11 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
+import com.paulik.core.ViewBindingFragment
+import com.paulik.dialog.AlertDialogFragment
 import com.paulik.professionaldevelopment.R
 import com.paulik.professionaldevelopment.databinding.FragmentDescriptionWordTranslationBinding
-import com.paulik.professionaldevelopment.ui.root.ViewBindingFragment
-import com.paulik.professionaldevelopment.ui.translation.dialog.AlertDialogFragment
-import com.paulik.professionaldevelopment.ui.utils.isOnline
+import com.paulik.utils.network.isOnline
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import org.koin.androidx.viewmodel.ext.android.viewModel

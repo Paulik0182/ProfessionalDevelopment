@@ -3,8 +3,8 @@ package com.paulik.professionaldevelopment.ui.translation.descriptios
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.paulik.professionaldevelopment.data.retrofit.ApiService
-import com.paulik.professionaldevelopment.domain.entity.MeaningsEntity
+import com.paulik.models.entity.MeaningsEntity
+import com.paulik.repository.data.retrofit.ApiService
 
 class DescriptionWordTranslationViewModel(
     private val apiService: ApiService

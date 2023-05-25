@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Core</string>
+
+    <string name="error_textview_stub">Ошибка</string>
+    <string name="no_data_available">Нет данных</string>
+    <string name="empty_server_response_on_success">Ответ от сервера пуст</string>
+
+    <string name="dialog_tittle_sorry">Извините</string>
+    <string name="dialog_title_device_is_offline">Нет подключения к Интернету</string>
+    <string name="dialog_message_device_is_offline">Вы не можете использовать приложение без
+        подключения к Интернету. Пожалуйста, проверьте подключение к Интернету.</string>
+
+</resources>

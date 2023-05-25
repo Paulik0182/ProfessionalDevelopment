@@ -3,8 +3,8 @@ package com.paulik.professionaldevelopment.ui.settings
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import com.paulik.core.ViewBindingFragment
 import com.paulik.professionaldevelopment.databinding.FragmentSettingsBinding
-import com.paulik.professionaldevelopment.ui.root.ViewBindingFragment
 
 class SettingsFragment : ViewBindingFragment<FragmentSettingsBinding>(
     FragmentSettingsBinding::inflate

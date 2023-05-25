@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Utils</string>
+    <string name="undefined_error">Неизвестная ошибка</string>
+    <string name="dialog_button_cancel">Отменить</string>
+</resources>

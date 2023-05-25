@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.paulik.models.entity.DataEntity
 import com.paulik.professionaldevelopment.R
-import com.paulik.professionaldevelopment.domain.entity.DataEntity
-import com.paulik.professionaldevelopment.ui.utils.convertMeaningsToString
+import com.paulik.repository.convertMeaningsToString
 
 class WordTranslationAdapter(
     private var onListItemClickListener: OnListItemClickListener
