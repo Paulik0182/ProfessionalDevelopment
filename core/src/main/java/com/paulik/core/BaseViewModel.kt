@@ -1,4 +1,4 @@
-package com.paulik.professionaldevelopment.ui.root
+package com.paulik.core
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

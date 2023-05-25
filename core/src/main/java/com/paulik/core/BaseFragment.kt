@@ -1,13 +1,11 @@
-package com.paulik.professionaldevelopment.ui.root
+package com.paulik.core
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import com.paulik.core.databinding.LoadingLayoutBinding
 import com.paulik.models.AppState
 import com.paulik.models.entity.DataEntity
-import com.paulik.professionaldevelopment.R
-import com.paulik.professionaldevelopment.databinding.LoadingLayoutBinding
-import com.paulik.professionaldevelopment.ui.translation.dialog.AlertDialogFragment
 import com.paulik.repository.domain.WordTranslationInteractor
 import com.paulik.utils.network.isOnline
 
@@ -74,6 +72,7 @@ abstract class BaseFragment<T : AppState, I : WordTranslationInteractor<T>> : Fr
                     binding?.roundProgressBar?.visibility = View.VISIBLE
                 }
             }
+
             is AppState.Error -> {
                 showViewWorking()
                 showAlertDialog(getString(R.string.error_textview_stub), appState.error.message)
@@ -89,8 +88,14 @@ abstract class BaseFragment<T : AppState, I : WordTranslationInteractor<T>> : Fr
     }
 
     private fun showAlertDialog(title: String?, message: String?) {
-        AlertDialogFragment.newInstance(title, message)
-            .show(childFragmentManager, DIALOG_FRAGMENT_TAG)
+        AlertDialogFragment.Companion.newInstance(
+            title,
+            message
+        )
+            .show(
+                childFragmentManager,
+                DIALOG_FRAGMENT_TAG
+            )
     }
 
     private fun showViewWorking() {

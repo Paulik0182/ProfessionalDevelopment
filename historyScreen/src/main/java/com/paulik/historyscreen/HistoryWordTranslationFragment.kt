@@ -1,4 +1,4 @@
-package com.paulik.professionaldevelopment.ui.history
+package com.paulik.historyscreen
 
 import android.content.Context
 import android.content.res.ColorStateList
@@ -17,11 +17,10 @@ import androidx.transition.Slide
 import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.paulik.core.BaseFragment
+import com.paulik.historyscreen.databinding.FragmentHistoryWordTranslationBinding
 import com.paulik.models.AppState
 import com.paulik.models.entity.DataEntity
-import com.paulik.professionaldevelopment.R
-import com.paulik.professionaldevelopment.databinding.FragmentHistoryWordTranslationBinding
-import com.paulik.professionaldevelopment.ui.root.BaseFragment
 import com.paulik.repository.data.HistoryWordTranslationInteractorImpl
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -86,9 +85,13 @@ class HistoryWordTranslationFragment :
     }
 
     private fun iniViewModel() {
+
+
         if (binding.historyFragmentRecyclerview.adapter != null) {
             throw IllegalStateException("Сначала должна быть инициализирована ViewModel")
         }
+        injectDependencies()
+
 
         viewModel.subscribe().observe(viewLifecycleOwner, Observer {
             renderData(it)

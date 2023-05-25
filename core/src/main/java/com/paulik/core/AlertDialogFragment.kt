@@ -1,4 +1,4 @@
-package com.paulik.professionaldevelopment.ui.translation.dialog
+package com.paulik.core
 
 import android.app.Dialog
 import android.os.Bundle

@@ -1,8 +1,8 @@
-package com.paulik.professionaldevelopment.ui.history
+package com.paulik.historyscreen
 
 import androidx.lifecycle.LiveData
+import com.paulik.core.BaseViewModel
 import com.paulik.models.AppState
-import com.paulik.professionaldevelopment.ui.root.BaseViewModel
 import com.paulik.repository.data.HistoryWordTranslationInteractorImpl
 import com.paulik.repository.parseLocalSearchResults
 import com.paulik.repository.room.history.HistoryLocalRepoImpl

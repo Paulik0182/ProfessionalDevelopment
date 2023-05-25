@@ -9,6 +9,7 @@ dependencies {
 
     implementation(project(Modules.model))
     implementation(project(Modules.utils))
+    implementation(project(Modules.repository))
 
     // Android
     implementation(AndroidX.core)

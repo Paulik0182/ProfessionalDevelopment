@@ -3,7 +3,6 @@ package com.paulik.professionaldevelopment.di
 import androidx.room.Room
 import com.paulik.models.entity.DataEntity
 import com.paulik.professionaldevelopment.ui.favorite.FavoriteWordViewModel
-import com.paulik.professionaldevelopment.ui.history.HistoryWordTranslationViewModel
 import com.paulik.professionaldevelopment.ui.translation.WordTranslationViewModel
 import com.paulik.professionaldevelopment.ui.translation.descriptios.DescriptionWordTranslationViewModel
 import com.paulik.repository.data.HistoryWordTranslationInteractorImpl
@@ -93,13 +92,6 @@ val historyScreen = module {
     factory {
         HistoryLocalRepoImpl(
             HistoryDataBaseImpl(get())
-        )
-    }
-
-    factory {
-        HistoryWordTranslationViewModel(
-            get<HistoryWordTranslationInteractorImpl>(),
-            get<HistoryLocalRepoImpl>()
         )
     }
 }

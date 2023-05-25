@@ -5,10 +5,10 @@ import android.view.KeyEvent
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.paulik.core.ViewBindingActivity
+import com.paulik.historyscreen.HistoryWordTranslationFragment
 import com.paulik.professionaldevelopment.R
 import com.paulik.professionaldevelopment.databinding.ActivityRootBinding
 import com.paulik.professionaldevelopment.ui.favorite.FavoritesWordsFragment
-import com.paulik.professionaldevelopment.ui.history.HistoryWordTranslationFragment
 import com.paulik.professionaldevelopment.ui.settings.AboutAppFragment
 import com.paulik.professionaldevelopment.ui.settings.SettingsFragment
 import com.paulik.professionaldevelopment.ui.translation.WordTranslationFragment

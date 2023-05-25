@@ -26,6 +26,10 @@ subprojects {
                     viewBinding = true
                 }
             }
+            /** Можно добавить общие зависимости */
+            dependencies {
+
+            }
         }
     }
 }

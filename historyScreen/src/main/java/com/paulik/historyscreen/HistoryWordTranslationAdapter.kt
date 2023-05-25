@@ -1,4 +1,4 @@
-package com.paulik.professionaldevelopment.ui.history
+package com.paulik.historyscreen
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.paulik.models.entity.DataEntity
-import com.paulik.professionaldevelopment.R
 
 class HistoryWordTranslationAdapter(
     private var onListItemClickListener: OnListItemClickListener
