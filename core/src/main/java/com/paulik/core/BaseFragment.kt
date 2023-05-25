@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.paulik.core.databinding.LoadingLayoutBinding
+import com.paulik.dialog.AlertDialogFragment
 import com.paulik.models.AppState
 import com.paulik.models.entity.DataEntity
 import com.paulik.repository.domain.WordTranslationInteractor

@@ -1,4 +1,4 @@
-package com.paulik.core
+package com.paulik.dialog
 
 import android.app.Dialog
 import android.os.Bundle

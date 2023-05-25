@@ -49,7 +49,7 @@ class RootActivity : ViewBindingActivity<ActivityRootBinding>(
                 }
 
                 R.id.history_word_translation_item -> {
-                    navigateWithBackStack(HistoryWordTranslationFragment.newInstance())
+                    navigateTo(HistoryWordTranslationFragment.newInstance())
                 }
 
                 R.id.favorites_word_translation_item -> {
@@ -120,18 +120,9 @@ class RootActivity : ViewBindingActivity<ActivityRootBinding>(
         binding.bottomNavBar.visibility = View.GONE
     }
 
-
     override fun openDetailsWord(word: String, flagFavorite: Boolean) {
         navigateWithBackStack(WordTranslationFragment.newInstance(word, true))
         binding.bottomNavBar.visibility = View.GONE
-
-//        navigateWithBackStack(DescriptionWordTranslationFragment.newInstance(
-//            word = word,
-//            description = null,
-//            url = null,
-//            flagView = flagFavorite
-//        ))
-//        binding.bottomNavBar.visibility = View.GONE
     }
 
     override fun openHistoryFragment() {

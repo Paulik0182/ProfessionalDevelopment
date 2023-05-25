@@ -8,25 +8,10 @@ plugins {
 
 dependencies {
 
-    // Models
-//    implementation (project(Modules.app))
+    // Modules
     implementation(project(Modules.model))
     implementation(project(Modules.repository))
     implementation(project(Modules.core))
-
-    // Kotlin
-    implementation(Kotlin.stdlib)
-    implementation(Kotlin.coroutines_core)
-    implementation(Kotlin.coroutines_android)
-    // Android X
-    implementation(AndroidX.core)
-    // CardView
-    implementation(CardView.appcompat)
-    // Test
-    testImplementation(TestImpl.junit_test)
-    androidTestImplementation(TestImpl.ext_junit_test)
-    androidTestImplementation(TestImpl.espresso_core_test)
-//    implementation (fileTree (dir: "libs", include: ["*.jar"])) // todo
 
     // Material
     implementation(Material.material)

@@ -5,11 +5,10 @@ import com.paulik.repository.room.history.HistoryLocalRepoImpl
 import org.koin.core.context.loadKoinModules
 import org.koin.dsl.module
 
-
 fun injectDependencies() = loadFeature
 
 private val loadFeature by lazy {
-    loadKoinModules(listOf(historyScreen))
+    loadKoinModules(historyScreen)
 }
 
 val historyScreen = module {

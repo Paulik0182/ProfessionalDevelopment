@@ -66,6 +66,8 @@ class HistoryWordTranslationFragment :
 
         _binding = FragmentHistoryWordTranslationBinding.bind(view)
 
+        injectDependencies()
+
         iniViewModel()
 
         initViews()
@@ -85,13 +87,9 @@ class HistoryWordTranslationFragment :
     }
 
     private fun iniViewModel() {
-
-
         if (binding.historyFragmentRecyclerview.adapter != null) {
             throw IllegalStateException("Сначала должна быть инициализирована ViewModel")
         }
-        injectDependencies()
-
 
         viewModel.subscribe().observe(viewLifecycleOwner, Observer {
             renderData(it)

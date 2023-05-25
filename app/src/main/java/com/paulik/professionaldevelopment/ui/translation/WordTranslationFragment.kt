@@ -8,10 +8,10 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.paulik.core.ViewBindingWordTranslationFragment
 import com.paulik.models.entity.DataEntity
 import com.paulik.professionaldevelopment.R
 import com.paulik.professionaldevelopment.databinding.FragmentWordTranslationBinding
-import com.paulik.professionaldevelopment.ui.root.ViewBindingWordTranslationFragment
 import com.paulik.professionaldevelopment.ui.translation.dialog.SearchDialogFragment
 import com.paulik.repository.convertMeaningsToString
 import com.paulik.utils.network.isOnline

@@ -8,19 +8,8 @@ plugins {
 
 dependencies {
 
+    // Modules
     implementation(project(Modules.model))
-
-    // Kotlin
-    implementation(Kotlin.stdlib)
-    // Android X
-    implementation(AndroidX.core)
-    // CardView
-    implementation(CardView.appcompat)
-    // Test
-    testImplementation(TestImpl.junit_test)
-    androidTestImplementation(TestImpl.ext_junit_test)
-    androidTestImplementation(TestImpl.espresso_core_test)
-//    implementation (fileTree (dir: "libs", include: ["*.jar"])) // todo
 
     // Retrofit
     implementation(Retrofit.retrofit) // основная библиотека Retrofit

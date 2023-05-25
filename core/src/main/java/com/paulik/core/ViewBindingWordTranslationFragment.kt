@@ -1,11 +1,10 @@
-package com.paulik.professionaldevelopment.ui.root
+package com.paulik.core
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
-import com.paulik.core.BaseFragment
 import com.paulik.models.AppState
 import com.paulik.repository.data.WordTranslationInteractorImpl
 
