@@ -7,13 +7,22 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.paulik.core.ViewBindingFragment
 import com.paulik.professionaldevelopment.databinding.FragmentFavoritesWordsBinding
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.android.ext.android.getKoin
+import org.koin.core.qualifier.named
+import org.koin.core.scope.Scope
+
+private const val FAVOR_SCOPE_ID = "FAVOR_SCOPE_ID"
+const val FAVOR_SCOPE_NAME = "FAVOR_SCOPE_NAME"
 
 class FavoritesWordsFragment : ViewBindingFragment<FragmentFavoritesWordsBinding>(
     FragmentFavoritesWordsBinding::inflate
 ) {
 
-    private val viewModel: FavoriteWordViewModel by viewModel()
+    private lateinit var viewModel: FavoriteWordViewModel
+
+    private val scopeFavorite: Scope by lazy {
+        getKoin().createScope(FAVOR_SCOPE_ID, named(FAVOR_SCOPE_NAME))
+    }
 
     private val adapter: FavoriteWordAdapter by lazy {
         FavoriteWordAdapter(
@@ -56,6 +65,8 @@ class FavoritesWordsFragment : ViewBindingFragment<FragmentFavoritesWordsBinding
         if (binding.favoriteFragmentRecyclerview.adapter != null) {
             throw IllegalStateException("Сначала должна быть инициализирована ViewModel")
         }
+        val viewScope: FavoriteWordViewModel by scopeFavorite.inject()
+        viewModel = viewScope
         viewModel.favoriteEntityLiveData.observe(viewLifecycleOwner) {
             adapter.setData(it)
         }
@@ -87,6 +98,11 @@ class FavoritesWordsFragment : ViewBindingFragment<FragmentFavoritesWordsBinding
     override fun onAttach(context: Context) {
         super.onAttach(context)
         getController()
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+//        scopeFavorite.close()
     }
 
     companion object {

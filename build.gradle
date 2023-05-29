@@ -28,8 +28,15 @@ subprojects {
             }
             /** Можно добавить общие зависимости для всех модулей */
             dependencies {
+
                 // Kotlin
                 implementation(Kotlin.stdlib)
+
+                //Koin core features
+                implementation Koin.koin_core
+                //Koin main features for Android (Scope,ViewModel ...)
+                implementation Koin.koin_android
+
                 // Android X
                 implementation(AndroidX.core)
                 // CardView

@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.paulik.core.BaseViewModel
 import com.paulik.models.AppState
 import com.paulik.repository.data.WordTranslationInteractorImpl
+import com.paulik.repository.data.room.favorite.FavoriteDataBaseImpl
 import com.paulik.repository.parseOnlineSearchResults
-import com.paulik.repository.room.favorite.FavoriteDataBaseImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

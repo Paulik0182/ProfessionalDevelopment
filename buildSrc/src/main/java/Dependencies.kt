@@ -71,7 +71,7 @@ object Versions {
     const val okhttp3Logging = "4.9.2"
 
     //KOIN
-    const val koin = "3.2.0"
+    const val koin = "3.4.0"
 
     //Download images
     const val coil = "2.1.0"

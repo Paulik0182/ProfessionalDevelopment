@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.paulik.models.entity.FavoriteEntity
-import com.paulik.repository.room.favorite.FavoriteDataBaseImpl
+import com.paulik.repository.data.room.favorite.FavoriteDataBaseImpl
 import com.paulik.utils.mutable
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope

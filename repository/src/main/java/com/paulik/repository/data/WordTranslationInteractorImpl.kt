@@ -20,7 +20,7 @@ class WordTranslationInteractorImpl(
 
         try {
             if (fromRemoteSource) {
-                remoteRepository.getData(word)?.also { list ->
+                remoteRepository.getData(word).also { list ->
                     appState = AppState.Success(list.map {
                         DataEntity(
                             it.text,

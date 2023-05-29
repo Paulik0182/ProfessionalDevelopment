@@ -1,4 +1,4 @@
-package com.paulik.repository.room.history
+package com.paulik.repository.data.room.history
 
 import com.paulik.models.AppState
 import com.paulik.models.entity.DataEntity
