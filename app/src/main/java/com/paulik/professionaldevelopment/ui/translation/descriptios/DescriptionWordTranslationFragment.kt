@@ -92,8 +92,6 @@ class DescriptionWordTranslationFragment :
         val bundle = arguments
         val word = bundle?.getString(WORD_EXTRA)
 
-//        val word = binding.descriptionHeaderTextView.text.toString()
-//        viewModel.getWordDetails(word)
         viewModel.wordDetails.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is WordDetailsResult.Loading -> {
@@ -142,37 +140,6 @@ class DescriptionWordTranslationFragment :
             binding.descriptionScreenSwipeRefreshLayout.isRefreshing = false
         }
     }
-
-    // todo Какаята ошибка в коде. постоянно попадаю в error при загрузке.
-//    private fun useCoilToLoadPhoto(imageView: ImageView, imageLink: String) {
-//        val request = ImageRequest.Builder(imageView.context)
-//            .data("https:$imageLink")
-//            .placeholder(R.drawable.uploading_images)
-//            .error(R.drawable.ic_load_error_vector)
-//            .build()
-//
-//        val imageLoader = ImageLoader(imageView.context)
-//        val disposable = imageLoader.enqueue(request)
-//
-//        imageView.doOnDetach {
-//            disposable.dispose()
-//        }
-//
-//        imageLoader.let {
-//            imageView.load(request) {
-//                listener(
-//                    onSuccess = { request, metadata ->
-//                        if (metadata is SuccessResult) {
-//                            imageView.setImageDrawable(metadata.drawable)
-//                        }
-//                    },
-//                    onError = { request, throwable ->
-//                        imageView.setImageResource(R.drawable.ic_load_error_vector)
-//                    }
-//                )
-//            }
-//        }
-//    }
 
     private fun useCoilToLoadPhoto(imageView: ImageView, imageLink: String) {
         // todo доработать - установить тул бар.

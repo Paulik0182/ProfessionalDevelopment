@@ -60,7 +60,7 @@ class RootActivity : ViewBindingActivity<ActivityRootBinding>(
                     navigateTo(settingsFragment)
                 }
 
-                else -> throw IllegalStateException("Такого фрагмента нет")
+                else -> throw IllegalStateException(getString(R.string.fragment_exception))
             }
             return@setOnItemSelectedListener true
         }

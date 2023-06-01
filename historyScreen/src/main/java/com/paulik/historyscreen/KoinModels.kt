@@ -1,6 +1,7 @@
 package com.paulik.historyscreen
 
 import com.paulik.repository.data.HistoryWordTranslationInteractorImpl
+import com.paulik.repository.data.room.history.HistoryDataBaseImpl
 import com.paulik.repository.data.room.history.HistoryLocalRepoImpl
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.loadKoinModules
@@ -21,6 +22,12 @@ val historyScreen = module {
                 get()
             )
         }
+        scoped {
+            HistoryLocalRepoImpl(
+                HistoryDataBaseImpl(get())
+            )
+        }
+
         viewModel {
             HistoryWordTranslationViewModel(
                 get<HistoryWordTranslationInteractorImpl>(),

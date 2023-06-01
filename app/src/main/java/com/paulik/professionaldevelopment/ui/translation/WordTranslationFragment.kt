@@ -120,7 +120,7 @@ class WordTranslationFragment : ViewBindingWordTranslationFragment<FragmentWordT
 
     private fun initViewModel() {
         if (mainRecyclerView.adapter != null) {
-            throw IllegalStateException("Сначала должна быть инициализирована ViewModel")
+            throw IllegalStateException(getString(R.string.view_model_exception))
         }
 
         val viewScope: WordTranslationViewModel by scope.inject()

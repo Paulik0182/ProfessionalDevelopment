@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.paulik.core.ViewBindingFragment
+import com.paulik.professionaldevelopment.R
 import com.paulik.professionaldevelopment.databinding.FragmentFavoritesWordsBinding
 import org.koin.android.ext.android.getKoin
 import org.koin.core.qualifier.named
@@ -20,9 +21,7 @@ class FavoritesWordsFragment : ViewBindingFragment<FragmentFavoritesWordsBinding
 
     private lateinit var viewModel: FavoriteWordViewModel
 
-    private val scopeFavorite: Scope by lazy {
-        getKoin().createScope(FAVOR_SCOPE_ID, named(FAVOR_SCOPE_NAME))
-    }
+    private lateinit var scopeFavorite: Scope
 
     private val adapter: FavoriteWordAdapter by lazy {
         FavoriteWordAdapter(
@@ -63,10 +62,9 @@ class FavoritesWordsFragment : ViewBindingFragment<FragmentFavoritesWordsBinding
 
     private fun initViewModel() {
         if (binding.favoriteFragmentRecyclerview.adapter != null) {
-            throw IllegalStateException("Сначала должна быть инициализирована ViewModel")
+            throw IllegalStateException(getString(R.string.view_model_exception))
         }
-        val viewScope: FavoriteWordViewModel by scopeFavorite.inject()
-        viewModel = viewScope
+
         viewModel.favoriteEntityLiveData.observe(viewLifecycleOwner) {
             adapter.setData(it)
         }
@@ -97,12 +95,17 @@ class FavoritesWordsFragment : ViewBindingFragment<FragmentFavoritesWordsBinding
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        scopeFavorite = getKoin().createScope(FAVOR_SCOPE_ID, named(FAVOR_SCOPE_NAME))
+
+        val viewScope: FavoriteWordViewModel by scopeFavorite.inject()
+        viewModel = viewScope
+
         getController()
     }
 
     override fun onDetach() {
         super.onDetach()
-//        scopeFavorite.close()
+        scopeFavorite.close()
     }
 
     companion object {

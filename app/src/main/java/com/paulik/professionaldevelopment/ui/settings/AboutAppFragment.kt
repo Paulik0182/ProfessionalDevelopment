@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import com.paulik.core.ViewBindingFragment
 import com.paulik.professionaldevelopment.BuildConfig
+import com.paulik.professionaldevelopment.R
 import com.paulik.professionaldevelopment.databinding.FragmentAboutAppBinding
 
 class AboutAppFragment : ViewBindingFragment<FragmentAboutAppBinding>(
@@ -19,12 +20,10 @@ class AboutAppFragment : ViewBindingFragment<FragmentAboutAppBinding>(
 
     @SuppressLint("SetTextI18n")
     private fun informationApp() {
-        binding.codVersionTextView.text = "Код версии: " + BuildConfig.VERSION_CODE
-        binding.versionTextView.text = "Версия: " + BuildConfig.VERSION_NAME
-        binding.aboutAppTextView.text =
-            "О Приложении\n\nПриложение является результатом выполнения " +
-                    "практических заданий по освоению разработки Android приложений." +
-                    "\n\nКурс - Профессиональная разработка Android-приложений\n(Апрель 2023 года)"
+        binding.codVersionTextView.text =
+            getString(R.string.version_code) + BuildConfig.VERSION_CODE
+        binding.versionTextView.text = getString(R.string.version_name) + BuildConfig.VERSION_NAME
+        binding.aboutAppTextView.text = getString(R.string.app_info)
     }
 
     companion object {

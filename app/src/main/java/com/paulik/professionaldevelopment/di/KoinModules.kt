@@ -1,7 +1,7 @@
 package com.paulik.professionaldevelopment.di
 
+import android.util.Log
 import androidx.room.Room
-import com.paulik.historyscreen.HistoryWordTranslationFragment
 import com.paulik.models.entity.DataEntity
 import com.paulik.professionaldevelopment.ui.favorite.FAVOR_SCOPE_NAME
 import com.paulik.professionaldevelopment.ui.favorite.FavoriteWordViewModel
@@ -92,16 +92,6 @@ val mainScreen = module {
     }
 }
 
-val historyScreen = module {
-    scope(named<HistoryWordTranslationFragment>()) {
-        scoped {
-            HistoryLocalRepoImpl(
-                HistoryDataBaseImpl(get())
-            )
-        }
-    }
-}
-
 val wordDetailsScreen = module {
     factory {
         DescriptionWordTranslationViewModel(
@@ -114,6 +104,7 @@ val favoriteScreen = module {
     /** При данном определении scopa мы сами определяем когда уничтожаем scope */
     scope(named(FAVOR_SCOPE_NAME)) {
         scoped {
+            Log.d("@@@", "FavoriteDataBaseImpl invoked")
             FavoriteDataBaseImpl(
                 get()
             )

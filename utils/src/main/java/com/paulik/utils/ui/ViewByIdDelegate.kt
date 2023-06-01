@@ -34,7 +34,7 @@ class ViewByIdDelegate<out T : View>(
 
             viewRef = view // Сохраняем ссылку на View, чтобы не создавать её каждый раз заново
 
-            // Сохраняем ссылку на root, чтобы не искать ее каждый раз заново
+            // Сохраняем ссылку на root, чтобы понять, что область поиска изменилась
             rootRef = WeakReference(currentRoot)
         }
 
@@ -49,6 +49,6 @@ fun <T : View> Activity.viewById(@IdRes viewId: Int): ViewByIdDelegate<T> {
 }
 
 fun <T : View> Fragment.viewById(@IdRes viewId: Int): ViewByIdDelegate<T> {
-    // Возвращаем корневую View
+    // Возвращаем корневую View (view это вызов getView)
     return ViewByIdDelegate({ view }, viewId)
 }
