@@ -91,14 +91,6 @@ dependencies {
     // адаптер RX Java 2 для Retrofit
     implementation Okhttp.okhttp3_logging
 
-    //Koin
-    //Koin core features
-    implementation Koin.koin_core
-    //Koin main features for Android (Scope,ViewModel ...)
-    implementation Koin.koin_android
-    //Koin Java Compatibility
-    implementation Koin.android_compat
-
     //Download images
     implementation DownloadImages.coil
     implementation DownloadImages.picasso

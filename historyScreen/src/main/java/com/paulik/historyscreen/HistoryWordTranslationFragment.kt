@@ -22,7 +22,6 @@ import com.paulik.historyscreen.databinding.FragmentHistoryWordTranslationBindin
 import com.paulik.models.AppState
 import com.paulik.models.entity.DataEntity
 import com.paulik.repository.data.HistoryWordTranslationInteractorImpl
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HistoryWordTranslationFragment :
     BaseFragment<AppState, HistoryWordTranslationInteractorImpl>() {
@@ -32,7 +31,8 @@ class HistoryWordTranslationFragment :
 
     private var flagVisible = true
 
-    override val viewModel: HistoryWordTranslationViewModel by viewModel()
+    override lateinit var viewModel: HistoryWordTranslationViewModel
+
     private val adapter: HistoryWordTranslationAdapter by lazy {
         HistoryWordTranslationAdapter(
             onListItemClickListener
@@ -91,6 +91,8 @@ class HistoryWordTranslationFragment :
             throw IllegalStateException("Сначала должна быть инициализирована ViewModel")
         }
 
+        val viewScope: HistoryWordTranslationViewModel by scope.inject()
+        viewModel = viewScope
         viewModel.subscribe().observe(viewLifecycleOwner, Observer {
             renderData(it)
         })

@@ -15,9 +15,6 @@ class DescriptionWordTranslationViewModel(
 
     suspend fun getWordDetails(word: String?) {
         _wordDetails.value = WordDetailsResult.Loading
-//        viewModelScope.launch {
-//            val response = apiService.wordAsync(word).await()
-//            _wordDetails.value = WordDetailsResult.Success(response)
 
         try {
             val response = apiService.wordAsync(word).await()

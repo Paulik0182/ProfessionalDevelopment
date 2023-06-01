@@ -2,17 +2,17 @@ package com.paulik.core
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import com.paulik.core.databinding.LoadingLayoutBinding
 import com.paulik.dialog.AlertDialogFragment
 import com.paulik.models.AppState
 import com.paulik.models.entity.DataEntity
 import com.paulik.repository.domain.WordTranslationInteractor
 import com.paulik.utils.network.isOnline
+import org.koin.androidx.scope.ScopeFragment
 
 private const val DIALOG_FRAGMENT_TAG = "74a54328-5d62-46bf-ab6b-cbf5d8c79522"
 
-abstract class BaseFragment<T : AppState, I : WordTranslationInteractor<T>> : Fragment() {
+abstract class BaseFragment<T : AppState, I : WordTranslationInteractor<T>> : ScopeFragment() {
 
     private var binding: LoadingLayoutBinding? = null
 
@@ -59,7 +59,7 @@ abstract class BaseFragment<T : AppState, I : WordTranslationInteractor<T>> : Fr
 
             is AppState.Empty -> {
                 showViewWorking()
-                showAlertDialog(getString(R.string.no_data_available), AppState.Empty.toString())
+                showAlertDialog(getString(R.string.no_data_available), toString())
             }
 
             is AppState.Loading -> {
@@ -89,7 +89,7 @@ abstract class BaseFragment<T : AppState, I : WordTranslationInteractor<T>> : Fr
     }
 
     private fun showAlertDialog(title: String?, message: String?) {
-        AlertDialogFragment.Companion.newInstance(
+        AlertDialogFragment.newInstance(
             title,
             message
         )

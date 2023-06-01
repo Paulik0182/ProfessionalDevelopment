@@ -1,4 +1,4 @@
-package com.paulik.repository.room.history
+package com.paulik.repository.data.room.history
 
 import androidx.room.*
 import com.paulik.models.entity.HistoryEntity

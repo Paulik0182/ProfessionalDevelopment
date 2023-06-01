@@ -27,12 +27,4 @@ dependencies {
     implementation(Room.room_guava)
     // optional - Test helpers
     implementation(Room.room_testing)
-
-    //Koin
-    //Koin core features
-    implementation(Koin.koin_core)
-    //Koin main features for Android (Scope,ViewModel ...)
-    implementation(Koin.koin_android)
-    //Koin Java Compatibility
-    implementation(Koin.android_compat)
 }

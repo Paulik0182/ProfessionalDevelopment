@@ -4,8 +4,9 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.paulik.models.entity.FavoriteEntity
 import com.paulik.models.entity.HistoryEntity
-import com.paulik.repository.room.favorite.FavoriteDao
-import com.paulik.repository.room.history.HistoryDao
+import com.paulik.repository.data.room.favorite.FavoriteDao
+import com.paulik.repository.data.room.history.HistoryDao
+
 
 @Database(
     entities = [

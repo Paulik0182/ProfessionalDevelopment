@@ -1,20 +1,24 @@
 package com.paulik.professionaldevelopment.di
 
+import android.util.Log
 import androidx.room.Room
 import com.paulik.models.entity.DataEntity
+import com.paulik.professionaldevelopment.ui.favorite.FAVOR_SCOPE_NAME
 import com.paulik.professionaldevelopment.ui.favorite.FavoriteWordViewModel
+import com.paulik.professionaldevelopment.ui.translation.WordTranslationFragment
 import com.paulik.professionaldevelopment.ui.translation.WordTranslationViewModel
 import com.paulik.professionaldevelopment.ui.translation.descriptios.DescriptionWordTranslationViewModel
-import com.paulik.repository.data.HistoryWordTranslationInteractorImpl
 import com.paulik.repository.data.RepositoryImpl
 import com.paulik.repository.data.WordTranslationInteractorImpl
 import com.paulik.repository.data.retrofit.RetrofitImpl
 import com.paulik.repository.data.room.WordDataBase
+import com.paulik.repository.data.room.favorite.FavoriteDataBaseImpl
+import com.paulik.repository.data.room.history.HistoryDataBaseImpl
+import com.paulik.repository.data.room.history.HistoryLocalRepoImpl
 import com.paulik.repository.domain.repo.HistoryRepo
 import com.paulik.repository.domain.repo.Repository
-import com.paulik.repository.room.favorite.FavoriteDataBaseImpl
-import com.paulik.repository.room.history.HistoryDataBaseImpl
-import com.paulik.repository.room.history.HistoryLocalRepoImpl
+import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 /** single - обозначает что это единственный экземпляр на всё приложение. Используется для ленивой
@@ -61,38 +65,30 @@ val application = module {
 }
 
 val mainScreen = module {
-    factory {
-        WordTranslationInteractorImpl(
-            get(),
-            get()
-        )
-    }
+    /** применяем scoped вместо single, factory тем самым привязываес к жизненому цыклу scope
+     * Если указать factory - объект не будет закэширован, если несколько раз создать объект с помощью
+     * factory то этот объект будет в нескольких экземплярах (физически эти объеты
+     * будут занимать разные ячейки в памяти.*/
 
-    factory {
-        FavoriteDataBaseImpl(
-            get()
-        )
-    }
+    scope(named<WordTranslationFragment>()) {
+        scoped {
+            WordTranslationInteractorImpl(
+                get(),
+                get()
+            )
+        }
+        scoped {
+            FavoriteDataBaseImpl(
+                get()
+            )
+        }
 
-    factory {
-        WordTranslationViewModel(
-            get<WordTranslationInteractorImpl>(),
-            get<FavoriteDataBaseImpl>()
-        )
-    }
-}
-
-val historyScreen = module {
-    factory {
-        HistoryWordTranslationInteractorImpl(
-            get()
-        )
-    }
-
-    factory {
-        HistoryLocalRepoImpl(
-            HistoryDataBaseImpl(get())
-        )
+        viewModel {
+            WordTranslationViewModel(
+                get<WordTranslationInteractorImpl>(),
+                get<FavoriteDataBaseImpl>()
+            )
+        }
     }
 }
 
@@ -105,9 +101,18 @@ val wordDetailsScreen = module {
 }
 
 val favoriteScreen = module {
-    factory {
-        FavoriteWordViewModel(
-            get<FavoriteDataBaseImpl>()
-        )
+    /** При данном определении scopa мы сами определяем когда уничтожаем scope */
+    scope(named(FAVOR_SCOPE_NAME)) {
+        scoped {
+            Log.d("@@@", "FavoriteDataBaseImpl invoked")
+            FavoriteDataBaseImpl(
+                get()
+            )
+        }
+        viewModel {
+            FavoriteWordViewModel(
+                get<FavoriteDataBaseImpl>()
+            )
+        }
     }
 }

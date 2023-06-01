@@ -8,6 +8,8 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.paulik.core.ViewBindingWordTranslationFragment
 import com.paulik.models.entity.DataEntity
 import com.paulik.professionaldevelopment.R
@@ -15,7 +17,7 @@ import com.paulik.professionaldevelopment.databinding.FragmentWordTranslationBin
 import com.paulik.professionaldevelopment.ui.translation.dialog.SearchDialogFragment
 import com.paulik.repository.convertMeaningsToString
 import com.paulik.utils.network.isOnline
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import com.paulik.utils.ui.viewById
 
 private const val BOTTOM_SHEET_FRAGMENT_DIALOG_TAG = "74a54328-5d62-46bf-ab6b-cbf5fgt0-092395"
 private const val WORD_FROM_HISTORY_LIST = "WORD_FROM_HISTORY_LIST"
@@ -28,7 +30,10 @@ class WordTranslationFragment : ViewBindingWordTranslationFragment<FragmentWordT
     private var word: String? = null
     private var flagHistory: Boolean = false
 
-    override val viewModel: WordTranslationViewModel by viewModel()
+    override lateinit var viewModel: WordTranslationViewModel
+
+    private val mainRecyclerView by viewById<RecyclerView>(R.id.main_recycler_view)
+    private val searchFab by viewById<FloatingActionButton>(R.id.search_fab)
 
     private val adapter: WordTranslationAdapter by lazy {
         WordTranslationAdapter(
@@ -47,13 +52,11 @@ class WordTranslationFragment : ViewBindingWordTranslationFragment<FragmentWordT
         object : WordTranslationAdapter.OnListItemClickListener {
             override fun onItemClick(data: DataEntity) {
 
-                // Требуется пояснение почему так. почему meanings[0] ноль?
                 getController().openDescriptionWordTranslation(
                     data.text!!,
                     convertMeaningsToString(data.meanings!!),
                     data.meanings!![0].imageUrl
                 )
-//                Toast.makeText(requireContext(), data.text, Toast.LENGTH_SHORT).show()
             }
 
             override fun onFavoriteClick(word: String, isFavorite: Boolean) {
@@ -116,9 +119,12 @@ class WordTranslationFragment : ViewBindingWordTranslationFragment<FragmentWordT
     }
 
     private fun initViewModel() {
-        if (binding.mainRecyclerView.adapter != null) {
-            throw IllegalStateException("Сначала должна быть инициализирована ViewModel")
+        if (mainRecyclerView.adapter != null) {
+            throw IllegalStateException(getString(R.string.view_model_exception))
         }
+
+        val viewScope: WordTranslationViewModel by scope.inject()
+        viewModel = viewScope
         viewModel.subscribe().observe(viewLifecycleOwner) { appStat ->
             renderData(appStat)
         }
@@ -127,13 +133,13 @@ class WordTranslationFragment : ViewBindingWordTranslationFragment<FragmentWordT
     private fun initViews() {
         if (flagHistory) {
             viewModel.getData(word!!, true)
-            binding.searchFab.visibility = View.GONE
+            searchFab.visibility = View.GONE
         }
 
-        binding.searchFab.setOnClickListener(fabClickListener)
+        searchFab.setOnClickListener(fabClickListener)
 
-        binding.mainRecyclerView.layoutManager = LinearLayoutManager(context)
-        binding.mainRecyclerView.adapter = adapter
+        mainRecyclerView.layoutManager = LinearLayoutManager(context)
+        mainRecyclerView.adapter = adapter
     }
 
     interface Controller {

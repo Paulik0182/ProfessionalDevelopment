@@ -1,4 +1,4 @@
-package com.paulik.repository.room.favorite
+package com.paulik.repository.data.room.favorite
 
 import androidx.room.*
 import com.paulik.models.entity.FavoriteEntity
