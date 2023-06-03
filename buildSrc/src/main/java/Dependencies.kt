@@ -38,6 +38,9 @@ object Versions {
     // Android X
     const val core = "1.10.1"
     const val constraintLayout = "2.1.4"
+    // splash Screen
+//    const val splashScreen = "1.0.0-alpha01"
+    const val splashScreen = "1.0.1"
 
     // cardView
     const val appcompat = "1.6.1"
@@ -102,6 +105,8 @@ object AndroidX {
     const val core = "androidx.core:core-ktx:${Versions.core}"
     const val constraint_layout =
         "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
+    const val splash_screen = "androidx.core:core-splashscreen:${Versions.splashScreen}"
+
 }
 
 object CardView {
@@ -172,7 +177,7 @@ object Room {
 }
 
 object GooglePlay {
-    const val googlePlayCore = "com.google.android.play:core:${Versions.googlePlayCore}"
+    const val google_play_core = "com.google.android.play:core:${Versions.googlePlayCore}"
 }
 
 object TestImpl {
@@ -182,3 +187,6 @@ object TestImpl {
         "androidx.test.espresso:espresso-core:${Versions.espressoCoreTest}"
 }
 
+object SplashScreen {
+
+}
