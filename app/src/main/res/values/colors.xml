@@ -29,5 +29,8 @@
 
     <!-- Splash Screen -->
     <color name="splash_screen_background">#21AF9A</color>
+    <color name="blue">#059EE4</color>
+    <color name="ic_launcher_background">#05E423</color>
+    <color name="yellow6">#EACE19</color>
 
 </resources>

@@ -18,11 +18,14 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.InstallStateUpdatedListener
+import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallStatus
+import com.google.android.play.core.install.model.UpdateAvailability
 import com.paulik.core.ViewBindingWordTranslationFragment
 import com.paulik.models.entity.DataEntity
 import com.paulik.professionaldevelopment.R
 import com.paulik.professionaldevelopment.databinding.FragmentWordTranslationBinding
+import com.paulik.professionaldevelopment.ui.root.RootActivity
 import com.paulik.professionaldevelopment.ui.translation.dialog.SearchDialogFragment
 import com.paulik.repository.convertMeaningsToString
 import com.paulik.utils.network.isOnline
@@ -136,30 +139,27 @@ class WordTranslationFragment : ViewBindingWordTranslationFragment<FragmentWordT
         adapter.setData(data)
     }
 
-//    override fun onResume() {
-//        super.onResume()
-//
-//        appUpdateManager
-//            .appUpdateInfo
-//            .addOnSuccessListener { appUpdateInfo ->
-//                if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
-//                    popupSnackbarForCompleteUpdate()
-//                }
-//                if (appUpdateInfo.updateAvailability()
-//                    == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS
-//                ) {
-//                    (activity as RootActivity).appUpdateManager.startUpdateFlowForResult(
-//                        appUpdateInfo,
-//                        AppUpdateType.IMMEDIATE,
-//                        activity as RootActivity,
-//                        REQUEST_CODE_CONNECTIVITY_SETTINGS
-//                    )
+    override fun onResume() {
+        super.onResume()
 
-    //todo startUpdateFlowForResult - доступно только в активити.
-    // todo нужно подумать как это сделать правильно!!!
-//                }
-//            }
-//    }
+        appUpdateManager
+            .appUpdateInfo
+            .addOnSuccessListener { appUpdateInfo ->
+                if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
+                    popupSnackbarForCompleteUpdate()
+                }
+                if (appUpdateInfo.updateAvailability()
+                    == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS
+                ) {
+                    (activity as WordTranslationFragment).appUpdateManager.startUpdateFlowForResult(
+                        appUpdateInfo,
+                        AppUpdateType.IMMEDIATE,
+                        activity as RootActivity,
+                        REQUEST_CODE_CONNECTIVITY_SETTINGS
+                    )
+                }
+            }
+    }
 
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -3,6 +3,9 @@ package com.paulik.professionaldevelopment.ui.root
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
+import android.view.ViewTreeObserver
+import androidx.core.splashscreen.SplashScreen
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.Fragment
 import com.paulik.core.ViewBindingActivity
 import com.paulik.historyscreen.HistoryWordTranslationFragment
@@ -29,7 +32,9 @@ class RootActivity : ViewBindingActivity<ActivityRootBinding>(
     }
     private val settingsFragment: SettingsFragment by lazy { SettingsFragment.newInstance() }
 
+    private var contentHasLoaded = true
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
 
         onBottomNaviBar()
@@ -39,6 +44,21 @@ class RootActivity : ViewBindingActivity<ActivityRootBinding>(
         } else {
             // todo другое
         }
+        setupSplashScreen(splashScreen)
+    }
+
+    private fun setupSplashScreen(splashScreen: SplashScreen) {
+        val content: View = findViewById(android.R.id.content)
+        content.viewTreeObserver.addOnPreDrawListener(
+            object : ViewTreeObserver.OnPreDrawListener {
+                override fun onPreDraw(): Boolean {
+                    return if (contentHasLoaded) {
+                        content.viewTreeObserver.removeOnPreDrawListener(this)
+                        true
+                    } else false
+                }
+            }
+        )
     }
 
     private fun onBottomNaviBar() {

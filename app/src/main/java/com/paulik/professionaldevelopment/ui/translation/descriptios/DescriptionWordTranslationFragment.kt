@@ -1,8 +1,12 @@
 package com.paulik.professionaldevelopment.ui.translation.descriptios
 
 import android.content.Context
+import android.graphics.RenderEffect
+import android.graphics.Shader
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
@@ -82,9 +86,9 @@ class DescriptionWordTranslationFragment :
         if (imageLink.isNullOrBlank()) {
             stopRefreshAnimationIfNeeded()
         } else {
-            useCoilToLoadPhoto(binding.descriptionImageView, imageLink)
+//            useCoilToLoadPhoto(binding.descriptionImageView, imageLink)
 //            useGlideToLoadPhoto(binding.descriptionImageView, imageLink)
-//            usePicassoToLoadPhoto(binding.descriptionImageView, imageLink)
+            usePicassoToLoadPhoto(binding.descriptionImageView, imageLink)
         }
     }
 
@@ -140,7 +144,6 @@ class DescriptionWordTranslationFragment :
             binding.descriptionScreenSwipeRefreshLayout.isRefreshing = false
         }
     }
-
     private fun useCoilToLoadPhoto(imageView: ImageView, imageLink: String) {
         // todo доработать - установить тул бар.
         imageView.load("https:$imageLink") {
@@ -148,6 +151,24 @@ class DescriptionWordTranslationFragment :
             error(R.drawable.ic_load_error_vector)
             crossfade(true)
         }
+
+//        val request = LoadRequest.Builder(requireContext())
+//            .data("https:$imageLink")
+//            .target(
+//                onStart = {},
+//                onSuccess = { result ->
+//                    imageView.setImageDrawable(result)
+//                    val blurEffect = RenderEffect.createBlurEffect(15f, 0f,
+//                        Shader.TileMode.MIRROR)
+//                    imageView.setRenderEffect(blurEffect)
+////binding.root.setRenderEffect(blurEffect)
+//                },
+//                onError = {
+//                    imageView.setImageResource(R.drawable.ic_load_error_vector)
+//                }
+//            )
+//            .build()
+//        ImageLoader(requireContext()).execute(request)
     }
 
     private fun usePicassoToLoadPhoto(imageView: ImageView, imageLink: String) {
@@ -156,6 +177,15 @@ class DescriptionWordTranslationFragment :
             .into(imageView, object : Callback {
                 override fun onSuccess() {
                     stopRefreshAnimationIfNeeded()
+                    if (Build.VERSION.SDK_INT >= 31) {
+                        val blurEffect = RenderEffect.createBlurEffect(
+                            6f, 0f,
+                            Shader.TileMode.MIRROR
+                        )
+                        imageView.setRenderEffect(blurEffect)
+                    } else {
+                        Log.d("@@@", "onSuccess() called: SDK <31")
+                    }
                 }
 
                 override fun onError(e: Exception?) {

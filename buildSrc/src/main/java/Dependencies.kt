@@ -39,7 +39,6 @@ object Versions {
     const val core = "1.10.1"
     const val constraintLayout = "2.1.4"
     // splash Screen
-//    const val splashScreen = "1.0.0-alpha01"
     const val splashScreen = "1.0.1"
 
     // cardView
@@ -185,8 +184,4 @@ object TestImpl {
     const val ext_junit_test = "androidx.test.ext:junit:${Versions.extJunitTest}"
     const val espresso_core_test =
         "androidx.test.espresso:espresso-core:${Versions.espressoCoreTest}"
-}
-
-object SplashScreen {
-
 }
