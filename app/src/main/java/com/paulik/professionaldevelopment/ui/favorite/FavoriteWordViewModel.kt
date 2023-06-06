@@ -25,7 +25,6 @@ class FavoriteWordViewModel(
         Dispatchers.Main
                 + SupervisorJob()
                 + CoroutineExceptionHandler { _, throwable ->
-            // todo
         })
 
     private fun cancelJob() {

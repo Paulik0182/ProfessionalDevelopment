@@ -27,20 +27,4 @@ class TranslatorApp : Application() {
             )
         }
     }
-
-//    private fun onSplashScreen() {
-//        val splashScreen = SplashScreen.installSplashScreen()
-//        splashScreen.setKeepVisibleCondition {
-//            // Wait for 3 seconds
-//            Thread.sleep(3000)
-//            true
-//        }
-//        hideSplashScreen()
-//    }
-//
-//    private fun hideSplashScreen() {
-//        SplashScreen.getSplashScreen(this)?.let { splashScreen ->
-//            splashScreen.remove()
-//        }
-//    }
 }

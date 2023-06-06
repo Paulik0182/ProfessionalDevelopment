@@ -87,8 +87,8 @@ class DescriptionWordTranslationFragment :
             stopRefreshAnimationIfNeeded()
         } else {
 //            useCoilToLoadPhoto(binding.descriptionImageView, imageLink)
-//            useGlideToLoadPhoto(binding.descriptionImageView, imageLink)
-            usePicassoToLoadPhoto(binding.descriptionImageView, imageLink)
+            useGlideToLoadPhoto(binding.descriptionImageView, imageLink)
+//            usePicassoToLoadPhoto(binding.descriptionImageView, imageLink)
         }
     }
 
@@ -151,32 +151,18 @@ class DescriptionWordTranslationFragment :
             error(R.drawable.ic_load_error_vector)
             crossfade(true)
         }
-
-//        val request = LoadRequest.Builder(requireContext())
-//            .data("https:$imageLink")
-//            .target(
-//                onStart = {},
-//                onSuccess = { result ->
-//                    imageView.setImageDrawable(result)
-//                    val blurEffect = RenderEffect.createBlurEffect(15f, 0f,
-//                        Shader.TileMode.MIRROR)
-//                    imageView.setRenderEffect(blurEffect)
-////binding.root.setRenderEffect(blurEffect)
-//                },
-//                onError = {
-//                    imageView.setImageResource(R.drawable.ic_load_error_vector)
-//                }
-//            )
-//            .build()
-//        ImageLoader(requireContext()).execute(request)
     }
 
     private fun usePicassoToLoadPhoto(imageView: ImageView, imageLink: String) {
-        Picasso.get().load("https:$imageLink")
-            .placeholder(R.drawable.uploading_images).fit().centerCrop()
+        Picasso.get()
+            .load("https:$imageLink")
+            .placeholder(R.drawable.uploading_images)
+            .fit()
+            .centerCrop()
             .into(imageView, object : Callback {
                 override fun onSuccess() {
                     stopRefreshAnimationIfNeeded()
+
                     if (Build.VERSION.SDK_INT >= 31) {
                         val blurEffect = RenderEffect.createBlurEffect(
                             6f, 0f,
@@ -218,6 +204,16 @@ class DescriptionWordTranslationFragment :
                     isFirstResource: Boolean
                 ): Boolean {
                     stopRefreshAnimationIfNeeded()
+
+                    if (Build.VERSION.SDK_INT >= 31) {
+                        val blurEffect = RenderEffect.createBlurEffect(
+                            16f, 0f,
+                            Shader.TileMode.MIRROR
+                        )
+                        imageView.setRenderEffect(blurEffect)
+                    } else {
+                        Log.d("@@@", "onSuccess() called: SDK <31")
+                    }
                     return false
                 }
             })

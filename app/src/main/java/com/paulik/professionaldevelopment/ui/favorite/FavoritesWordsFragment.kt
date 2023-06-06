@@ -107,9 +107,4 @@ class FavoritesWordsFragment : ViewBindingFragment<FragmentFavoritesWordsBinding
         super.onDetach()
         scopeFavorite.close()
     }
-
-    companion object {
-        @JvmStatic
-        fun newInstance() = FavoritesWordsFragment()
-    }
 }
