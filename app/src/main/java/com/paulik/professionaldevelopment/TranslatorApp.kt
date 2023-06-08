@@ -19,11 +19,11 @@ class TranslatorApp : Application() {
             androidLogger()
             androidContext(applicationContext)
             modules(
-                    application,
-                    mainScreen,
-                    historyScreen,
-                    wordDetailsScreen,
-                    favoriteScreen
+                application,
+                mainScreen,
+                historyScreen,
+                wordDetailsScreen,
+                favoriteScreen
             )
         }
     }

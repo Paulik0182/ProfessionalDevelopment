@@ -39,6 +39,8 @@ subprojects {
 
                 // Android X
                 implementation(AndroidX.core)
+                implementation(AndroidX.splash_screen)
+
                 // CardView
                 implementation(CardView.appcompat)
                 // Test

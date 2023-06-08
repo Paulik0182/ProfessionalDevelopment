@@ -56,6 +56,8 @@ dependencies {
     // Android X
     implementation AndroidX.core
     implementation AndroidX.constraint_layout
+    implementation AndroidX.splash_screen
+
     // CardView
     implementation CardView.appcompat
     implementation CardView.card_view
@@ -109,5 +111,5 @@ dependencies {
     implementation Room.room_testing
 
     //Google Play libraries
-    implementation GooglePlay.googlePlayCore
+    implementation GooglePlay.google_play_core
 }
