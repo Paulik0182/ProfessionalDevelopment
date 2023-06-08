@@ -17,6 +17,7 @@ class TextValidator : TextWatcher {
     }
 
     fun isValidText(text: CharSequence?): Boolean {
+        if (text == null) return false
         return !hasForbiddenSymbols(text) && TEXT_PATTERN.matcher(text).matches()
     }
 
