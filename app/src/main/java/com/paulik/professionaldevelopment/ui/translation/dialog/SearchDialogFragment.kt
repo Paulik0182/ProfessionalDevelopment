@@ -2,9 +2,11 @@ package com.paulik.professionaldevelopment.ui.translation.dialog
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.paulik.professionaldevelopment.R
 import com.paulik.professionaldevelopment.databinding.SearchDialogFragmentBinding
+import com.paulik.professionaldevelopment.ui.translation.descriptios.TextValidator
 
 private const val WORD_FROM_HISTORY_LIST = "WORD_FROM_HISTORY_LIST"
 
@@ -12,6 +14,8 @@ class SearchDialogFragment : BottomSheetDialogFragment(R.layout.search_dialog_fr
 
     private var _binding: SearchDialogFragmentBinding? = null
     private val binding get() = _binding!!
+
+    private val textValidator = TextValidator()
 
     private val viewModel: SearchDialogViewModel by lazy {
         SearchDialogViewModel()
@@ -21,8 +25,13 @@ class SearchDialogFragment : BottomSheetDialogFragment(R.layout.search_dialog_fr
 
     private val onSearchButtonClickListener =
         View.OnClickListener {
-            onSearchClickListener?.onClick(binding.searchInputEditText.text.toString())
-            dismiss()
+            binding.searchInputEditText.addTextChangedListener(textValidator)
+            if (textValidator.isValid) {
+                onSearchClickListener?.onClick(binding.searchInputEditText.text.toString())
+                dismiss()
+            } else {
+                Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+            }
         }
 
     internal fun setOnSearchClickListener(listener: OnSearchClickListener) {
