@@ -15,10 +15,10 @@ import androidx.room.PrimaryKey
 data class FavoriteEntity(
     @field:PrimaryKey
     @ColumnInfo(name = "word")
-    var word: String,
+    var word: String = "test",
 
     @field:ColumnInfo(name = "description")
-    var description: String?,
+    var description: String? = "test",
 
     @ColumnInfo(name = "is_favorite")
     var isFavorite: Boolean = false

@@ -50,6 +50,46 @@ subprojects {
                 androidTestImplementation(TestImpl.ext_junit_test)
                 androidTestImplementation(TestImpl.espresso_core_test)
                 implementation(fileTree(dir: "libs", include: ["*.jar"])) // todo
+
+                // Test
+                // Mockito
+                testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.2'
+                testImplementation "org.mockito:mockito-core:3.10.0"
+                testImplementation 'org.mockito:mockito-inline:2.8.9'
+                testImplementation('com.nhaarman:mockito-kotlin:1.5.0') {
+                    exclude group: 'org.jetbrains.kotlin'
+                    exclude group: 'org.mockito'
+                }
+                // Robolectric
+                testImplementation 'org.robolectric:robolectric:4.10.3'
+                testImplementation 'androidx.test:core:1.5.0'
+                testImplementation 'androidx.test:runner:1.5.2'
+                testImplementation 'androidx.test.ext:junit:1.1.5'
+                testImplementation 'androidx.test.ext:truth:1.5.0'
+                testImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+                testImplementation 'androidx.test.espresso:espresso-intents:3.5.1'
+                // Espresso
+                androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+                androidTestImplementation 'androidx.test:runner:1.5.2'
+                androidTestImplementation 'androidx.test:rules:1.5.0'
+                androidTestImplementation 'androidx.test.espresso:espresso-intents:3.5.1'
+                debugImplementation 'androidx.fragment:fragment-testing:1.6.0'
+                androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.5.1'
+                //UI Automator
+                androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
+                androidTestImplementation 'androidx.test:rules:1.5.0'
+
+                //RxJava
+                implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+                implementation 'io.reactivex.rxjava2:rxjava:2.2.20'
+                implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+
+                testImplementation 'androidx.arch.core:core-testing:2.2.0'
+                implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2'
+                testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.3'
+
+
+
             }
         }
     }
