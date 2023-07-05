@@ -39,7 +39,7 @@ class FavoriteWordViewModel(
     fun onRefresh() {
         viewModelCoroutineScope.launch {
             val favorites = favoriteLocalRepo.getFavoriteEntities()
-            favoriteEntityLiveData.mutable().postValue(favorites)
+            favoriteEntityLiveData.mutable().value = favorites
         }
     }
 
@@ -51,7 +51,7 @@ class FavoriteWordViewModel(
         viewModelCoroutineScope.launch {
             try {
                 val data = favoriteLocalRepo.getFavoriteWord(word)
-                favoriteEntityLiveData.mutable().postValue(data)
+                favoriteEntityLiveData.mutable().value = data
             } catch (e: Exception) {
                 e.printStackTrace()
                 Log.d("@@@", "FavoriteWordViewModel -> searchData: $word  (Exception)")
@@ -63,7 +63,7 @@ class FavoriteWordViewModel(
         viewModelCoroutineScope.launch {
             favoriteLocalRepo.deleteWord(word)
             val updatedList = favoriteLocalRepo.getFavoriteEntities()
-            favoriteEntityLiveData.mutable().postValue(updatedList)
+            favoriteEntityLiveData.mutable().value = updatedList
         }
     }
 }
