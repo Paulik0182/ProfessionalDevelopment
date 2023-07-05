@@ -1,20 +1,8 @@
 package com.paulik.professionaldevelopment.ui.translation.descriptios
 
-import android.text.Editable
-import android.text.TextWatcher
 import java.util.regex.Pattern
 
-class TextValidator : TextWatcher {
-
-    internal var isValid = false
-
-    override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) = Unit
-
-    override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) = Unit
-
-    override fun afterTextChanged(editableText: Editable?) {
-        isValid = isValidText(editableText)
-    }
+class TextValidator {
 
     fun isValidText(text: CharSequence?): Boolean {
         if (text == null) return false

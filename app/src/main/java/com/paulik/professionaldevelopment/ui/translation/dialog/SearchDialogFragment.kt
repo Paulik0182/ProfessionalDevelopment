@@ -25,8 +25,8 @@ class SearchDialogFragment : BottomSheetDialogFragment(R.layout.search_dialog_fr
 
     private val onSearchButtonClickListener =
         View.OnClickListener {
-            binding.searchInputEditText.addTextChangedListener(textValidator)
-            if (textValidator.isValid) {
+            val text = binding.searchInputEditText.text.toString()
+            if (textValidator.isValidText(text)) {
                 onSearchClickListener?.onClick(binding.searchInputEditText.text.toString())
                 dismiss()
             } else {

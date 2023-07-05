@@ -59,7 +59,7 @@ class FavoriteWordViewModelTest {
         viewModel.onWordClick(favoriteEntity)
 
         // Проверяем, что полученное значение совпадает с ожидаемым
-        assert(viewModel.selectedDetailsWordLiveData.value == favoriteEntity)
+        assert(viewModel.selectedDetailsWordLiveData.getOrAwaitValue() == favoriteEntity)
     }
 
     @Test
@@ -73,11 +73,11 @@ class FavoriteWordViewModelTest {
             // Вызываем метод, который хотим протестировать
             viewModel.searchData(word)
 
-            val value = viewModel.favoriteEntityLiveData.value
+            val value = viewModel.favoriteEntityLiveData.getOrAwaitValue()
 
-            val containsWord = value?.any{
+            val containsWord = value.any {
                 it.word == word
-            }?: false
+            } ?: false
 
             assertTrue(containsWord)
         }
@@ -95,7 +95,7 @@ class FavoriteWordViewModelTest {
             viewModel.deleteWord(word)
 
             // Проверяем, что полученное значение совпадает с ожидаемым
-            assert(viewModel.favoriteEntityLiveData.value == updatedList)
+            assert(viewModel.favoriteEntityLiveData.getOrAwaitValue() == updatedList)
 
             // Проверяем, что метод deleteWord был вызван с правильными аргументами
             verify(favoriteLocalRepo).deleteWord(word)
